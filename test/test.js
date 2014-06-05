@@ -2,26 +2,25 @@ var chai = require('chai');
 var expect = chai.expect;
 var DatabaseCleaner = require('database-cleaner');
 var databaseCleaner = new DatabaseCleaner('mongodb');
-var Proto = require('uberproto');
 
-var MongoService = require('./mongodb');
-var service = Proto.create.call(MongoService, {
+var mongodb = require('./../lib/mongodb');
+var service = mongodb({
   collection: 'test'
 });
 var _ids = {};
 
-function clean(done){
+function clean(done) {
   databaseCleaner.clean(service.store, function() {
     service.store.close();
     done();
   });
 }
 
-describe('Mongo Service', function () {
+describe('Mongo Service', function() {
   before(clean);
   after(clean);
 
-  beforeEach(function(done){
+  beforeEach(function(done) {
     service.create({
       name: 'Doug',
       age: 32
@@ -31,31 +30,31 @@ describe('Mongo Service', function () {
     });
   });
 
-  afterEach(function(done){
-    service.remove(_ids.Doug, function(err){
+  afterEach(function(done) {
+    service.remove(_ids.Doug, function() {
       done();
     });
   });
 
-  describe('init', function () {
+  describe('init', function() {
     it('should setup a mongo connection based on config');
     it('should setup a mongo connection based on ENV vars');
     it('should setup a mongo connection based on a connection string');
   });
 
-  describe('find', function () {
-    beforeEach(function(done){
+  describe('find', function() {
+    beforeEach(function(done) {
       service.create({
         name: 'Bob',
         age: 25
-      }, function(err, bob){
+      }, function(err, bob) {
 
         _ids.Bob = bob._id;
 
         service.create({
           name: 'Alice',
           age: 19
-        }, function(err, alice){
+        }, function(err, alice) {
           _ids.Alice = alice._id;
 
           done();
@@ -63,15 +62,15 @@ describe('Mongo Service', function () {
       });
     });
 
-    afterEach(function(done){
-      service.remove(_ids.Bob, function(err, data){
-        service.remove(_ids.Alice, function(err){
+    afterEach(function(done) {
+      service.remove(_ids.Bob, function() {
+        service.remove(_ids.Alice, function() {
           done();
         });
       });
     });
 
-    it('should return all items', function(done){
+    it('should return all items', function(done) {
       service.find({}, function(error, data) {
 
         expect(error).to.be.null;
@@ -81,7 +80,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should return an item by id', function(done){
+    it('should return an item by id', function(done) {
       service.find({ id: _ids.Doug }, function(error, data) {
 
         expect(error).to.be.null;
@@ -90,7 +89,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should return all items sorted in ascending order', function(done){
+    it('should return all items sorted in ascending order', function(done) {
 
       service.find({ query: { sort: 'name' } }, function(error, data) {
         expect(error).to.be.null;
@@ -102,7 +101,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should return all items sorted in descending order', function(done){
+    it('should return all items sorted in descending order', function(done) {
 
       service.find({ query: { order: 'age' } }, function(error, data) {
         expect(error).to.be.null;
@@ -113,8 +112,8 @@ describe('Mongo Service', function () {
         done();
       });
     });
-    
-    it('should return the number of items set by the limit', function(done){
+
+    it('should return the number of items set by the limit', function(done) {
 
       service.find({ query: { limit: 2 } }, function(error, data) {
 
@@ -124,7 +123,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should skip over the number of items set by skip', function(done){
+    it('should skip over the number of items set by skip', function(done) {
 
       service.find({ query: { skip: 2 } }, function(error, data) {
         expect(error).to.be.null;
@@ -135,8 +134,8 @@ describe('Mongo Service', function () {
     });
   });
 
-  describe('get', function () {
-    it('should return an instance that exists', function(done){
+  describe('get', function() {
+    it('should return an instance that exists', function(done) {
       service.get(_ids.Doug, function(error, data) {
 
         expect(error).to.be.null;
@@ -146,7 +145,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should return an error when no id is provided', function(done){
+    it('should return an error when no id is provided', function(done) {
       service.get(function(error, data) {
 
         expect(error).to.be.ok;
@@ -158,8 +157,8 @@ describe('Mongo Service', function () {
     it('should return an error on db error');
   });
 
-  describe('create', function () {
-    it('should create a single new instance and call back with only one', function(done){
+  describe('create', function() {
+    it('should create a single new instance and call back with only one', function(done) {
       service.create({
         name: 'Bill'
       }, function(error, data) {
@@ -171,7 +170,7 @@ describe('Mongo Service', function () {
       });
     });
 
-    it('should create multiple new instances', function(done){
+    it('should create multiple new instances', function(done) {
       var items = [
         {
           name: 'Gerald'
@@ -194,8 +193,8 @@ describe('Mongo Service', function () {
     it('should return an error on db error');
   });
 
-  describe('update', function () {
-    it('should update an existing instance', function(done){
+  describe('update', function() {
+    it('should update an existing instance', function(done) {
       service.update(_ids.Doug, { name: 'Doug', age: 12 }, function(error, data) {
         expect(error).to.be.null;
         expect(data.name).to.equal('Doug');
@@ -207,8 +206,8 @@ describe('Mongo Service', function () {
     it('should return an error on db error');
   });
 
-  describe('remove', function () {
-    it('should delete an existing instance', function(done){
+  describe('remove', function() {
+    it('should delete an existing instance', function(done) {
       service.remove(_ids.Doug, function(error, data) {
         expect(error).to.be.null;
         expect(data).to.be.ok;
