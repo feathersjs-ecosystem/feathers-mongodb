@@ -34,7 +34,11 @@
     "mongoskin": "^0.6.1",
     "uberproto": "~1.1.0"
   },
+  "peerDependencies": {
+    "feathers": ">=1.0.x"
+  },
   "devDependencies": {
+    "feathers": ">=1.0.x",
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
     "grunt": "^0.4.5",
