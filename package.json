@@ -26,8 +26,8 @@
     "test": "grunt test"
   },
   "engines": {
-    "node": "*",
-    "npm": "*"
+    "node": "~0.10.0",
+    "npm": "~1.4.0"
   },
   "dependencies": {
     "lodash": "~2.4.1",
@@ -35,10 +35,10 @@
     "uberproto": "~1.1.0"
   },
   "peerDependencies": {
-    "feathers": ">=1.0.x"
+    "feathers": ">= 1.0.0-pre.1"
   },
   "devDependencies": {
-    "feathers": ">=1.0.x",
+    "feathers": ">= 1.0.0-pre.1",
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
     "grunt": "^0.4.5",
