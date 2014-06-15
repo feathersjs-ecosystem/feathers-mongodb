@@ -38,9 +38,37 @@ describe('Mongo Service', function() {
   });
 
   describe('init', function() {
-    it('should setup a mongo connection based on config');
-    it('should setup a mongo connection based on ENV vars');
-    it('should setup a mongo connection based on a connection string');
+    it('should setup a mongo connection based on config', function(done) {
+      var myService = mongodb({
+        db: 'some-database',
+        collection: 'other-test'
+      });
+
+      myService.create({ name: 'David' }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id).to.be.ok;
+        databaseCleaner.clean(myService.store, function() {
+          myService.store.close();
+          done();
+        });
+      });
+    });
+
+    it('should setup a mongo connection based on a connection string', function(done) {
+      var otherService = mongodb({
+        connectionString: 'localhost:27017/dummy-db',
+        collection: 'other-test'
+      });
+
+      otherService.create({ name: 'David' }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id).to.be.ok;
+        databaseCleaner.clean(otherService.store, function() {
+          otherService.store.close();
+          done();
+        });
+      });
+    });
   });
 
   describe('get', function() {
@@ -123,7 +151,9 @@ describe('Mongo Service', function() {
     it('passes in options', function(done) {
       service.find({
         query: {},
-        options: { sort: [['name', 1]] }
+        options: { sort: [
+          ['name', 1]
+        ] }
       }, function(error, data) {
         expect(error).to.be.null;
         expect(data.length).to.equal(3);
