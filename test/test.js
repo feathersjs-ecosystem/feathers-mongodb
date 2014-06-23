@@ -2,6 +2,7 @@ var chai = require('chai');
 var expect = chai.expect;
 var DatabaseCleaner = require('database-cleaner');
 var databaseCleaner = new DatabaseCleaner('mongodb');
+var errors = require('feathers').errors.types;
 
 var mongodb = require('./../lib/mongodb');
 var service = mongodb({
@@ -37,9 +38,77 @@ describe('Mongo Service', function() {
   });
 
   describe('init', function() {
-    it('should setup a mongo connection based on config');
-    it('should setup a mongo connection based on ENV vars');
-    it('should setup a mongo connection based on a connection string');
+    it('should setup a mongo connection based on config', function(done) {
+      var myService = mongodb({
+        db: 'some-database',
+        collection: 'other-test'
+      });
+
+      myService.create({ name: 'David' }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id).to.be.ok;
+        databaseCleaner.clean(myService.store, function() {
+          myService.store.close();
+          done();
+        });
+      });
+    });
+
+    it('should setup a mongo connection based on a connection string', function(done) {
+      var otherService = mongodb({
+        connectionString: 'localhost:27017/dummy-db',
+        collection: 'other-test'
+      });
+
+      otherService.create({ name: 'David' }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id).to.be.ok;
+        databaseCleaner.clean(otherService.store, function() {
+          otherService.store.close();
+          done();
+        });
+      });
+    });
+  });
+
+  describe('get', function() {
+    it('should return an instance that exists', function(done) {
+      service.get(_ids.Doug, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id.toString()).to.equal(_ids.Doug.toString());
+        expect(data.name).to.equal('Doug');
+        done();
+      });
+    });
+
+    it('should return an error when no id is provided', function(done) {
+      service.get(function(error, data) {
+        expect(error).to.be.ok;
+        expect(error instanceof errors.BadRequest).to.be.ok;
+        expect(data).to.be.undefined;
+        done();
+      });
+    });
+
+    it('should return NotFound error for non-existing id', function(done) {
+      service.get('abc', function(error) {
+        expect(error).to.be.ok;
+        expect(error instanceof errors.NotFound).to.be.ok;
+        expect(error.message).to.equal('No record found for id abc');
+        done();
+      });
+    });
+  });
+
+  describe('remove', function() {
+    it('should delete an existing instance and return the deleted instance', function(done) {
+      service.remove(_ids.Doug, function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.be.ok;
+        expect(data.name).to.equal('Doug');
+        done();
+      });
+    });
   });
 
   describe('find', function() {
@@ -72,7 +141,6 @@ describe('Mongo Service', function() {
 
     it('should return all items', function(done) {
       service.find({}, function(error, data) {
-
         expect(error).to.be.null;
         expect(data).to.be.instanceof(Array);
         expect(data.length).to.equal(3);
@@ -80,18 +148,13 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should return an item by id', function(done) {
-      service.find({ id: _ids.Doug }, function(error, data) {
-
-        expect(error).to.be.null;
-        expect(data.name).to.equal('Doug');
-        done();
-      });
-    });
-
-    it('should return all items sorted in ascending order', function(done) {
-
-      service.find({ query: { sort: 'name' } }, function(error, data) {
+    it('passes in options', function(done) {
+      service.find({
+        query: {},
+        options: { sort: [
+          ['name', 1]
+        ] }
+      }, function(error, data) {
         expect(error).to.be.null;
         expect(data.length).to.equal(3);
         expect(data[0].name).to.equal('Alice');
@@ -101,32 +164,10 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should return all items sorted in descending order', function(done) {
-
-      service.find({ query: { order: 'age' } }, function(error, data) {
+    it('query filters by parameter', function(done) {
+      service.find({ query: { name: 'Alice' } }, function(error, data) {
         expect(error).to.be.null;
-        expect(data.length).to.equal(3);
-        expect(data[0].name).to.equal('Doug');
-        expect(data[1].name).to.equal('Bob');
-        expect(data[2].name).to.equal('Alice');
-        done();
-      });
-    });
-
-    it('should return the number of items set by the limit', function(done) {
-
-      service.find({ query: { limit: 2 } }, function(error, data) {
-
-        expect(error).to.be.null;
-        expect(data.length).to.equal(2);
-        done();
-      });
-    });
-
-    it('should skip over the number of items set by skip', function(done) {
-
-      service.find({ query: { skip: 2 } }, function(error, data) {
-        expect(error).to.be.null;
+        expect(data).to.be.instanceof(Array);
         expect(data.length).to.equal(1);
         expect(data[0].name).to.equal('Alice');
         done();
@@ -134,27 +175,46 @@ describe('Mongo Service', function() {
     });
   });
 
-  describe('get', function() {
-    it('should return an instance that exists', function(done) {
-      service.get(_ids.Doug, function(error, data) {
-
+  describe('update', function() {
+    it('should replace an existing instance', function(done) {
+      service.update(_ids.Doug, { name: 'Dougler' }, function(error, data) {
         expect(error).to.be.null;
         expect(data._id.toString()).to.equal(_ids.Doug.toString());
-        expect(data.name).to.equal('Doug');
+        expect(data.name).to.equal('Dougler');
+        expect(data.age).to.be.undefined;
         done();
       });
     });
 
-    it('should return an error when no id is provided', function(done) {
-      service.get(function(error, data) {
-
+    it('should throw an error when updating non-existent instances', function(done) {
+      service.update('bla', { name: 'NotFound' }, function(error) {
         expect(error).to.be.ok;
-        expect(data).to.be.undefined;
+        expect(error instanceof errors.NotFound).to.be.ok;
+        expect(error.message).to.equal('No record found for id bla');
+        done();
+      });
+    });
+  });
+
+  describe('patch', function() {
+    it('should replace an existing instance', function(done) {
+      service.patch(_ids.Doug, { name: 'PatchDoug' }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data._id.toString()).to.equal(_ids.Doug.toString());
+        expect(data.name).to.equal('PatchDoug');
+        expect(data.age).to.equal(32);
         done();
       });
     });
 
-    it('should return an error on db error');
+    it('should throw an error when updating non-existent instances', function(done) {
+      service.patch('bla', { name: 'NotFound' }, function(error) {
+        expect(error).to.be.ok;
+        expect(error instanceof errors.NotFound).to.be.ok;
+        expect(error.message).to.equal('No record found for id bla');
+        done();
+      });
+    });
   });
 
   describe('create', function() {
@@ -189,33 +249,5 @@ describe('Mongo Service', function() {
         done();
       });
     });
-
-    it('should return an error on db error');
-  });
-
-  describe('update', function() {
-    it('should update an existing instance', function(done) {
-      service.update(_ids.Doug, { name: 'Doug', age: 12 }, function(error, data) {
-        expect(error).to.be.null;
-        expect(data.name).to.equal('Doug');
-        expect(data.age).to.equal(12);
-        done();
-      });
-    });
-    it('should update multiple existing instances');
-    it('should return an error on db error');
-  });
-
-  describe('remove', function() {
-    it('should delete an existing instance', function(done) {
-      service.remove(_ids.Doug, function(error, data) {
-        expect(error).to.be.null;
-        expect(data).to.be.ok;
-        done();
-      });
-    });
-
-    it('should delete multiple existing instances');
-    it('should return an error on db error');
   });
 });
