@@ -104,7 +104,7 @@ module.exports.Service = TimestampPatchService;
 
 ### With hooks
 
-Another options would be to weave functionality into your existing services using [feathers-hooks](https://github.com/feathersjs/feathers-hooks), for example the above `createdAt` and `updatedAt` functionality:
+Another option is to weave functionality into your existing services using [feathers-hooks](https://github.com/feathersjs/feathers-hooks), for example the above `createdAt` and `updatedAt` functionality:
 
 ```javascript
 var feathers = require('feathers');
