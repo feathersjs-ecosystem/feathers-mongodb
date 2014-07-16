@@ -24,7 +24,7 @@ var mongodb = require('feathers-mongodb');
 var app = feathers()
   .use('/users', mongodb({
     collection: 'users'
-  });
+  }));
   
 app.listen(8080);
 ```
