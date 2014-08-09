@@ -121,6 +121,7 @@ var app = feathers()
 app.lookup('users').before({
   create: function(hook, next) {
     hook.data.createdAt = new Date();
+    next();
   },
   
   update: function(hook, next) {
@@ -152,6 +153,7 @@ app.lookup('users').before({
     if(field) {
       hook.params.options = { sort: [[field, -1]] };
     }
+    next();
   }
 });
 ```
