@@ -136,8 +136,9 @@ app.listen(8080);
 ## MongoDB options and filtering
 
 Internally the MongoDB service uses [MongoSkin](https://github.com/kissjs/node-mongoskin).
+The query options (e.g. for a `.find`) call are taken from `params.query`.
 To set the query options, set `params.options` in your service calls. Using [feathers-hooks](https://github.com/feathersjs/feathers-hooks), for example, a sort mechanism based on query parameters
-(e.g. `/users?sort=name`) can be implemented as a hook like this:
+(e.g. `/users?__sort=name`) can be implemented as a hook like this:
 
 ```js
 var app = feathers()
@@ -149,10 +150,14 @@ var app = feathers()
 app.lookup('users').before({
   find: function(hook, next) {
     // Grab the fieldname from `params.query`
-    var field = hook.params.query.sort;
+    var field = hook.params.query.__sort;
     if(field) {
       hook.params.options = { sort: [[field, -1]] };
     }
+    // Delete it from the query so that it's not passed as
+    // the MongoSkin query object
+    delete hook.params.query.__sort;
+    
     next();
   }
 });
