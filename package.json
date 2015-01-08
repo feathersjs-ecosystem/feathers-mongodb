@@ -39,6 +39,7 @@
     "body-parser": "^1.4.3",
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
+    "feathers": ">= 1.0.0",
     "grunt": "^0.4.5",
     "grunt-cli": "~0.1.7",
     "grunt-contrib-jshint": "^0.10.0",
