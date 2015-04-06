@@ -35,7 +35,7 @@ The following options can be passed when creating a new MongoDB service:
 
 General options:
 
-- `collection` - The name of the collection
+- `collection` - The name of the collection or an already-connected collection object.  When using an object, no other options are needed.  See the example below.
 - `connectionString` - A MongoDB connection string
 - `[_id]` (default: `"_id"`) - The id property
 - `username` - MongoDB username
@@ -43,9 +43,9 @@ General options:
 
 Connection options (when `connectionString` is not set):
 
+- `db` (default: `"feathers"`) - The name of the database
 - `host` (default: `"localhost"`) - The MongoDB host
 - `port` (default: `27017`) - The MongoDB port
-- `db` (default: `"feathers"`) - The name of the database
 
 MongoDB options:
 
@@ -53,6 +53,25 @@ MongoDB options:
 - `journal` (default: `false`) - Don't wait for journal before acknowledgement
 - `fsync` (default: `false`) - Don't wait for syncing to disk before acknowledgment
 - `safe` (default: `false`) - Safe mode 
+
+## Sharing a MongoDB connection between services
+When creating a new service, the default behavior is to create a new connection to the specified database.  If you would rather share a database connection between multiple services, connect to the database then pass an already-connected collection object in on options.collection.  For example:
+
+```js
+var feathers = require('feathers')
+  , mongo = require('mongoskin')
+  , mongoService = require('feathers-mongodb')
+  , app = feathers();
+
+// First, make the connection.
+var db = mongo.db('mongodb://localhost:27017/my-project');
+
+// Use the same db connection in both of these services.
+app.use('/api/users', mongoService({collection:db.collection('users')}));
+app.use('/api/todos', mongoService({collection:db.collection('todos')}));
+
+app.listen(8080);
+```
 
 ## Extending MongoDB services
 
