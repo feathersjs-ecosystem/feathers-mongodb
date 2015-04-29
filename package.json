@@ -1,7 +1,7 @@
 {
   "name": "feathers-mongodb",
   "description": "Feathers MongoDB service",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "https://feathersjs.com",
   "repository": {
     "type": "git",
