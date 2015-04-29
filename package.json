@@ -24,7 +24,13 @@
   },
   "main": "lib/mongodb.js",
   "scripts": {
-    "test": "grunt test"
+    "publish": "git push origin --tags",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "jshint": "jshint lib/. test/. --config",
+    "mocha": "mocha test/ --recursive",
+    "test": "npm run jshint && npm run mocha"
   },
   "engines": {
     "node": "~0.10.0",
@@ -36,20 +42,14 @@
     "uberproto": "~1.1.0"
   },
   "peerDependencies": {
-    "feathers": ">= 1.0.0-pre.1"
+    "feathers": "^1.0.0"
   },
   "devDependencies": {
     "body-parser": "^1.4.3",
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
-    "feathers": ">= 1.0.0-pre.1",
-    "grunt": "^0.4.5",
-    "grunt-cli": "~0.1.7",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-dox": "^0.4.2",
-    "grunt-release": "^0.7.0",
-    "grunt-simple-mocha": "^0.4.0",
+    "feathers": "^1.0.0",
+    "jshint": "^2.7.0",
     "mocha": "^1.12.1",
     "sinon": "^1.7.3",
     "sinon-chai": "^2.4.0"
