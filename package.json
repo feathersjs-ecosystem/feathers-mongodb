@@ -41,9 +41,6 @@
     "mongoskin": "^0.6.1",
     "uberproto": "~1.1.0"
   },
-  "peerDependencies": {
-    "feathers": "^1.0.0"
-  },
   "devDependencies": {
     "body-parser": "^1.4.3",
     "chai": "^1.7.2",
