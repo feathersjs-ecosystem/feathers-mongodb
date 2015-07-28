@@ -4,10 +4,8 @@ var DatabaseCleaner = require('database-cleaner');
 var databaseCleaner = new DatabaseCleaner('mongodb');
 var errors = require('feathers').errors.types;
 
-var mongodb = require('./../lib/mongodb');
-var service = mongodb({
-  collection: 'test'
-});
+var mongodb = require('./../lib/feathers-mongodb');
+var service = mongodb('test');
 var _ids = {};
 
 function clean(done) {
@@ -17,7 +15,7 @@ function clean(done) {
   });
 }
 
-describe('Mongo Service', function() {
+describe('Feathers MongoDB Service', function() {
   before(clean);
   after(clean);
 
@@ -26,6 +24,10 @@ describe('Mongo Service', function() {
       name: 'Doug',
       age: 32
     }, function(error, data) {
+      if (error) {
+        console.error(error);
+      }
+
       _ids.Doug = data._id;
       done();
     });
@@ -38,10 +40,9 @@ describe('Mongo Service', function() {
   });
 
   describe('init', function() {
-    it('should setup a mongo connection based on config', function(done) {
-      var myService = mongodb({
-        db: 'some-database',
-        collection: 'other-test'
+    it('sets up a mongo connection based on config', function(done) {
+      var myService = mongodb('other-test', {
+        db: 'some-database'
       });
 
       myService.create({ name: 'David' }, function(error, data) {
@@ -54,10 +55,9 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should setup a mongo connection based on a connection string', function(done) {
-      var otherService = mongodb({
-        connectionString: 'localhost:27017/dummy-db',
-        collection: 'other-test'
+    it('sets up a mongo connection based on a connection string', function(done) {
+      var otherService = mongodb('other-test', {
+        connectionString: 'localhost:27017/dummy-db'
       });
 
       otherService.create({ name: 'David' }, function(error, data) {
@@ -72,7 +72,7 @@ describe('Mongo Service', function() {
   });
 
   describe('get', function() {
-    it('should return an instance that exists', function(done) {
+    it('returns an instance that exists', function(done) {
       service.get(_ids.Doug, function(error, data) {
         expect(error).to.be.null;
         expect(data._id.toString()).to.equal(_ids.Doug.toString());
@@ -81,7 +81,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should return an error when no id is provided', function(done) {
+    it('returns an error when no id is provided', function(done) {
       service.get(function(error, data) {
         expect(error).to.be.ok;
         expect(error instanceof errors.BadRequest).to.be.ok;
@@ -90,7 +90,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should return NotFound error for non-existing id', function(done) {
+    it('returns NotFound error for non-existing id', function(done) {
       service.get('abc', function(error) {
         expect(error).to.be.ok;
         expect(error instanceof errors.NotFound).to.be.ok;
@@ -101,7 +101,7 @@ describe('Mongo Service', function() {
   });
 
   describe('remove', function() {
-    it('should delete an existing instance and return the deleted instance', function(done) {
+    it('deletes an existing instance and returns the deleted instance', function(done) {
       service.remove(_ids.Doug, function(error, data) {
         expect(error).to.be.null;
         expect(data).to.be.ok;
@@ -139,7 +139,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should return all items', function(done) {
+    it('returns all items', function(done) {
       service.find({}, function(error, data) {
         expect(error).to.be.null;
         expect(data).to.be.instanceof(Array);
@@ -148,13 +148,24 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('passes in options', function(done) {
-      service.find({
-        query: {},
-        options: { sort: [
-          ['name', 1]
-        ] }
-      }, function(error, data) {
+    it('filters results by query parameters', function(done) {
+      service.find({ query: { name: 'Alice' } }, function(error, data) {
+        expect(error).to.be.null;
+        expect(data).to.be.instanceof(Array);
+        expect(data.length).to.equal(1);
+        expect(data[0].name).to.equal('Alice');
+        done();
+      });
+    });
+
+    it('can $sort', function(done) {
+      var params = {
+        query: {
+          $sort: {name: 1}
+        }
+      };
+
+      service.find(params, function(error, data) {
         expect(error).to.be.null;
         expect(data.length).to.equal(3);
         expect(data[0].name).to.equal('Alice');
@@ -164,19 +175,57 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('query filters by parameter', function(done) {
-      service.find({ query: { name: 'Alice' } }, function(error, data) {
+    it('can $limit', function(done) {
+      var params = {
+        query: {
+          $limit: 2
+        }
+      };
+      
+      service.find(params, function(error, data) {
         expect(error).to.be.null;
-        expect(data).to.be.instanceof(Array);
+        expect(data.length).to.equal(2);
+        done();
+      });
+    });
+
+    it('can $skip', function(done) {
+      var params = {
+        query: {
+          $sort: {name: 1},
+          $skip: 1
+        }
+      };
+      
+      service.find(params, function(error, data) {
+        expect(error).to.be.null;
+        expect(data.length).to.equal(2);
+        expect(data[0].name).to.equal('Bob');
+        expect(data[1].name).to.equal('Doug');
+        done();
+      });
+    });
+
+    it('can $select', function(done) {
+      var params = {
+        query: {
+          name: 'Alice',
+          $select: ['name']
+        }
+      };
+      
+      service.find(params, function(error, data) {
+        expect(error).to.be.null;
         expect(data.length).to.equal(1);
         expect(data[0].name).to.equal('Alice');
+        expect(data[0].age).to.be.undefined;
         done();
       });
     });
   });
 
   describe('update', function() {
-    it('should replace an existing instance', function(done) {
+    it('replaces an existing instance', function(done) {
       service.update(_ids.Doug, { name: 'Dougler' }, function(error, data) {
         expect(error).to.be.null;
         expect(data._id.toString()).to.equal(_ids.Doug.toString());
@@ -186,7 +235,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should throw an error when updating non-existent instances', function(done) {
+    it('throws an error when updating non-existent instances', function(done) {
       service.update('bla', { name: 'NotFound' }, function(error) {
         expect(error).to.be.ok;
         expect(error instanceof errors.NotFound).to.be.ok;
@@ -197,7 +246,7 @@ describe('Mongo Service', function() {
   });
 
   describe('patch', function() {
-    it('should replace an existing instance', function(done) {
+    it('replaces an existing instance', function(done) {
       service.patch(_ids.Doug, { name: 'PatchDoug' }, function(error, data) {
         expect(error).to.be.null;
         expect(data._id.toString()).to.equal(_ids.Doug.toString());
@@ -207,7 +256,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should throw an error when updating non-existent instances', function(done) {
+    it('throws an error when updating non-existent instances', function(done) {
       service.patch('bla', { name: 'NotFound' }, function(error) {
         expect(error).to.be.ok;
         expect(error instanceof errors.NotFound).to.be.ok;
@@ -218,7 +267,7 @@ describe('Mongo Service', function() {
   });
 
   describe('create', function() {
-    it('should create a single new instance and call back with only one', function(done) {
+    it('creates a single new instance and call back with only one', function(done) {
       service.create({
         name: 'Bill'
       }, function(error, data) {
@@ -230,7 +279,7 @@ describe('Mongo Service', function() {
       });
     });
 
-    it('should create multiple new instances', function(done) {
+    it('creates multiple new instances', function(done) {
       var items = [
         {
           name: 'Gerald'

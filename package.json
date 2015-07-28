@@ -2,15 +2,25 @@
   "name": "feathers-mongodb",
   "description": "Feathers MongoDB service",
   "version": "0.3.2",
-  "homepage": "https://feathersjs.com",
+  "homepage": "https://github.com/feathersjs/feathers-mongodb",
   "repository": {
     "type": "git",
     "url": "git://github.com/feathersjs/feathers-mongodb.git"
   },
+  "bugs": {
+    "url": "https://github.com/feathersjs/feathers-mongodb/issues"
+  },
+  "license": "MIT",
   "keywords": [
-    "services",
     "feathers",
-    "mongodb"
+    "feathers-plugin",
+    "REST",
+    "Socket.io",
+    "realtime",
+    "mongo",
+    "mongoskin",
+    "mongodb",
+    "service"
   ],
   "author": "Feathers <hello@feathersjs.com> (http://feathersjs.com)",
   "contributors": [
@@ -18,11 +28,7 @@
     "David Luecke <daff@neyeon.de> (http://neyeon.com)",
     "Marshall Thompson <marshall@creativeideal.net>"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/feathersjs/feathers-mongodb/issues"
-  },
-  "main": "lib/mongodb.js",
+  "main": "lib/feathers-mongodb.js",
   "scripts": {
     "publish": "git push origin --tags",
     "release:patch": "npm version patch && npm publish",
@@ -37,18 +43,18 @@
     "npm": "~1.4.0"
   },
   "dependencies": {
-    "lodash": "~2.4.1",
-    "mongoskin": "^0.6.1",
-    "uberproto": "~1.1.0"
+    "feathers-query-filters": "^1.1.1",
+    "lodash": "^3.10.0",
+    "mongodb": "^1.4.39",
+    "mongoskin": "^1.4.13",
+    "uberproto": "~1.1.2"
   },
   "devDependencies": {
     "body-parser": "^1.4.3",
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
-    "feathers": "^1.0.0",
+    "feathers": "^1.1.0",
     "jshint": "^2.7.0",
-    "mocha": "^1.12.1",
-    "sinon": "^1.7.3",
-    "sinon-chai": "^2.4.0"
+    "mocha": "^1.12.1"
   }
 }

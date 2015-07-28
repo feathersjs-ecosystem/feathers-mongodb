@@ -1,5 +1,4 @@
 {
-  "expr": true,
   "node": true,
   "esnext": true,
   "bitwise": true,
@@ -9,7 +8,7 @@
   "immed": true,
   "indent": 2,
   "latedef": "nofunc",
-  "newcap": false,
+  "newcap": true,
   "noarg": true,
   "quotmark": "single",
   "regexp": true,
@@ -19,13 +18,15 @@
   "trailing": true,
   "smarttabs": true,
   "white": false,
+  "loopfunc": true,
+  "expr": true,
   "globals": {
     "it": true,
     "describe": true,
     "before": true,
-    "after": true,
-    "exports": true,
     "beforeEach": true,
-    "afterEach": true
+    "after": true,
+    "afterEach": true,
+    "exports": true
   }
 }
