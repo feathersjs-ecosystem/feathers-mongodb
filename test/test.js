@@ -40,17 +40,41 @@ describe('Feathers MongoDB Service', function() {
   });
 
   describe('init', function() {
-    it('sets up a mongo connection based on config', function(done) {
-      var myService = mongodb('other-test', {
-        db: 'some-database'
+    describe('with collection', function() {
+      it('throws an error', function() {
+        expect(mongodb).to.throw('No MongoDB collection name specified.');
+      });
+    });
+
+    describe('with collection', function() {
+      it('sets up a mongo connection collection string', function(done) {
+        var myService = mongodb('other-test', {
+          db: 'some-database'
+        });
+
+        myService.create({ name: 'David' }, function(error, data) {
+          expect(error).to.be.null;
+          expect(data._id).to.be.ok;
+          databaseCleaner.clean(myService.store, function() {
+            myService.store.close();
+            done();
+          });
+        });
       });
 
-      myService.create({ name: 'David' }, function(error, data) {
-        expect(error).to.be.null;
-        expect(data._id).to.be.ok;
-        databaseCleaner.clean(myService.store, function() {
-          myService.store.close();
-          done();
+      it('sets up a mongo connection based on config', function(done) {
+        var myService = mongodb({
+          db: 'some-database',
+          collection: 'other-test'
+        });
+
+        myService.create({ name: 'David' }, function(error, data) {
+          expect(error).to.be.null;
+          expect(data._id).to.be.ok;
+          databaseCleaner.clean(myService.store, function() {
+            myService.store.close();
+            done();
+          });
         });
       });
     });
