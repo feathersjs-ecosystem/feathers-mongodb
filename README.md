@@ -260,12 +260,14 @@ query: {
 ## Changelog
 
 ### 1.0.0
-- Compatibility with feathers 1.x
-- Add special query params:
+- makes this adapter consistent with the others in terms of documentation and file structure
+- updates mongoskin dependency to the latest
+- adds support for special query filters
     - $sort
+    - $select
     - $skip
     - $limit
-    - $select
+- Closes #8 by making sure that we autoreconnect by default when not passing a connection string
 
 ### 0.3.0
 
