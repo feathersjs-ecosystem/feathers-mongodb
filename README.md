@@ -66,14 +66,15 @@ The following options can be passed when creating a new MongoDB service:
 
 - `connectionString` - A MongoDB connection string
 - `_id` - The id property (default: `"_id"`)
-- `username` - MongoDB username
-- `password` - MongoDB password
 
 **Connection options:** (when `connectionString` is not set)
 
 - `db` - The name of the database (default: `"feathers"`) 
 - `host` - The MongoDB host (default: `"localhost"`) 
-- `port` - The MongoDB port (default: `27017`) 
+- `port` - The MongoDB port (default: `27017`)
+- `username` - MongoDB username
+- `password` - MongoDB password
+- `reconnect` - Whether the connection should automatically reconnect (default: `true`)
 
 **MongoDB options:**
 
