@@ -1,14 +1,25 @@
-var feathers = require('feathers');
-var mongodb = require('../lib/mongodb');
-var bodyParser = require('body-parser');
-var app = feathers();
+var feathers = require('feathers'),
+  bodyParser = require('body-parser'),
+  mongoService = require('../lib/feathers-mongodb');
 
-var userService = mongodb({ collection: 'users' });
+// Create a feathers instance.
+var app = feathers()
+  // Setup the public folder.
+  .use(feathers.static(__dirname + '/public'))
+  // Enable Socket.io
+  .configure(feathers.socketio())
+  // Enable REST services
+  .configure(feathers.rest())
+  // Turn on JSON parser for REST services
+  .use(bodyParser.json())
+  // Turn on URL-encoded parser for REST services
+  .use(bodyParser.urlencoded({extended: true}))
 
-app.configure(feathers.rest())
-   .use(bodyParser.json())
-   .use('/users', userService)
-   .configure(feathers.errors())
-   .listen(8080);
+// Connect to the db, create and register a Feathers service.
+app.use('todos', new mongoService('todos'));
 
-console.log('App listening on 127.0.0.1:8080');
+// Start the server.
+var port = 8080;
+app.listen(port, function() {
+    console.log('Feathers server listening on port ' + port);
+});
