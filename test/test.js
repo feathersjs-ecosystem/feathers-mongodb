@@ -81,7 +81,7 @@ describe('Feathers MongoDB Service', function() {
 
     it('sets up a mongo connection based on a connection string', function(done) {
       var otherService = mongodb('other-test', {
-        connectionString: 'localhost:27017/dummy-db'
+        connectionString: 'mongodb://localhost:27017/dummy-db'
       });
 
       otherService.create({ name: 'David' }, function(error, data) {
