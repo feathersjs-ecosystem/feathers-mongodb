@@ -4,8 +4,8 @@ var DatabaseCleaner = require('database-cleaner');
 var databaseCleaner = new DatabaseCleaner('mongodb');
 var errors = require('feathers').errors.types;
 
-var mongodb = require('./../lib/feathers-mongodb');
-var service = mongodb('test');
+var mongodb = require('../lib');
+var service = mongodb('people');
 var _ids = {};
 
 function clean(done) {

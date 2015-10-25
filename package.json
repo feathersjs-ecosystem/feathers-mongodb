@@ -32,7 +32,7 @@
     "David Luecke <daff@neyeon.de> (http://neyeon.com)",
     "Marshall Thompson <marshall@creativeideal.net>"
   ],
-  "main": "lib/feathers-mongodb.js",
+  "main": "lib/",
   "scripts": {
     "publish": "git push origin --tags",
     "release:patch": "npm version patch && npm publish",

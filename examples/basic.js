@@ -1,6 +1,6 @@
 var feathers = require('feathers'),
   bodyParser = require('body-parser'),
-  mongoService = require('../lib/feathers-mongodb');
+  mongoService = require('../lib');
 
 // Create a feathers instance.
 var app = feathers()
