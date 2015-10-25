@@ -40,7 +40,7 @@ describe('Feathers MongoDB Service', function() {
   });
 
   describe('init', function() {
-    describe('with collection', function() {
+    describe('without collection', function() {
       it('throws an error', function() {
         expect(mongodb).to.throw('No MongoDB collection name specified.');
       });
