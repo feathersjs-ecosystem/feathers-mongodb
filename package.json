@@ -22,7 +22,11 @@
     "mongodb",
     "service"
   ],
-  "author": "Feathers <hello@feathersjs.com> (http://feathersjs.com)",
+  "author": {
+    "name": "Feathers contributors",
+    "email": "hello@feathersjs.com",
+    "url": "https://feathersjs.com"
+  },
   "contributors": [
     "Eric Kryski <e.kryski@gmail.com> (http://erickryski.com)",
     "David Luecke <daff@neyeon.de> (http://neyeon.com)",
