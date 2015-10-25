@@ -259,7 +259,7 @@ describe('Feathers MongoDB Service', function() {
       });
     });
 
-    it('throws an error when updating non-existent instances', function(done) {
+    it('returns NotFound error for non-existing id', function(done) {
       service.update('bla', { name: 'NotFound' }, function(error) {
         expect(error).to.be.ok;
         expect(error instanceof errors.NotFound).to.be.ok;
@@ -280,7 +280,7 @@ describe('Feathers MongoDB Service', function() {
       });
     });
 
-    it('throws an error when updating non-existent instances', function(done) {
+    it('returns NotFound error for non-existing id', function(done) {
       service.patch('bla', { name: 'NotFound' }, function(error) {
         expect(error).to.be.ok;
         expect(error instanceof errors.NotFound).to.be.ok;
@@ -291,7 +291,7 @@ describe('Feathers MongoDB Service', function() {
   });
 
   describe('create', function() {
-    it('creates a single new instance and call back with only one', function(done) {
+    it('creates a single new instance and returns the created instance', function(done) {
       service.create({
         name: 'Bill'
       }, function(error, data) {
