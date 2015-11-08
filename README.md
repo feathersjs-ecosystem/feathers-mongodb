@@ -1,37 +1,44 @@
 feathers-mongodb
 ================
 
-[![NPM](https://nodei.co/npm/feathers-mongodb.png?downloads=true&stars=true)](https://nodei.co/npm/feathers-mongodb/)
-
 [![Build Status](https://travis-ci.org/feathersjs/feathers-mongodb.png?branch=master)](https://travis-ci.org/feathersjs/feathers-mongodb)
+
 [![Code Climate](https://codeclimate.com/github/feathersjs/feathers-mongodb.png)](https://codeclimate.com/github/feathersjs/feathers-mongodb)
 
-> Create a MongoDB service for [FeathersJS](http://feathersjs.com)
+> A MongoDB CRUD service for [FeathersJS](http://feathersjs.com)
+
+
+## Installation
+
+```bash
+npm install feathers-mongodb --save
+```
+
 
 ## Getting Started
 
-To install feathers-hooks from [npm](https://www.npmjs.org/), run:
-
-```bash
-$ npm install feathers-mongodb --save
-```
-
-Creating an MongoDB service is this simple:
+You can create a MongoDB service like this:
 
 ```js
-var mongoService = require('feathers-mongodb');
-app.use('todos', mongoService('todos', options));
+var mongodb = require('feathers-mongodb');
+app.use('/todos', mongodb({
+  db: 'feathers',
+  collection: 'todos'
+}));
 ```
+
+This will create a `todos` endpoint and connect to a local `todos` collection on the `feathers` database.
+
 
 ### Complete Example
 
-Here's a complete example of a Feathers server with a `todos` mongodb-service.
+Here's a complete example of a Feathers server with a `todos` MongoDB service.
 
 ```js
 // server.js
 var feathers = require('feathers'),
   bodyParser = require('body-parser'),
-  mongoService = require('feathers-mongo');
+  mongodb = require('feathers-mongodb');
 
 // Create a feathers instance.
 var app = feathers()
@@ -47,7 +54,10 @@ var app = feathers()
   .use(bodyParser.urlencoded({extended: true}))
 
 // Connect to the db, create and register a Feathers service.
-app.use('todos', new mongoService('todos'));
+app.use('/todos', mongodb({
+  db: 'feathers',
+  collection: 'todos'
+}));
 
 // Start the server.
 var port = 8080;
@@ -58,39 +68,42 @@ app.listen(port, function() {
 
 You can run this example by using `node examples/basic` and going to [localhost:8080/todos](http://localhost:8080/todos). You should see an empty array. That's because you don't have any Todos yet but you now have full CRUD for your new todos service!
 
+
 ## Options
 
 The following options can be passed when creating a new MongoDB service:
 
-**General options:**
+__General options:__
 
 - `connectionString` - A MongoDB connection string
 - `_id` - The id property (default: `"_id"`)
 
-**Connection options:** (when `connectionString` is not set)
+__Connection options:__ (when `connectionString` is not set)
 
-- `db` - The name of the database (default: `"feathers"`) 
-- `host` - The MongoDB host (default: `"localhost"`) 
+- `db` - The name of the database (default: `"feathers"`)
+- `host` - The MongoDB host (default: `"localhost"`)
 - `port` - The MongoDB port (default: `27017`)
 - `username` - MongoDB username
 - `password` - MongoDB password
 - `reconnect` - Whether the connection should automatically reconnect (default: `true`)
 
-**MongoDB options:**
+__MongoDB options:__
 
-- `w` - Write acknowledgments (default: `1`) 
-- `journal` - Don't wait for journal before acknowledgment (default: `false`) 
-- `fsync` - Don't wait for syncing to disk before acknowledgment (default: `false`) 
+- `w` - Write acknowledgments (default: `1`)
+- `journal` - Don't wait for journal before acknowledgment (default: `false`)
+- `fsync` - Don't wait for syncing to disk before acknowledgment (default: `false`)
 - `safe` - Safe mode (default: `false`)
 
+
 ## Sharing a MongoDB connection between services
+
 When creating a new service, the default behavior is to create a new connection to the specified database.  If you would rather share a database connection between multiple services, connect to the database then pass an already-connected collection object in on options.collection.  For example:
 
 ```js
-var feathers = require('feathers')
-  , mongo = require('mongoskin')
-  , mongoService = require('feathers-mongodb')
-  , app = feathers();
+var feathers = require('feathers');
+var mongo = require('mongoskin');
+var mongoService = require('feathers-mongodb')
+var app = feathers();
 
 // First, make the connection.
 var db = mongo.db('mongodb://localhost:27017/my-project');
@@ -102,9 +115,11 @@ app.use('/api/todos', mongoService({collection:db.collection('todos')}));
 app.listen(8080);
 ```
 
+
 ## Extending MongoDB services
 
 To extend the basic MongoDB service there are two options. Either through using [Uberproto's](https://github.com/daffl/uberproto) inheritance mechanism or by using [feathers-hooks](https://github.com/feathersjs/feathers-hooks).
+
 
 ### With Uberproto
 
@@ -119,20 +134,20 @@ var Proto = require('uberproto');
 var TimestampPatchService = mongodb.Service.extend({
   create: function(data, params, callback) {
     data.createdAt = new Date();
-    
+
     // Call the original `create`
     return this._super(data, params, callback);
   },
-  
+
   update: function() {
     // Call `patch` instead so that PUT calls merge
     // instead of replace data, too
     this.patch(id, data, params, callback);
   },
-  
+
   patch: function(id, data, params, callback) {
     data.updatedAt = new Date();
-    
+
     // Call the original `patch`
     this._super(id, data, params, callback);
   }
@@ -150,6 +165,7 @@ module.exports = function(options) {
 module.exports.Service = TimestampPatchService;
 ```
 
+
 ### With hooks
 
 Another option is to weave functionality into your existing services using [feathers-hooks](https://github.com/feathersjs/feathers-hooks), for example the above `createdAt` and `updatedAt` functionality:
@@ -165,13 +181,13 @@ var app = feathers()
   .use('/users', mongodb({
     collection: 'users'
   }));
-  
+
 app.lookup('users').before({
   create: function(hook, next) {
     hook.data.createdAt = new Date();
     next();
   },
-  
+
   update: function(hook, next) {
     hook.data.updatedAt = new Date();
     next();
@@ -181,13 +197,16 @@ app.lookup('users').before({
 app.listen(8080);
 ```
 
-## Special Query Params
+
+## Query Parameters
+
 The `find` API allows the use of `$limit`, `$skip`, `$sort`, and `$select` in the query.  These special parameters can be passed directly inside the query object:
 
 ```js
 // Find all recipes that include salt, limit to 10, only include name field.
-{"ingredients":"salt", "$limit":10, "$select":"name:1"} // JSON
-GET /?ingredients=salt&%24limit=10&%24select=name%3A1 // HTTP
+{"ingredients":"salt", "$limit":10, "$select": { "name" :1 } } // JSON
+
+GET /?ingredients=salt&$limit=10&$select[name]=1 // HTTP
 ```
 
 As a result of allowing these to be put directly into the query string, you won't want to use `$limit`, `$skip`, `$sort`, or `$select` as the name of fields in your document schema.
@@ -204,7 +223,6 @@ query: {
 }
 ```
 
-
 ### `$skip`
 
 `$skip` will skip the specified number of results:
@@ -217,7 +235,6 @@ query: {
 }
 ```
 
-
 ### `$sort`
 
 `$sort` will sort based on the object you provide:
@@ -226,19 +243,20 @@ query: {
 // Retrieves all where age is 37, sorted ascending alphabetically by name.
 query: {
   age: 37,
-  $sort: {'name': 1}
+  $sort: { name: 1 }
 }
 
 // Retrieves all where age is 37, sorted descending alphabetically by name.
 query: {
   age: 37,
-  $sort: {'name': -1}
+  $sort: { name: -1}
 }
 ```
 
-
 ### `$select`
-`$select` support in a query allows you to pick which fields to include or exclude in the results.  Note: you can use the include syntax or the exclude syntax, not both together.  See the section on [`Select`](http://mongoosejs.com/docs/api.html#query_Query-select) in the Mongoose docs.
+
+`$select` support in a query allows you to pick which fields to include or exclude in the results. 
+
 ```
 // Only retrieve name.
 query: {
@@ -253,13 +271,89 @@ query: {
 }
 ```
 
-## API
 
-`feathers-mongodb` services comply with the standard [FeathersJS API](http://feathersjs.com/docs).
+## Filter criteria
+
+In addition to sorting and pagination, properties can also be filtered by criteria. Standard criteria can just be added to the query. For example, the following find all users with the name `Alice`:
+
+```js
+query: {
+  name: 'Alice'
+}
+```
+
+Additionally, the following advanced criteria are supported for each property.
+
+### $in, $nin
+
+Find all records where the property does (`$in`) or does not (`$nin`) contain the given values. For example, the following query finds every user with the name of `Alice` or `Bob`:
+
+```js
+query: {
+  name: {
+    $in: ['Alice', 'Bob']
+  }
+}
+```
+
+### $lt, $lte
+
+Find all records where the value is less (`$lt`) or less and equal (`$lte`) to a given value. The following query retrieves all users 25 or younger:
+
+```js
+query: {
+  age: {
+    $lte: 25
+  }
+}
+```
+
+### $gt, $gte
+
+Find all records where the value is more (`$gt`) or more and equal (`$gte`) to a given value. The following query retrieves all users older than 25:
+
+```js
+query: {
+  age: {
+    $gt: 25
+  }
+}
+```
+
+### $ne
+
+Find all records that do not contain the given property value, for example anybody not age 25:
+
+```js
+query: {
+  age: {
+    $ne: 25
+  }
+}
+```
+
+### $or
+
+Find all records that match any of the given objects. For example, find all users name Bob or Alice:
+
+```js
+query: {
+  $or: [
+    { name: 'Alice' },
+    { name: 'Bob' }
+  ]
+}
+```
+
 
 ## Changelog
 
-### 1.0.0
+__1.1.0__
+
+- Update to common infrastructure and querying criteria ([#15](https://github.com/feathersjs/feathers-mongodb/pull/15))
+
+__1.0.0__
+
 - makes this adapter consistent with the others in terms of documentation and file structure
 - updates mongoskin dependency to the latest
 - adds support for special query filters
@@ -269,21 +363,18 @@ query: {
     - $limit
 - Closes #8 by making sure that we autoreconnect by default when not passing a connection string
 
-### 0.3.0
+__0.3.0__
 
 - Implement `.patch` support ([#5](https://github.com/feathersjs/feathers-mongodb/issues/5))
 - Better documentation
 - Refactoring that removes pre-implemented MongoSkin options
 
-### 0.2.x
+__0.2.x__
 
 - Pre-releases
 
 ## License
 
-[MIT](LICENSE)
+Copyright (c) 2015
 
-## Authors
-
-- [Eric Kryski](https://github.com/ekryski)
-- [David Luecke](https://github.com/daffl)
+Licensed under the [MIT license](LICENSE).

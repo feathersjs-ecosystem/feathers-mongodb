@@ -49,7 +49,7 @@
   "dependencies": {
     "feathers-query-filters": "^1.1.1",
     "lodash": "^3.10.0",
-    "mongodb": "^1.4.39",
+    "mongodb": "^1.4.0",
     "mongoskin": "^1.4.13",
     "uberproto": "~1.1.2"
   },
@@ -58,6 +58,7 @@
     "chai": "^1.7.2",
     "database-cleaner": "~0.7.0",
     "feathers": "^1.1.0",
+    "feathers-service-tests": "^0.3.0",
     "jshint": "^2.7.0",
     "mocha": "^1.12.1"
   }
