@@ -40,7 +40,7 @@
     "release:major": "npm version major && npm publish",
     "jshint": "jshint lib/. test/. --config",
     "mocha": "mocha test/ --recursive",
-    "test": "npm run jshint && npm run mocha"
+    "test": "npm run jshint && npm run mocha && nsp check"
   },
   "engines": {
     "node": "~0.10.0",
@@ -61,6 +61,7 @@
     "feathers": "^1.1.0",
     "feathers-service-tests": "^0.3.0",
     "jshint": "^2.7.0",
-    "mocha": "^1.12.1"
+    "mocha": "^1.12.1",
+    "nsp": "^2.2.0"
   }
 }
