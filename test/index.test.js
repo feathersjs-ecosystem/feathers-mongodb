@@ -1,7 +1,7 @@
 var baseTests = require('feathers-service-tests');
 var DatabaseCleaner = require('database-cleaner');
 var databaseCleaner = new DatabaseCleaner('mongodb');
-var errors = require('feathers').errors.types;
+var errors = require('feathers-errors').types;
 
 var mongodb = require('../lib');
 var people = mongodb('people');

@@ -47,6 +47,7 @@
     "npm": "~1.4.0"
   },
   "dependencies": {
+    "feathers-errors": "^1.1.6",
     "feathers-query-filters": "^1.1.1",
     "lodash": "^3.10.0",
     "mongodb": "^1.4.0",
