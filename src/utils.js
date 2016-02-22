@@ -1,5 +1,4 @@
 import { ObjectID } from 'mongodb';
-import errors from 'feathers-errors';
 
 export function multiOptions(id, params, idField = '_id') {
   let query = Object.assign({}, params.query);
