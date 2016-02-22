@@ -11,14 +11,22 @@ describe('Feathers MongoDB Service', () => {
   const app = feathers()
     .use('/people', service({ Model: {} }));
   
-  let db, people;
+  let db;
   
-  before((done) => {
-    MongoClient.connect('mongodb://localhost:27017/feathers').then(function(database) {
+  before(done => {
+    MongoClient.connect('mongodb://localhost:27017/feathers-test').then(function(database) {
       db = database;
-      
       app.service('people').Model = db.collection('people');
       
+      db.collection('people').removeMany();
+      db.collection('todos').removeMany();
+      done();
+    });
+  });
+
+  after(done => {
+    db.dropDatabase().then(() => {
+      db.close();
       done();
     });
   });
@@ -43,13 +51,13 @@ describe('Feathers MongoDB Service', () => {
 
     describe('when missing the id option', () => {
       it('sets the default to be _id', () => {
-        expect(people.id).to.equal('_id');
+        expect(service({ Model: db }).id).to.equal('_id');
       });
     });
 
     describe('when missing the paginate option', () => {
       it('sets the default to be {}', () => {
-        expect(people.paginate).to.deep.equal({});
+        expect(service({ Model: db }).paginate).to.deep.equal({});
       });
     });
   });
@@ -64,7 +72,7 @@ describe('Feathers MongoDB Service', () => {
           return done(error);
         }
 
-        _ids.Doug = data._id;
+        _ids.Doug = data.insertedIds[0];
         done();
       });
     });

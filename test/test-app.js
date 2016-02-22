@@ -20,7 +20,7 @@ const app = feathers()
 
 module.exports = new Promise(function(resolve) {
   // Connect to your MongoDB instance(s)
-  MongoClient.connect('mongodb://localhost:27017/feathers', (error, db) => {
+  MongoClient.connect('mongodb://localhost:27017/feathers-test', (error, db) => {
     // Connect to the db, create and register a Feathers service.
     app.use('/todos', service({
       Model: db.collection('todos'),
