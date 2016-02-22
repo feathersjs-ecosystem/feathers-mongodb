@@ -11,342 +11,100 @@ feathers-mongodb
 ## Installation
 
 ```bash
-npm install feathers-mongodb --save
+npm install mongodb feathers-mongodb --save
 ```
 
+## Documentation
+
+Please refer to the [Feathers database adapter documentation](http://docs.feathersjs.com/databases/readme.html) for more details or directly at:
+
+- [MongoDB](http://docs.feathersjs.com/databases/mongodb.html) - The detailed documentation for this adapter
+- [Extending](http://docs.feathersjs.com/databases/extending.html) - How to extend a database adapter
+- [Pagination and Sorting](http://docs.feathersjs.com/databases/pagination.html) - How to use pagination and sorting for the database adapter
+- [Querying](http://docs.feathersjs.com/databases/querying.html) - The common adapter querying mechanism
 
 ## Getting Started
 
 You can create a MongoDB service like this:
 
 ```js
-var mongodb = require('feathers-mongodb');
-app.use('/todos', mongodb({
-  db: 'feathers',
-  collection: 'todos'
-}));
+var MongoClient = require('mongodb').MongoClient;
+var service = require('feathers-mongodb');
+var app = feathers();
+
+MongoClient.connect('mongodb://localhost:27017/feathers').then(function(db){
+  app.use('/messages', service({
+    Model: db
+  }));
+
+  app.listen(3030);
+});
 ```
 
-This will create a `todos` endpoint and connect to a local `todos` collection on the `feathers` database.
+This will create a `messages` endpoint and connect to a local `messages` collection on the `feathers` database.
 
 
 ### Complete Example
 
-Here's a complete example of a Feathers server with a `todos` MongoDB service.
+Here's a complete example of a Feathers server with a `messages` MongoDB service.
 
 ```js
-// server.js
-var feathers = require('feathers'),
-  bodyParser = require('body-parser'),
-  mongodb = require('feathers-mongodb');
+const feathers = require('feathers');
+const rest = require('feathers-rest');
+const socketio = require('feathers-socketio');
+const errors = require('feathers-errors');
+const bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
+const service = require('feathers-mongodb');
 
 // Create a feathers instance.
-var app = feathers()
-  // Setup the public folder.
-  .use(feathers.static(__dirname + '/public'))
+const app = feathers()
   // Enable Socket.io
-  .configure(feathers.socketio())
+  .configure(socketio())
   // Enable REST services
-  .configure(feathers.rest())
+  .configure(rest())
   // Turn on JSON parser for REST services
   .use(bodyParser.json())
   // Turn on URL-encoded parser for REST services
-  .use(bodyParser.urlencoded({extended: true}))
+  .use(bodyParser.urlencoded({extended: true}));
 
-// Connect to the db, create and register a Feathers service.
-app.use('/todos', mongodb({
-  db: 'feathers',
-  collection: 'todos'
-}));
-
-// Start the server.
-var port = 8080;
-app.listen(port, function() {
-    console.log('Feathers server listening on port ' + port);
-});
-```
-
-You can run this example by using `node examples/basic` and going to [localhost:8080/todos](http://localhost:8080/todos). You should see an empty array. That's because you don't have any Todos yet but you now have full CRUD for your new todos service!
-
-
-## Options
-
-The following options can be passed when creating a new MongoDB service:
-
-__General options:__
-
-- `connectionString` - A MongoDB connection string
-- `_id` - The id property (default: `"_id"`)
-
-__Connection options:__ (when `connectionString` is not set)
-
-- `db` - The name of the database (default: `"feathers"`)
-- `host` - The MongoDB host (default: `"localhost"`)
-- `port` - The MongoDB port (default: `27017`)
-- `username` - MongoDB username
-- `password` - MongoDB password
-- `reconnect` - Whether the connection should automatically reconnect (default: `true`)
-
-__MongoDB options:__
-
-- `w` - Write acknowledgments (default: `1`)
-- `journal` - Don't wait for journal before acknowledgment (default: `false`)
-- `fsync` - Don't wait for syncing to disk before acknowledgment (default: `false`)
-- `safe` - Safe mode (default: `false`)
-
-
-## Sharing a MongoDB connection between services
-
-When creating a new service, the default behavior is to create a new connection to the specified database.  If you would rather share a database connection between multiple services, connect to the database then pass an already-connected collection object in on options.collection.  For example:
-
-```js
-var feathers = require('feathers');
-var mongo = require('mongoskin');
-var mongoService = require('feathers-mongodb')
-var app = feathers();
-
-// First, make the connection.
-var db = mongo.db('mongodb://localhost:27017/my-project');
-
-// Use the same db connection in both of these services.
-app.use('/api/users', mongoService({collection:db.collection('users')}));
-app.use('/api/todos', mongoService({collection:db.collection('todos')}));
-
-app.listen(8080);
-```
-
-
-## Extending MongoDB services
-
-To extend the basic MongoDB service there are two options. Either through using [Uberproto's](https://github.com/daffl/uberproto) inheritance mechanism or by using [feathers-hooks](https://github.com/feathersjs/feathers-hooks).
-
-
-### With Uberproto
-
-The basic MongoDB Feathers service is implemented using [Uberproto](https://github.com/daffl/uberproto), a small EcmaScript 5 inheritance library so you can use the Uberproto syntax to add your custom functionality.
-For example, you might want `update` and `patch` to behave the same (the basic implementation of `update` replaces the entire object instead of merging it) and add an `updatedAt` and `createdAt` flag to your data:
-
-```js
-// myservice.js
-var mongodb = require('feathers-mongodb');
-var Proto = require('uberproto');
-
-var TimestampPatchService = mongodb.Service.extend({
-  create: function(data, params, callback) {
-    data.createdAt = new Date();
-
-    // Call the original `create`
-    return this._super(data, params, callback);
-  },
-
-  update: function() {
-    // Call `patch` instead so that PUT calls merge
-    // instead of replace data, too
-    this.patch(id, data, params, callback);
-  },
-
-  patch: function(id, data, params, callback) {
-    data.updatedAt = new Date();
-
-    // Call the original `patch`
-    this._super(id, data, params, callback);
-  }
-});
-
-// Export a simple function that instantiates this new service like
-// var myservice = require('myservice');
-// app.use('/users', myservice(options));
-module.exports = function(options) {
-  // We need to call `Proto.create` explicitly here since we are overriding
-  // the original `create` method
-  return Proto.create.call(TimestampPatchService, options);
-}
-
-module.exports.Service = TimestampPatchService;
-```
-
-
-### With hooks
-
-Another option is to weave functionality into your existing services using [feathers-hooks](https://github.com/feathersjs/feathers-hooks), for example the above `createdAt` and `updatedAt` functionality:
-
-```js
-var feathers = require('feathers');
-var hooks = require('feathers-hooks');
-var mongodb = require('feathers-mongodb');
-
-// Initialize a MongoDB service with the users collection on a local MongoDB instance
-var app = feathers()
-  .configure(hooks())
-  .use('/users', mongodb({
-    collection: 'users'
+  // Connect to your MongoDB instance(s)
+MongoClient.connect('mongodb://localhost:27017/feathers').then(function(db){
+  // Connect to the db, create and register a Feathers service.
+  app.use('/messages', service({
+    Model: db.collection('messages'),
+    paginate: {
+      default: 2,
+      max: 4
+    }
   }));
 
-app.lookup('users').before({
-  create: function(hook, next) {
-    hook.data.createdAt = new Date();
-    next();
-  },
+  // A basic error handler, just like Express
+  app.use(errors.handler());
 
-  update: function(hook, next) {
-    hook.data.updatedAt = new Date();
-    next();
-  }
+  // Start the server
+  var server = app.listen(3030);
+  server.on('listening', function() {
+    console.log('Feathers Message MongoDB service running on 127.0.0.1:3030');
+  });
+}).catch(function(error){
+  console.error(error);
 });
-
-app.listen(8080);
 ```
 
-
-## Query Parameters
-
-The `find` API allows the use of `$limit`, `$skip`, `$sort`, and `$select` in the query.  These special parameters can be passed directly inside the query object:
-
-```js
-// Find all recipes that include salt, limit to 10, only include name field.
-{"ingredients":"salt", "$limit":10, "$select": { "name" :1 } } // JSON
-
-GET /?ingredients=salt&$limit=10&$select[name]=1 // HTTP
-```
-
-As a result of allowing these to be put directly into the query string, you won't want to use `$limit`, `$skip`, `$sort`, or `$select` as the name of fields in your document schema.
-
-### `$limit`
-
-`$limit` will return only the number of results you specify:
-
-```
-// Retrieves the first two records found where age is 37.
-query: {
-  age: 37,
-  $limit: 2
-}
-```
-
-### `$skip`
-
-`$skip` will skip the specified number of results:
-
-```
-// Retrieves all except the first two records found where age is 37.
-query: {
-  age: 37,
-  $skip: 2
-}
-```
-
-### `$sort`
-
-`$sort` will sort based on the object you provide:
-
-```
-// Retrieves all where age is 37, sorted ascending alphabetically by name.
-query: {
-  age: 37,
-  $sort: { name: 1 }
-}
-
-// Retrieves all where age is 37, sorted descending alphabetically by name.
-query: {
-  age: 37,
-  $sort: { name: -1}
-}
-```
-
-### `$select`
-
-`$select` support in a query allows you to pick which fields to include or exclude in the results. 
-
-```
-// Only retrieve name.
-query: {
-  name: 'Alice',
-  $select: {'name': 1}
-}
-
-// Retrieve everything except age.
-query: {
-  name: 'Alice',
-  $select: {'age': 0}
-}
-```
-
-
-## Filter criteria
-
-In addition to sorting and pagination, properties can also be filtered by criteria. Standard criteria can just be added to the query. For example, the following find all users with the name `Alice`:
-
-```js
-query: {
-  name: 'Alice'
-}
-```
-
-Additionally, the following advanced criteria are supported for each property.
-
-### $in, $nin
-
-Find all records where the property does (`$in`) or does not (`$nin`) contain the given values. For example, the following query finds every user with the name of `Alice` or `Bob`:
-
-```js
-query: {
-  name: {
-    $in: ['Alice', 'Bob']
-  }
-}
-```
-
-### $lt, $lte
-
-Find all records where the value is less (`$lt`) or less and equal (`$lte`) to a given value. The following query retrieves all users 25 or younger:
-
-```js
-query: {
-  age: {
-    $lte: 25
-  }
-}
-```
-
-### $gt, $gte
-
-Find all records where the value is more (`$gt`) or more and equal (`$gte`) to a given value. The following query retrieves all users older than 25:
-
-```js
-query: {
-  age: {
-    $gt: 25
-  }
-}
-```
-
-### $ne
-
-Find all records that do not contain the given property value, for example anybody not age 25:
-
-```js
-query: {
-  age: {
-    $ne: 25
-  }
-}
-```
-
-### $or
-
-Find all records that match any of the given objects. For example, find all users name Bob or Alice:
-
-```js
-query: {
-  $or: [
-    { name: 'Alice' },
-    { name: 'Bob' }
-  ]
-}
-```
-
+You can run this example by using `npm start` and going to [localhost:3030/messages](http://localhost:3030/messages). You should see an empty array. That's because you don't have any messages yet but you now have full CRUD for your new message service!
 
 ## Changelog
+
+__2.0.0__
+
+- Compatibility with Feathers 2.x
+- Changing how a service is initialized
+- Removing mongodb as a bundled dependency
+- Converting over to ES6
+- Converting to use the new service test harness
+- Moving over to Promises.
+- Updating documentation and example.
 
 __1.1.0__
 

@@ -49,3 +49,8 @@ Session.vim
 
 # === Webstorm ===
 .idea
+
+# Users Environment Variables
+.lock-wscript
+
+lib/
