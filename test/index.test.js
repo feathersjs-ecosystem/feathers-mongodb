@@ -1,41 +1,90 @@
-var baseTests = require('feathers-service-tests');
-var DatabaseCleaner = require('database-cleaner');
-var databaseCleaner = new DatabaseCleaner('mongodb');
-var errors = require('feathers-errors').types;
+import { expect } from 'chai';
+import { base, example } from 'feathers-service-tests';
+import { MongoClient } from 'mongodb';
+import feathers from 'feathers';
+import errors from 'feathers-errors';
+import service from '../src';
+import server from './test-app';
 
-var mongodb = require('../lib');
-var people = mongodb('people');
-var _ids = {};
+let people;
+const _ids = {};
+const app = feathers();
 
-function clean(done) {
-  databaseCleaner.clean(people.store, function() {
-    people.store.close();
-    done();
-  });
-}
+MongoClient.connect('mongodb://localhost:27017/feathers', (error, database) => {
+  console.error('connected', error, database);
+  const db = database;
 
-describe('MongoDB Service', function() {
-  before(clean);
-  after(clean);
+  app.use('/people', service({ Model: db.collection('people') }));
+  people = app.service('people');
 
-  beforeEach(function(done) {
-    people.create({
-      name: 'Doug',
-      age: 32
-    }, function(error, data) {
-      _ids.Doug = '' + data._id;
-      done();
+  describe('Feathers MongoDB Service', () => {
+    // before((done) => {
+    //   MongoClient.connect('mongodb://localhost:27017/feathers').then(function(database) {
+    //     db = database;
+
+    //     app.use('/people', service({ Model: db.collection('people') }));
+    //     people = app.service('people');
+        
+    //     done();
+    //   });
+    // });
+    
+    it('is CommonJS compatible', () => {
+      expect(typeof require('../lib')).to.equal('function');
+    });
+
+
+    describe('Initialization', () => {
+      describe('when missing options', () => {
+        it('throws an error', () => {
+          expect(service.bind(null)).to.throw('MongoDB options have to be provided');
+        });
+      });
+
+      describe('when missing a Model', () => {
+        it('throws an error', () => {
+          expect(service.bind(null, {})).to.throw('MongoDB collection `Model` needs to be provided');
+        });
+      });
+
+      describe('when missing the id option', () => {
+        it('sets the default to be _id', () => {
+          expect(people.id).to.equal('_id');
+        });
+      });
+
+      describe('when missing the paginate option', () => {
+        it('sets the default to be {}', () => {
+          expect(people.paginate).to.deep.equal({});
+        });
+      });
+    });
+
+    describe('Common functionality', () => {
+      beforeEach(function(done) {
+        db.collection('people').insert({
+          name: 'Doug',
+          age: 32
+        }, function(error, data) {
+          if(error) {
+            return done(error);
+          }
+
+          _ids.Doug = data._id;
+          done();
+        });
+      });
+
+      afterEach(done => db.collection('people').remove({ _id: _ids.Doug }, () => done()));
+
+      base(people, _ids, errors, '_id');
+    });
+
+    describe('MongoDB service example test', () => {
+      before(done => server.then(() => done()));
+      after(done => server.then(s => s.close(() => done())));
+
+      example('_id');
     });
   });
-
-  afterEach(function(done) {
-    people.get(_ids.Doug, {}, function(error, data) {
-      if(data) {
-        return people.remove(_ids.Doug, done);
-      }
-      done();
-    });
-  });
-
-  baseTests(people, _ids, errors, '_id');
 });
