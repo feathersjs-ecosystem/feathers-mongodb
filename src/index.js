@@ -131,8 +131,13 @@ class Service {
 
     let { query, options } = multiOptions(id, params, this.id);
 
-    // We can not update the id
-    delete data[this.id];
+    if (this.id === '_id') {
+      // We can not update the id
+      delete data[this.id];
+    } else {
+      // If not using the default Mongo _id field, the id must be set to its previous value
+      data[this.id] = id;
+    }
 
     return this.Model
         .update(query, data, options)
