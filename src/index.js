@@ -115,8 +115,14 @@ class Service {
   patch(id, data, params) {
     let { query, options } = multiOptions(id, params, this.id);
 
-    // We can not update the id
-    delete data[this.id];
+    if (this.id === '_id') {
+      // We can not update default mongo ids
+      delete data[this.id];
+    } else if (data[this.id] === undefined) {
+      // If not using the default Mongo _id field and you haven't passed a new id field
+      // then set the id to its previous value. This prevents orphaned documents.
+      data[this.id] = id;
+    }
 
     // Run the query
     return this.Model
@@ -132,10 +138,11 @@ class Service {
     let { query, options } = multiOptions(id, params, this.id);
 
     if (this.id === '_id') {
-      // We can not update the id
+      // We can not update default mongo ids
       delete data[this.id];
-    } else {
-      // If not using the default Mongo _id field, the id must be set to its previous value
+    } else if (data[this.id] === undefined) {
+      // If not using the default Mongo _id field and you haven't passed a new id field
+      // then set the id to its previous value. This prevents orphaned documents.
       data[this.id] = id;
     }
 
