@@ -131,8 +131,8 @@ class Service {
 
     let { query, options } = multiOptions(id, params, this.id);
 
-    // We can not update the id
-    delete data[this.id];
+    // We can not update the id, but it must be set to its previous value
+    data[this.id] = id;
 
     return this.Model
         .update(query, data, options)
