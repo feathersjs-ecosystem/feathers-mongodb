@@ -1,7 +1,7 @@
 const feathers = require('feathers');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
-const errors = require('feathers-errors');
+const handler = require('feathers-errors/handler');
 const bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 const service = require('../lib');
@@ -31,7 +31,7 @@ const promise = new Promise(function(resolve) {
     }));
 
     // A basic error handler, just like Express
-    app.use(errors.handler());
+    app.use(handler());
 
     // Start the server
     var server = app.listen(3030);
