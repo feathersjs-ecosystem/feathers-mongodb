@@ -128,7 +128,7 @@ class Service {
     let { query, options } = multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
-    this._normalizeId(id, data)
+    this._normalizeId(id, data);
 
     // Run the query
     return this.Model
@@ -144,7 +144,7 @@ class Service {
     let { query, options } = multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
-    this._normalizeId(id, data)
+    this._normalizeId(id, data);
 
     return this.Model
         .update(query, data, options)
