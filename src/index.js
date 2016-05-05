@@ -112,17 +112,23 @@ class Service {
     }).catch(errorHandler);
   }
 
-  patch(id, data, params) {
-    let { query, options } = multiOptions(id, params, this.id);
-
+  _normalizeId(id, data) {
     if (this.id === '_id') {
-      // We can not update default mongo ids
+      // Default Mongo IDs cannot be updated. The Mongo library handles
+      // this automatically.
       delete data[this.id];
     } else {
-      // If not using the default Mongo _id field set the id to its
+      // If not using the default Mongo _id field set the ID to its
       // previous value. This prevents orphaned documents.
       data[this.id] = id;
     }
+  }
+
+  patch(id, data, params) {
+    let { query, options } = multiOptions(id, params, this.id);
+
+    // Ensure document ID is set properly.
+    this._normalizeId(id, data);
 
     // Run the query
     return this.Model
@@ -137,14 +143,8 @@ class Service {
 
     let { query, options } = multiOptions(id, params, this.id);
 
-    if (this.id === '_id') {
-      // We can not update default mongo ids
-      delete data[this.id];
-    } else {
-      // If not using the default Mongo _id field set the id to its
-      // previous value. This prevents orphaned documents.
-      data[this.id] = id;
-    }
+    // Ensure document ID is set properly.
+    this._normalizeId(id, data);
 
     return this.Model
         .update(query, data, options)
