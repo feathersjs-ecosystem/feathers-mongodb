@@ -5,7 +5,6 @@ import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
 import errors from 'feathers-errors';
 import errorHandler from './error-handler';
-import { multiOptions } from './utils';
 
 // Create the service.
 class Service {
@@ -33,6 +32,18 @@ class Service {
     }
 
     return id;
+  }
+
+  _multiOptions(id, params) {
+    let query = Object.assign({}, params.query);
+    let options = Object.assign({ multi: true }, params.options);
+
+    if (id !== null) {
+      options.multi = false;
+      query[this.id] = this._objectifyId(id);
+    }
+
+    return { query, options };
   }
 
   _getSelect(select) {
@@ -144,7 +155,7 @@ class Service {
   }
 
   patch(id, data, params) {
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -160,7 +171,7 @@ class Service {
       return Promise.reject('Not replacing multiple records. Did you mean `patch`?');
     }
 
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -172,7 +183,7 @@ class Service {
   }
 
   remove(id, params) {
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     return this._findOrGet(id, params).then(items => {
       return this.Model

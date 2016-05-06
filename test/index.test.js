@@ -106,6 +106,34 @@ describe('Feathers MongoDB Service', () => {
       });
     });
 
+    describe('multiOptions', () => {
+      let params = {
+        query: {
+          age: 21
+        },
+        options: {
+          limit: 5
+        }
+      };
+
+      it('returns valid result when passed an ID', () => {
+        let id = new ObjectID();
+        let result = service({ Model: db })._multiOptions(id, params);
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(['query', 'options']);
+        expect(result.query).to.deep.equal(Object.assign({}, params.query, { _id: id }));
+        expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: false }));
+      });
+
+      it('returns original object', () => {
+        let result = service({ Model: db })._multiOptions(null, params);
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(['query', 'options']);
+        expect(result.query).to.deep.equal(params.query);
+        expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: true }));
+      });
+    });
+
     describe('getSelect', () => {
       let mongoFields = { name: 1, age: 1 };
 
