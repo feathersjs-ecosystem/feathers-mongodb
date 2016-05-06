@@ -10,14 +10,14 @@ describe('Feathers MongoDB Service', () => {
   const _ids = {};
   const app = feathers()
     .use('/people', service({ Model: {} }));
-  
+
   let db;
-  
+
   before(done => {
     MongoClient.connect('mongodb://localhost:27017/feathers-test').then(function(database) {
       db = database;
       app.service('people').Model = db.collection('people');
-      
+
       db.collection('people').removeMany();
       db.collection('todos').removeMany();
       done();
@@ -30,7 +30,7 @@ describe('Feathers MongoDB Service', () => {
       done();
     });
   });
-  
+
   it('is CommonJS compatible', () => {
     expect(typeof require('../lib')).to.equal('function');
   });

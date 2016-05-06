@@ -61,22 +61,22 @@ class Service {
         };
       });
     };
-    
+
     if (count) {
       return this.Model.count(params.query).then(runQuery);
     }
-    
+
     return runQuery();
   }
-  
+
   find(params) {
     const paginate = !!this.paginate.default;
     const result = this._find(params, paginate, query => filter(query, this.paginate));
-    
+
     if(!paginate) {
       return result.then(page => page.data);
     }
-    
+
     return result;
   }
 
@@ -93,16 +93,16 @@ class Service {
       })
       .catch(errorHandler);
   }
-  
+
   get(id, params) {
     return this._get(id, params);
   }
-  
+
   _findOrGet(id, params) {
     if(id === null) {
       return this._find(params).then(page => page.data);
     }
-    
+
     return this._get(id, params);
   }
 
