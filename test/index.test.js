@@ -105,5 +105,23 @@ describe('Feathers MongoDB Service', () => {
         expect(result).to.deep.equal(id);
       });
     });
+
+    describe('getSelect', () => {
+      let mongoFields = { name: 1, age: 1 };
+
+      it('returns Mongo fields object when an array is passed', () => {
+        let fields = ['name', 'age'];
+        let result = service({ Model: db })._getSelect(fields);
+        expect(result).to.be.an('object');
+        expect(result).to.deep.equal(mongoFields);
+      });
+
+      it('returns original object', () => {
+        let fields = mongoFields;
+        let result = service({ Model: db })._getSelect(fields);
+        expect(result).to.be.an('object');
+        expect(result).to.deep.equal(mongoFields);
+      });
+    });
   });
 });

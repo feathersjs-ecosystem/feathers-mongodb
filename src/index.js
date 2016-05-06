@@ -5,7 +5,7 @@ import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
 import errors from 'feathers-errors';
 import errorHandler from './error-handler';
-import { getSelect, multiOptions } from './utils';
+import { multiOptions } from './utils';
 
 // Create the service.
 class Service {
@@ -35,6 +35,16 @@ class Service {
     return id;
   }
 
+  _getSelect(select) {
+    if (Array.isArray(select)) {
+      var result = {};
+      select.forEach(name => result[name] = 1);
+      return result;
+    }
+
+    return select;
+  }
+
   _find(params, count, getFilter = filter) {
     // Start with finding all, and limit when necessary.
     let query = this.Model.find(params.query);
@@ -42,7 +52,7 @@ class Service {
 
     // $select uses a specific find syntax, so it has to come first.
     if (filters.$select) {
-      query = this.Model.find(params.query, getSelect(filters.$select));
+      query = this.Model.find(params.query, this._getSelect(filters.$select));
     }
 
     // Handle $sort
