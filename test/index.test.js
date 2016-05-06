@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { base, example } from 'feathers-service-tests';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectID } from 'mongodb';
 import feathers from 'feathers';
 import errors from 'feathers-errors';
 import service from '../src';
@@ -87,5 +87,23 @@ describe('Feathers MongoDB Service', () => {
     after(done => server.then(s => s.close(() => done())));
 
     example('_id');
+  });
+
+  describe('Service utility functions', () => {
+    describe('objectifyId', () => {
+      it('returns an ObjectID instance for a valid ID', () => {
+        let id = new ObjectID();
+        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+
+      it('does not return an ObjectID instance for an invalid ID', () => {
+        let id = 'non-valid object id';
+        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.not.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+    });
   });
 });

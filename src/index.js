@@ -1,10 +1,11 @@
 if(!global._babelPolyfill) { require('babel-polyfill'); }
 
+import { ObjectID } from 'mongodb';
 import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
 import errors from 'feathers-errors';
 import errorHandler from './error-handler';
-import { getSelect, multiOptions, objectifyId } from './utils';
+import { getSelect, multiOptions } from './utils';
 
 // Create the service.
 class Service {
@@ -24,6 +25,14 @@ class Service {
 
   extend(obj) {
     return Proto.extend(obj, this);
+  }
+
+  _objectifyId(id) {
+    if (this.id === '_id' && ObjectID.isValid(id)) {
+      id = new ObjectID(id.toString());
+    }
+
+    return id;
   }
 
   _find(params, count, getFilter = filter) {
@@ -81,7 +90,7 @@ class Service {
   }
 
   _get(id) {
-    id = objectifyId(id, this.id);
+    id = this._objectifyId(id);
 
     return this.Model.findOne({ [this.id]: id })
       .then(data => {
