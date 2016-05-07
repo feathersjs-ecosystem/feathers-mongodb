@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { base, example } from 'feathers-service-tests';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectID } from 'mongodb';
 import feathers from 'feathers';
 import errors from 'feathers-errors';
 import service from '../src';
@@ -10,14 +10,14 @@ describe('Feathers MongoDB Service', () => {
   const _ids = {};
   const app = feathers()
     .use('/people', service({ Model: {} }));
-  
+
   let db;
-  
+
   before(done => {
     MongoClient.connect('mongodb://localhost:27017/feathers-test').then(function(database) {
       db = database;
       app.service('people').Model = db.collection('people');
-      
+
       db.collection('people').removeMany();
       db.collection('todos').removeMany();
       done();
@@ -30,7 +30,7 @@ describe('Feathers MongoDB Service', () => {
       done();
     });
   });
-  
+
   it('is CommonJS compatible', () => {
     expect(typeof require('../lib')).to.equal('function');
   });
@@ -87,5 +87,69 @@ describe('Feathers MongoDB Service', () => {
     after(done => server.then(s => s.close(() => done())));
 
     example('_id');
+  });
+
+  describe('Service utility functions', () => {
+    describe('objectifyId', () => {
+      it('returns an ObjectID instance for a valid ID', () => {
+        let id = new ObjectID();
+        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+
+      it('does not return an ObjectID instance for an invalid ID', () => {
+        let id = 'non-valid object id';
+        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.not.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+    });
+
+    describe('multiOptions', () => {
+      let params = {
+        query: {
+          age: 21
+        },
+        options: {
+          limit: 5
+        }
+      };
+
+      it('returns valid result when passed an ID', () => {
+        let id = new ObjectID();
+        let result = service({ Model: db })._multiOptions(id, params);
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(['query', 'options']);
+        expect(result.query).to.deep.equal(Object.assign({}, params.query, { _id: id }));
+        expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: false }));
+      });
+
+      it('returns original object', () => {
+        let result = service({ Model: db })._multiOptions(null, params);
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(['query', 'options']);
+        expect(result.query).to.deep.equal(params.query);
+        expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: true }));
+      });
+    });
+
+    describe('getSelect', () => {
+      let mongoFields = { name: 1, age: 1 };
+
+      it('returns Mongo fields object when an array is passed', () => {
+        let fields = ['name', 'age'];
+        let result = service({ Model: db })._getSelect(fields);
+        expect(result).to.be.an('object');
+        expect(result).to.deep.equal(mongoFields);
+      });
+
+      it('returns original object', () => {
+        let fields = mongoFields;
+        let result = service({ Model: db })._getSelect(fields);
+        expect(result).to.be.an('object');
+        expect(result).to.deep.equal(mongoFields);
+      });
+    });
   });
 });

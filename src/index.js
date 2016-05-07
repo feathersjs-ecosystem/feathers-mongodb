@@ -1,10 +1,10 @@
 if(!global._babelPolyfill) { require('babel-polyfill'); }
 
+import { ObjectID } from 'mongodb';
 import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
 import errors from 'feathers-errors';
 import errorHandler from './error-handler';
-import { getSelect, multiOptions, objectifyId } from './utils';
 
 // Create the service.
 class Service {
@@ -26,6 +26,36 @@ class Service {
     return Proto.extend(obj, this);
   }
 
+  _objectifyId(id) {
+    if (this.id === '_id' && ObjectID.isValid(id)) {
+      id = new ObjectID(id.toString());
+    }
+
+    return id;
+  }
+
+  _multiOptions(id, params) {
+    let query = Object.assign({}, params.query);
+    let options = Object.assign({ multi: true }, params.options);
+
+    if (id !== null) {
+      options.multi = false;
+      query[this.id] = this._objectifyId(id);
+    }
+
+    return { query, options };
+  }
+
+  _getSelect(select) {
+    if (Array.isArray(select)) {
+      var result = {};
+      select.forEach(name => result[name] = 1);
+      return result;
+    }
+
+    return select;
+  }
+
   _find(params, count, getFilter = filter) {
     // Start with finding all, and limit when necessary.
     let query = this.Model.find(params.query);
@@ -33,7 +63,7 @@ class Service {
 
     // $select uses a specific find syntax, so it has to come first.
     if (filters.$select) {
-      query = this.Model.find(params.query, getSelect(filters.$select));
+      query = this.Model.find(params.query, this._getSelect(filters.$select));
     }
 
     // Handle $sort
@@ -61,27 +91,27 @@ class Service {
         };
       });
     };
-    
+
     if (count) {
       return this.Model.count(params.query).then(runQuery);
     }
-    
+
     return runQuery();
   }
-  
+
   find(params) {
     const paginate = !!this.paginate.default;
     const result = this._find(params, paginate, query => filter(query, this.paginate));
-    
+
     if(!paginate) {
       return result.then(page => page.data);
     }
-    
+
     return result;
   }
 
   _get(id) {
-    id = objectifyId(id, this.id);
+    id = this._objectifyId(id);
 
     return this.Model.findOne({ [this.id]: id })
       .then(data => {
@@ -93,16 +123,16 @@ class Service {
       })
       .catch(errorHandler);
   }
-  
+
   get(id, params) {
     return this._get(id, params);
   }
-  
+
   _findOrGet(id, params) {
     if(id === null) {
       return this._find(params).then(page => page.data);
     }
-    
+
     return this._get(id, params);
   }
 
@@ -125,7 +155,7 @@ class Service {
   }
 
   patch(id, data, params) {
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -141,7 +171,7 @@ class Service {
       return Promise.reject('Not replacing multiple records. Did you mean `patch`?');
     }
 
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -153,7 +183,7 @@ class Service {
   }
 
   remove(id, params) {
-    let { query, options } = multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params, this.id);
 
     return this._findOrGet(id, params).then(items => {
       return this.Model
