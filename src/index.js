@@ -155,7 +155,7 @@ class Service {
   }
 
   patch(id, data, params) {
-    let { query, options } = this._multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -171,7 +171,7 @@ class Service {
       return Promise.reject('Not replacing multiple records. Did you mean `patch`?');
     }
 
-    let { query, options } = this._multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params);
 
     // Ensure document ID is set properly.
     this._normalizeId(id, data);
@@ -183,7 +183,7 @@ class Service {
   }
 
   remove(id, params) {
-    let { query, options } = this._multiOptions(id, params, this.id);
+    let { query, options } = this._multiOptions(id, params);
 
     return this._findOrGet(id, params).then(items => {
       return this.Model
