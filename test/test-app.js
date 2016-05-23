@@ -1,10 +1,10 @@
-const feathers = require('feathers');
-const rest = require('feathers-rest');
-const socketio = require('feathers-socketio');
-const handler = require('feathers-errors/handler');
-const bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
-const service = require('../lib');
+import feathers from 'feathers';
+import rest from 'feathers-rest';
+import socketio from 'feathers-socketio';
+import errorHandler from 'feathers-errors/handler';
+import bodyParser from 'body-parser';
+import { MongoClient } from 'mongodb';
+import service from '../lib';
 
 // Create a feathers instance.
 const app = feathers()
@@ -17,8 +17,7 @@ const app = feathers()
   // Turn on URL-encoded parser for REST services
   .use(bodyParser.urlencoded({extended: true}));
 
-
-module.exports = new Promise(function(resolve) {
+export default new Promise(function(resolve) {
   // Connect to your MongoDB instance(s)
   MongoClient.connect('mongodb://localhost:27017/feathers-test', (error, db) => {
     // Connect to the db, create and register a Feathers service.
@@ -31,7 +30,7 @@ module.exports = new Promise(function(resolve) {
     }));
 
     // A basic error handler, just like Express
-    app.use(handler());
+    app.use(errorHandler());
 
     // Start the server
     var server = app.listen(3030);
