@@ -94,45 +94,8 @@ MongoClient.connect('mongodb://localhost:27017/feathers').then(function(db){
 
 You can run this example by using `npm start` and going to [localhost:3030/messages](http://localhost:3030/messages). You should see an empty array. That's because you don't have any messages yet but you now have full CRUD for your new message service!
 
-## Changelog
-
-__2.0.0__
-
-- Compatibility with Feathers 2.x
-- Changing how a service is initialized
-- Removing mongodb as a bundled dependency
-- Converting over to ES6
-- Converting to use the new service test harness
-- Moving over to Promises.
-- Updating documentation and example.
-
-__1.1.0__
-
-- Update to common infrastructure and querying criteria ([#15](https://github.com/feathersjs/feathers-mongodb/pull/15))
-
-__1.0.0__
-
-- makes this adapter consistent with the others in terms of documentation and file structure
-- updates mongoskin dependency to the latest
-- adds support for special query filters
-    - $sort
-    - $select
-    - $skip
-    - $limit
-- Closes #8 by making sure that we autoreconnect by default when not passing a connection string
-
-__0.3.0__
-
-- Implement `.patch` support ([#5](https://github.com/feathersjs/feathers-mongodb/issues/5))
-- Better documentation
-- Refactoring that removes pre-implemented MongoSkin options
-
-__0.2.x__
-
-- Pre-releases
-
 ## License
 
-Copyright (c) 2015
+Copyright (c) 2016
 
 Licensed under the [MIT license](LICENSE).
