@@ -1,5 +1,4 @@
-if(!global._babelPolyfill) { require('babel-polyfill'); }
-
+import omit from 'lodash.omit';
 import { ObjectID } from 'mongodb';
 import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
@@ -149,23 +148,20 @@ class Service {
     if (this.id === '_id') {
       // Default Mongo IDs cannot be updated. The Mongo library handles
       // this automatically.
-      delete data[this.id];
+      return omit(data, this.id);
     } else {
       // If not using the default Mongo _id field set the ID to its
       // previous value. This prevents orphaned documents.
-      data[this.id] = id;
+      return Object.assign({}, data, { [this.id]: id });
     }
   }
 
   patch(id, data, params) {
     let { query, options } = this._multiOptions(id, params);
 
-    // Ensure document ID is set properly.
-    this._normalizeId(id, data);
-
     // Run the query
     return this.Model
-        .update(query, { $set: data }, options)
+        .update(query, { $set: this._normalizeId(id, data) }, options)
         .then(() => this._findOrGet(id, params));
   }
 
@@ -176,11 +172,8 @@ class Service {
 
     let { query, options } = this._multiOptions(id, params);
 
-    // Ensure document ID is set properly.
-    this._normalizeId(id, data);
-
     return this.Model
-        .update(query, data, options)
+        .update(query, this._normalizeId(id, data), options)
         .then(() => this._findOrGet(id))
         .catch(errorHandler);
   }
