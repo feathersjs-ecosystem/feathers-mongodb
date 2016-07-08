@@ -1,5 +1,16 @@
 # Change Log
 
+## [v2.4.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.4.0) (2016-07-08)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.3.0...v2.4.0)
+
+**Fixed bugs:**
+
+- We shouldn't remove properties from original objects [\#49](https://github.com/feathersjs/feathers-mongodb/issues/49)
+
+**Merged pull requests:**
+
+- feathers-service-tests@0.6.1 breaks build 🚨 [\#50](https://github.com/feathersjs/feathers-mongodb/pull/50) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
 ## [v2.3.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.3.0) (2016-06-17)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.2.0...v2.3.0)
 
