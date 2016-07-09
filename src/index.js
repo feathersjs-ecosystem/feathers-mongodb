@@ -139,9 +139,9 @@ class Service {
   }
 
   create(data) {
-    return this.Model.insert(data).then(result => {
-      return result.ops.length > 1 ? result.ops : result.ops[0];
-    }).catch(errorHandler);
+    return this.Model.insert(Object.assign({}, data))
+      .then(result => result.ops.length > 1 ? result.ops : result.ops[0])
+      .catch(errorHandler);
   }
 
   _normalizeId(id, data) {
