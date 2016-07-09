@@ -57,31 +57,27 @@ class Service {
 
   _find(params, count, getFilter = filter) {
     // Start with finding all, and limit when necessary.
-    let query = this.Model.find(params.query);
-    let filters = getFilter(params.query|| {});
+    let { filters, query } = getFilter(params.query|| {});
+    let q = this.Model.find(query);
 
-    // $select uses a specific find syntax, so it has to come first.
     if (filters.$select) {
-      query = this.Model.find(params.query, this._getSelect(filters.$select));
+      q = this.Model.find(query, this._getSelect(filters.$select));
     }
 
-    // Handle $sort
     if (filters.$sort){
-      query.sort(filters.$sort);
+      q.sort(filters.$sort);
     }
 
-    // Handle $limit
     if (filters.$limit){
-      query.limit(filters.$limit);
+      q.limit(filters.$limit);
     }
 
-    // Handle $skip
     if (filters.$skip){
-      query.skip(filters.$skip);
+      q.skip(filters.$skip);
     }
 
     const runQuery = total => {
-      return query.toArray().then(data => {
+      return q.toArray().then(data => {
         return {
           total,
           limit: filters.$limit,
@@ -92,7 +88,7 @@ class Service {
     };
 
     if (count) {
-      return this.Model.count(params.query).then(runQuery);
+      return this.Model.count(query).then(runQuery);
     }
 
     return runQuery();
