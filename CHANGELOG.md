@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.4.2](https://github.com/feathersjs/feathers-mongodb/tree/v2.4.2) (2016-07-21)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.4.1...v2.4.2)
+
+**Merged pull requests:**
+
+- Update feathers-query-filters to version 2.0.0 🚀 [\#53](https://github.com/feathersjs/feathers-mongodb/pull/53) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
+## [v2.4.1](https://github.com/feathersjs/feathers-mongodb/tree/v2.4.1) (2016-07-09)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.4.0...v2.4.1)
+
+**Merged pull requests:**
+
+- feathers-service-tests@0.6.2 breaks build 🚨 [\#51](https://github.com/feathersjs/feathers-mongodb/pull/51) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
 ## [v2.4.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.4.0) (2016-07-08)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.3.0...v2.4.0)
 
