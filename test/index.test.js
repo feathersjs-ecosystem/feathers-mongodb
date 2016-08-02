@@ -13,23 +13,17 @@ describe('Feathers MongoDB Service', () => {
 
   let db;
 
-  before(done => {
+  before(() =>
     MongoClient.connect('mongodb://localhost:27017/feathers-test').then(function(database) {
       db = database;
       app.service('people').Model = db.collection('people');
 
       db.collection('people').removeMany();
       db.collection('todos').removeMany();
-      done();
-    });
-  });
+    })
+  );
 
-  after(done => {
-    db.dropDatabase().then(() => {
-      db.close();
-      done();
-    });
-  });
+  after(() => db.dropDatabase().then(() => db.close()));
 
   it('is CommonJS compatible', () => {
     expect(typeof require('../lib')).to.equal('function');
@@ -77,14 +71,16 @@ describe('Feathers MongoDB Service', () => {
       });
     });
 
-    afterEach(done => db.collection('people').remove({ _id: _ids.Doug }, () => done()));
+    afterEach(() => db.collection('people').remove({ _id: _ids.Doug }));
 
     base(app.service('people'), _ids, errors, '_id');
   });
 
   describe('MongoDB service example test', () => {
-    before(done => server.then(() => done()));
-    after(done => server.then(s => s.close(() => done())));
+    before(() => server);
+    after(done => {
+      server.then(s => s.close(() => done()));
+    });
 
     example('_id');
   });
