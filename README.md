@@ -52,7 +52,7 @@ Here's a complete example of a Feathers server with a `messages` MongoDB service
 const feathers = require('feathers');
 const rest = require('feathers-rest');
 const socketio = require('feathers-socketio');
-const errors = require('feathers-errors');
+const handler = require('feathers-errors/handler');
 const bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 const service = require('feathers-mongodb');
@@ -68,7 +68,7 @@ const app = feathers()
   // Turn on URL-encoded parser for REST services
   .use(bodyParser.urlencoded({extended: true}));
 
-  // Connect to your MongoDB instance(s)
+// Connect to your MongoDB instance(s)
 MongoClient.connect('mongodb://localhost:27017/feathers').then(function(db){
   // Connect to the db, create and register a Feathers service.
   app.use('/messages', service({
@@ -80,16 +80,18 @@ MongoClient.connect('mongodb://localhost:27017/feathers').then(function(db){
   }));
 
   // A basic error handler, just like Express
-  app.use(errors.handler());
+  app.use(handler());
 
   // Start the server
   var server = app.listen(3030);
   server.on('listening', function() {
     console.log('Feathers Message MongoDB service running on 127.0.0.1:3030');
+    resolve(server);
   });
 }).catch(function(error){
   console.error(error);
 });
+
 ```
 
 You can run this example by using `npm start` and going to [localhost:3030/messages](http://localhost:3030/messages). You should see an empty array. That's because you don't have any messages yet but you now have full CRUD for your new message service!
