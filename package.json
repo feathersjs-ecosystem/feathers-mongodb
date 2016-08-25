@@ -59,7 +59,7 @@
     "uberproto": "^1.2.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
+    "babel-cli": "^6.14.0",
     "babel-core": "^6.3.26",
     "babel-plugin-add-module-exports": "^0.2.0",
     "babel-plugin-transform-object-assign": "^6.5.0",
