@@ -18,6 +18,7 @@ class Service {
 
     this.Model = options.Model;
     this.id = options.id || '_id';
+    this.events = options.events || [];
     this.paginate = options.paginate || {};
   }
 
@@ -135,7 +136,14 @@ class Service {
   }
 
   create(data) {
-    return this.Model.insert(Object.assign({}, data))
+    const entry = Object.assign({}, data);
+
+    // Generate a MongoId if we use a custom id
+    if(this.id !== '_id' && typeof entry[this.id] === 'undefined') {
+      entry[this.id] = new ObjectID().toHexString();
+    }
+
+    return this.Model.insert(entry)
       .then(result => result.ops.length > 1 ? result.ops : result.ops[0])
       .catch(errorHandler);
   }
