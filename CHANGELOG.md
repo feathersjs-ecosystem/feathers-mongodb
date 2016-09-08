@@ -1,5 +1,18 @@
 # Change Log
 
+## [v2.5.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.5.0) (2016-09-08)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.4.2...v2.5.0)
+
+**Closed issues:**
+
+- TypeError: errors.handler is not a function [\#57](https://github.com/feathersjs/feathers-mongodb/issues/57)
+
+**Merged pull requests:**
+
+- Update service tests, id and events option [\#62](https://github.com/feathersjs/feathers-mongodb/pull/62) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Update example in README.md [\#60](https://github.com/feathersjs/feathers-mongodb/pull/60) ([kulakowka](https://github.com/kulakowka))
+- Update mocha to version 3.0.0 🚀 [\#54](https://github.com/feathersjs/feathers-mongodb/pull/54) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
 ## [v2.4.2](https://github.com/feathersjs/feathers-mongodb/tree/v2.4.2) (2016-07-21)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.4.1...v2.4.2)
 
