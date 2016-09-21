@@ -36,7 +36,7 @@ class Service {
 
   _multiOptions(id, params) {
     let query = Object.assign({}, params.query);
-    let options = Object.assign({ multi: true }, params.options);
+    let options = Object.assign({ multi: true }, params.mongodb || params.options);
 
     if (id !== null) {
       options.multi = false;
@@ -167,12 +167,25 @@ class Service {
   }
 
   patch(id, data, params) {
-    let { query, options } = this._multiOptions(id, params);
+    const { query, options } = this._multiOptions(id, params);
+    const patchParams = Object.assign({}, params, {
+      query: Object.assign({}, query)
+    });
+
+    // Account for potentially modified data
+    Object.keys(query).forEach(key => {
+      if(query[key] !== undefined && data[key] !== undefined &&
+          typeof data[key] !== 'object') {
+        patchParams.query[key] = data[key];
+      } else {
+        patchParams.query[key] = query[key];
+      }
+    });
 
     // Run the query
     return this.Model
         .update(query, { $set: this._normalizeId(id, data) }, options)
-        .then(() => this._findOrGet(id, params));
+        .then(() => this._findOrGet(id, patchParams));
   }
 
   update(id, data, params) {
@@ -191,12 +204,11 @@ class Service {
   remove(id, params) {
     let { query, options } = this._multiOptions(id, params);
 
-    return this._findOrGet(id, params).then(items => {
-      return this.Model
-          .remove(query, options)
-          .then(() => items)
-          .catch(errorHandler);
-    });
+    return this._findOrGet(id, params)
+      .then(items => this.Model
+        .remove(query, options)
+        .then(() => items)
+      ).catch(errorHandler);
   }
 }
 
