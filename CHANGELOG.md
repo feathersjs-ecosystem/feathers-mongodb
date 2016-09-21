@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.5.1](https://github.com/feathersjs/feathers-mongodb/tree/v2.5.1) (2016-09-21)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.5.0...v2.5.1)
+
+**Closed issues:**
+
+- Unique index on idField? [\#46](https://github.com/feathersjs/feathers-mongodb/issues/46)
+
+**Merged pull requests:**
+
+- Properly assign generated id when creating multiple [\#64](https://github.com/feathersjs/feathers-mongodb/pull/64) ([daffl](https://github.com/daffl))
+- Properly patch multiple [\#63](https://github.com/feathersjs/feathers-mongodb/pull/63) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+
 ## [v2.5.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.5.0) (2016-09-08)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.4.2...v2.5.0)
 
