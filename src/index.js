@@ -136,14 +136,20 @@ class Service {
   }
 
   create(data) {
-    const entry = Object.assign({}, data);
+    const setId = item => {
+      const entry = Object.assign({}, item);
 
-    // Generate a MongoId if we use a custom id
-    if(this.id !== '_id' && typeof entry[this.id] === 'undefined') {
-      entry[this.id] = new ObjectID().toHexString();
-    }
+      // Generate a MongoId if we use a custom id
+      if(this.id !== '_id' && typeof entry[this.id] === 'undefined') {
+        entry[this.id] = new ObjectID().toHexString();
+      }
 
-    return this.Model.insert(entry)
+      return entry;
+    };
+
+
+    return this.Model
+      .insert(Array.isArray(data) ? data.map(setId) : setId(data))
       .then(result => result.ops.length > 1 ? result.ops : result.ops[0])
       .catch(errorHandler);
   }
