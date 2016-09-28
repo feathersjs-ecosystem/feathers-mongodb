@@ -52,7 +52,7 @@
     "npm": "~1.4.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.7.4",
+    "babel-polyfill": "^6.16.0",
     "feathers-errors": "^2.0.1",
     "feathers-query-filters": "^2.0.0",
     "lodash.omit": "^4.3.0",
