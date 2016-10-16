@@ -1,5 +1,6 @@
 sudo: false
 language: node_js
+services: mongodb
 node_js:
   - 'node'
   - '6'
