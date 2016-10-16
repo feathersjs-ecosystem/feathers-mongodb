@@ -43,8 +43,9 @@
     "compile": "rm -rf lib/ && babel -d lib/ src/",
     "watch": "babel --watch -d lib/ src/",
     "jshint": "jshint src/. test/. --config",
-    "mocha": "mocha test/ --compilers js:babel-core/register",
-    "test": "rm -rf .tmp && npm run compile && npm run jshint && npm run mocha",
+    "mocha": "mocha --opts mocha.opts",
+    "coverage": "istanbul cover _mocha -- --opts mocha.opts",
+    "test": "rm -rf .tmp && npm run compile && npm run jshint && npm run coverage",
     "start": "node example/app"
   },
   "engines": {
@@ -71,6 +72,7 @@
     "feathers-rest": "^1.2.2",
     "feathers-service-tests": "^0.8.0",
     "feathers-socketio": "^1.3.3",
+    "istanbul": "^1.1.0-alpha.1",
     "jshint": "^2.8.0",
     "mocha": "^3.0.0",
     "mongodb": "^2.1.3"
