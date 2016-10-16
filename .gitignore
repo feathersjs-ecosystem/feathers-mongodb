@@ -54,3 +54,4 @@ Session.vim
 .lock-wscript
 
 lib/
+coverage/
