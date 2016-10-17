@@ -13,17 +13,17 @@ describe('Feathers MongoDB Service', () => {
 
   before(() =>
     MongoClient.connect('mongodb://localhost:27017/feathers-test')
-      .then(function(database) {
+      .then(function (database) {
         db = database;
 
         app.use('/people', service({
-            Model: db.collection('people'),
-            events: [ 'testing' ]
-          })).use('/people-customid', service({
-            Model: db.collection('people-customid'),
-            id: 'customid',
-            events: [ 'testing' ]
-          }));
+          Model: db.collection('people'),
+          events: [ 'testing' ]
+        })).use('/people-customid', service({
+          Model: db.collection('people-customid'),
+          id: 'customid',
+          events: [ 'testing' ]
+        }));
 
         db.collection('people-customid').removeMany();
         db.collection('people').removeMany();
