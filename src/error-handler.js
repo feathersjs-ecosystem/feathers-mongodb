@@ -1,6 +1,6 @@
 import errors from 'feathers-errors';
 
-export default function errorHandler(error) {
+export default function errorHandler (error) {
   let feathersError = error;
 
   // NOTE (EK): The list of error code is way too massive to map

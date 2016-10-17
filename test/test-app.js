@@ -17,9 +17,12 @@ const app = feathers()
   // Turn on URL-encoded parser for REST services
   .use(bodyParser.urlencoded({extended: true}));
 
-export default new Promise(function(resolve) {
+export default new Promise(function (resolve, reject) {
   // Connect to your MongoDB instance(s)
   MongoClient.connect('mongodb://localhost:27017/feathers-test', (error, db) => {
+    if (error) {
+      reject(error);
+    }
     // Connect to the db, create and register a Feathers service.
     app.use('/todos', service({
       Model: db.collection('todos'),
@@ -34,7 +37,7 @@ export default new Promise(function(resolve) {
 
     // Start the server
     var server = app.listen(3030);
-    server.on('listening', function() {
+    server.on('listening', function () {
       console.log('Feathers Message MongoDB service running on 127.0.0.1:3030');
       resolve(server);
     });

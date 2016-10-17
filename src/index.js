@@ -7,7 +7,7 @@ import errorHandler from './error-handler';
 
 // Create the service.
 class Service {
-  constructor(options) {
+  constructor (options) {
     if (!options) {
       throw new Error('MongoDB options have to be provided');
     }
@@ -22,11 +22,11 @@ class Service {
     this.paginate = options.paginate || {};
   }
 
-  extend(obj) {
+  extend (obj) {
     return Proto.extend(obj, this);
   }
 
-  _objectifyId(id) {
+  _objectifyId (id) {
     if (this.id === '_id' && ObjectID.isValid(id)) {
       id = new ObjectID(id.toString());
     }
@@ -34,7 +34,7 @@ class Service {
     return id;
   }
 
-  _multiOptions(id, params) {
+  _multiOptions (id, params) {
     let query = Object.assign({}, params.query);
     let options = Object.assign({ multi: true }, params.mongodb || params.options);
 
@@ -46,34 +46,36 @@ class Service {
     return { query, options };
   }
 
-  _getSelect(select) {
+  _getSelect (select) {
     if (Array.isArray(select)) {
       var result = {};
-      select.forEach(name => result[name] = 1);
+      select.forEach(name => {
+        result[name] = 1;
+      });
       return result;
     }
 
     return select;
   }
 
-  _find(params, count, getFilter = filter) {
+  _find (params, count, getFilter = filter) {
     // Start with finding all, and limit when necessary.
-    let { filters, query } = getFilter(params.query|| {});
+    let { filters, query } = getFilter(params.query || {});
     let q = this.Model.find(query);
 
     if (filters.$select) {
       q = this.Model.find(query, this._getSelect(filters.$select));
     }
 
-    if (filters.$sort){
+    if (filters.$sort) {
       q.sort(filters.$sort);
     }
 
-    if (filters.$limit){
+    if (filters.$limit) {
       q.limit(filters.$limit);
     }
 
-    if (filters.$skip){
+    if (filters.$skip) {
       q.skip(filters.$skip);
     }
 
@@ -95,21 +97,21 @@ class Service {
     return runQuery();
   }
 
-  find(params) {
-    const paginate = (params && typeof params.paginate !== 'undefined') ?
-      params.paginate : this.paginate;
+  find (params) {
+    const paginate = (params && typeof params.paginate !== 'undefined')
+      ? params.paginate : this.paginate;
     const result = this._find(params, !!paginate.default,
       query => filter(query, paginate)
     );
 
-    if(!paginate.default) {
+    if (!paginate.default) {
       return result.then(page => page.data);
     }
 
     return result;
   }
 
-  _get(id) {
+  _get (id) {
     id = this._objectifyId(id);
 
     return this.Model.findOne({ [this.id]: id })
@@ -123,30 +125,29 @@ class Service {
       .catch(errorHandler);
   }
 
-  get(id, params) {
+  get (id, params) {
     return this._get(id, params);
   }
 
-  _findOrGet(id, params) {
-    if(id === null) {
+  _findOrGet (id, params) {
+    if (id === null) {
       return this._find(params).then(page => page.data);
     }
 
     return this._get(id, params);
   }
 
-  create(data) {
+  create (data) {
     const setId = item => {
       const entry = Object.assign({}, item);
 
       // Generate a MongoId if we use a custom id
-      if(this.id !== '_id' && typeof entry[this.id] === 'undefined') {
+      if (this.id !== '_id' && typeof entry[this.id] === 'undefined') {
         entry[this.id] = new ObjectID().toHexString();
       }
 
       return entry;
     };
-
 
     return this.Model
       .insert(Array.isArray(data) ? data.map(setId) : setId(data))
@@ -154,7 +155,7 @@ class Service {
       .catch(errorHandler);
   }
 
-  _normalizeId(id, data) {
+  _normalizeId (id, data) {
     if (this.id === '_id') {
       // Default Mongo IDs cannot be updated. The Mongo library handles
       // this automatically.
@@ -166,7 +167,7 @@ class Service {
     }
   }
 
-  patch(id, data, params) {
+  patch (id, data, params) {
     const { query, options } = this._multiOptions(id, params);
     const patchParams = Object.assign({}, params, {
       query: Object.assign({}, query)
@@ -174,7 +175,7 @@ class Service {
 
     // Account for potentially modified data
     Object.keys(query).forEach(key => {
-      if(query[key] !== undefined && data[key] !== undefined &&
+      if (query[key] !== undefined && data[key] !== undefined &&
           typeof data[key] !== 'object') {
         patchParams.query[key] = data[key];
       } else {
@@ -188,8 +189,8 @@ class Service {
         .then(() => this._findOrGet(id, patchParams));
   }
 
-  update(id, data, params) {
-    if(Array.isArray(data) || id === null) {
+  update (id, data, params) {
+    if (Array.isArray(data) || id === null) {
       return Promise.reject('Not replacing multiple records. Did you mean `patch`?');
     }
 
@@ -201,7 +202,7 @@ class Service {
         .catch(errorHandler);
   }
 
-  remove(id, params) {
+  remove (id, params) {
     let { query, options } = this._multiOptions(id, params);
 
     return this._findOrGet(id, params)
@@ -212,7 +213,7 @@ class Service {
   }
 }
 
-export default function init(options) {
+export default function init (options) {
   return new Service(options);
 }
 
