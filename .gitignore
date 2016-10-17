@@ -50,8 +50,11 @@ Session.vim
 # === Webstorm ===
 .idea
 
-# Users Environment Variables
+# node-waf configuration
 .lock-wscript
 
+# Coverage directory used by tools like istanbul
+coverage
+
+# The compiled/babelified modules
 lib/
-coverage/
