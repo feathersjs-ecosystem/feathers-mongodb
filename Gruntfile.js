@@ -1,14 +1,7 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     release: {},
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      lib: ['lib/**/*.js', 'Gruntfile.js'],
-      test: 'test/**/*.js'
-    },
     simplemocha: {
       all: {
         src: ['test/**/*.js']
@@ -17,18 +10,17 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: '**/*.js',
-        tasks: ['jshint', 'simplemocha'],
+        tasks: ['simplemocha'],
         options: {
         }
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-release');
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('test', ['jshint', 'simplemocha']);
-  grunt.registerTask('default', ['jshint', 'simplemocha', 'watch']);
+  grunt.registerTask('test', ['simplemocha']);
+  grunt.registerTask('default', ['simplemocha', 'watch']);
 };
