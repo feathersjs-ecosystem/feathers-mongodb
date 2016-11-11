@@ -2,19 +2,16 @@ sudo: false
 language: node_js
 services: mongodb
 node_js:
-  - 'node'
+  - node
   - '6'
   - '4'
-  - 'iojs' #end of life Jan. 2017
-  - '0.12' #end of life Jan. 2017
-  - '0.10' #end of life Jan. 2017
 addons:
   code_climate:
-    repo_token: 'db77b58022717b6f1287d1af327a41a58064dfd0b80cf37ecb5e67a866607c83'
+    repo_token: db77b58022717b6f1287d1af327a41a58064dfd0b80cf37ecb5e67a866607c83
 before_script:
-  - npm install -g codeclimate-test-reporter
+  - 'npm install -g codeclimate-test-reporter'
 after_script:
-  - codeclimate-test-reporter < coverage/lcov.info
+  - 'codeclimate-test-reporter < coverage/lcov.info'
 notifications:
   email: false
   slack:
