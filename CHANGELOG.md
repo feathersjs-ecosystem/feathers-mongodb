@@ -1,5 +1,20 @@
 # Change Log
 
+## [v2.6.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.6.0) (2016-11-12)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.5.1...v2.6.0)
+
+**Closed issues:**
+
+- How to unset a property of document [\#72](https://github.com/feathersjs/feathers-mongodb/issues/72)
+
+**Merged pull requests:**
+
+- Update feathers-service-tests to version 0.9.0 🚀 [\#78](https://github.com/feathersjs/feathers-mongodb/pull/78) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- babel-core@6.18.1 breaks build 🚨 [\#76](https://github.com/feathersjs/feathers-mongodb/pull/76) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- babel-preset-es2015@6.18.0 breaks build 🚨 [\#75](https://github.com/feathersjs/feathers-mongodb/pull/75) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- jshint —\> semistandard [\#71](https://github.com/feathersjs/feathers-mongodb/pull/71) ([marshallswain](https://github.com/marshallswain))
+- adding code coverage reporting [\#69](https://github.com/feathersjs/feathers-mongodb/pull/69) ([ekryski](https://github.com/ekryski))
+
 ## [v2.5.1](https://github.com/feathersjs/feathers-mongodb/tree/v2.5.1) (2016-09-21)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.5.0...v2.5.1)
 
