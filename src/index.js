@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import Proto from 'uberproto';
 import filter from 'feathers-query-filters';
 import errors from 'feathers-errors';
+import { select } from 'feathers-commons';
 import errorHandler from './error-handler';
 
 // Create the service.
@@ -35,7 +36,7 @@ class Service {
   }
 
   _multiOptions (id, params) {
-    let query = Object.assign({}, params.query);
+    let query = filter(params.query || {}).query;
     let options = Object.assign({ multi: true }, params.mongodb || params.options);
 
     if (id !== null) {
@@ -79,7 +80,7 @@ class Service {
       q.skip(filters.$skip);
     }
 
-    const runQuery = total => {
+    let runQuery = total => {
       return q.toArray().then(data => {
         return {
           total,
@@ -90,6 +91,17 @@ class Service {
       });
     };
 
+    if (filters.$limit === 0) {
+      runQuery = total => {
+        return Promise.resolve({
+          total,
+          limit: filters.$limit,
+          skip: filters.$skip || 0,
+          data: []
+        });
+      };
+    }
+
     if (count) {
       return this.Model.count(query).then(runQuery);
     }
@@ -98,8 +110,7 @@ class Service {
   }
 
   find (params) {
-    const paginate = (params && typeof params.paginate !== 'undefined')
-      ? params.paginate : this.paginate;
+    const paginate = (params && typeof params.paginate !== 'undefined') ? params.paginate : this.paginate;
     const result = this._find(params, !!paginate.default,
       query => filter(query, paginate)
     );
@@ -111,7 +122,7 @@ class Service {
     return result;
   }
 
-  _get (id) {
+  _get (id, params) {
     id = this._objectifyId(id);
 
     return this.Model.findOne({ [this.id]: id })
@@ -122,6 +133,7 @@ class Service {
 
         return data;
       })
+      .then(select(params, this.id))
       .catch(errorHandler);
   }
 
@@ -137,7 +149,7 @@ class Service {
     return this._get(id, params);
   }
 
-  create (data) {
+  create (data, params) {
     const setId = item => {
       const entry = Object.assign({}, item);
 
@@ -152,6 +164,7 @@ class Service {
     return this.Model
       .insert(Array.isArray(data) ? data.map(setId) : setId(data))
       .then(result => result.ops.length > 1 ? result.ops : result.ops[0])
+      .then(select(params, this.id))
       .catch(errorHandler);
   }
 
@@ -160,33 +173,42 @@ class Service {
       // Default Mongo IDs cannot be updated. The Mongo library handles
       // this automatically.
       return omit(data, this.id);
-    } else {
+    } else if (id !== null) {
       // If not using the default Mongo _id field set the ID to its
       // previous value. This prevents orphaned documents.
       return Object.assign({}, data, { [this.id]: id });
+    } else {
+      return data;
     }
   }
 
   patch (id, data, params) {
     const { query, options } = this._multiOptions(id, params);
-    const patchParams = Object.assign({}, params, {
-      query: Object.assign({}, query)
-    });
+    const mapIds = page => page.data.map(current => current[this.id]);
 
-    // Account for potentially modified data
-    Object.keys(query).forEach(key => {
-      if (query[key] !== undefined && data[key] !== undefined &&
-          typeof data[key] !== 'object') {
-        patchParams.query[key] = data[key];
-      } else {
-        patchParams.query[key] = query[key];
-      }
-    });
+    // By default we will just query for the one id. For multi patch
+    // we create a list of the ids of all items that will be changed
+    // to re-query them after the update
+    const ids = id === null ? this._find(params)
+        .then(mapIds) : Promise.resolve([ id ]);
 
     // Run the query
-    return this.Model
-        .update(query, { $set: this._normalizeId(id, data) }, options)
-        .then(() => this._findOrGet(id, patchParams));
+    return ids
+      .then(idList => {
+        // Create a new query that re-queries all ids that
+        // were originally changed
+        const findParams = Object.assign({}, params, {
+          query: {
+            [this.id]: { $in: idList }
+          }
+        });
+
+        return this.Model
+          .update(query, { $set: this._normalizeId(id, data) }, options)
+          .then(() => this._findOrGet(id, findParams));
+      })
+      .then(select(params, this.id))
+      .catch(errorHandler);
   }
 
   update (id, data, params) {
@@ -199,6 +221,7 @@ class Service {
     return this.Model
         .update(query, this._normalizeId(id, data), options)
         .then(() => this._findOrGet(id))
+        .then(select(params, this.id))
         .catch(errorHandler);
   }
 
@@ -209,6 +232,7 @@ class Service {
       .then(items => this.Model
         .remove(query, options)
         .then(() => items)
+        .then(select(params, this.id))
       ).catch(errorHandler);
   }
 }
