@@ -138,4 +138,91 @@ describe('Feathers MongoDB Service', () => {
       });
     });
   });
+
+  describe('Special collation param', () => {
+    let peopleService;
+
+    function indexOfName (results, name) {
+      let index;
+      results.every(function (person, i) {
+        if (person.name === name) {
+          index = i;
+          return false;
+        }
+        return true;
+      });
+      return index;
+    }
+
+    beforeEach(() => {
+      peopleService = app.service('/people');
+
+      return peopleService.remove(null, {}).then(() => {
+        return peopleService.create([
+          {name: 'AAA'},
+          {name: 'aaa'},
+          {name: 'ccc'}
+        ]);
+      });
+    });
+
+    it('sorts with default behavior without collation param', () => {
+      return peopleService
+        .find({ query: { $sort: {name: -1} } })
+        .then(r => {
+          expect(indexOfName(r, 'aaa')).to.be.below(indexOfName(r, 'AAA'));
+        });
+    });
+
+    it('sorts using collation param if present', () => {
+      return peopleService
+        .find({ query: { $sort: {name: -1} }, collation: {locale: 'en', strength: 1} })
+        .then(r => {
+          expect(indexOfName(r, 'AAA')).to.be.below(indexOfName(r, 'aaa'));
+        });
+    });
+
+    it('removes with default behavior without collation param', () => {
+      return peopleService
+        .remove(null, { query: { name: { $gt: 'AAA' } } })
+        .then(() => {
+          return peopleService.find().then((r) => {
+            expect(r).to.have.lengthOf(1);
+            expect(r[0].name).to.equal('AAA');
+          });
+        });
+    });
+
+    it('removes using collation param if present', () => {
+      return peopleService
+        .remove(null, { query: { name: { $gt: 'AAA' } }, collation: {locale: 'en', strength: 1} })
+        .then(() => {
+          return peopleService.find().then((r) => {
+            expect(r).to.have.lengthOf(3);
+          });
+        });
+    });
+
+    it('updates with default behavior without collation param', () => {
+      const query = { name: { $gt: 'AAA' } };
+
+      return peopleService
+        .patch(null, {age: 99}, { query })
+        .then(r => {
+          expect(r).to.have.lengthOf(2);
+          r.forEach(person => {
+            expect(person.age).to.equal(99);
+          });
+        });
+    });
+
+    it('updates using collation param if present', () => {
+      return peopleService
+        .patch(null, {age: 110}, { query: { name: { $gt: 'AAA' } }, collation: {locale: 'en', strength: 1} })
+        .then(r => {
+          expect(r).to.have.lengthOf(1);
+          expect(r[0].name).to.equal('ccc');
+        });
+    });
+  });
 });
