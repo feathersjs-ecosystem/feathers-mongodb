@@ -8,6 +8,11 @@ node_js:
 addons:
   code_climate:
     repo_token: db77b58022717b6f1287d1af327a41a58064dfd0b80cf37ecb5e67a866607c83
+  apt:
+    sources:
+    - sourceline: 'deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse'
+    packages:
+    - mongodb-org-server
 before_script:
   - 'npm install -g codeclimate-test-reporter'
 after_script:
