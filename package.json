@@ -83,7 +83,7 @@
     "feathers-socketio": "^1.3.3",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.0.0",
-    "mongodb": "^2.1.3",
+    "mongodb": "^2.2.19",
     "rimraf": "^2.5.4",
     "semistandard": "^9.1.0"
   }
