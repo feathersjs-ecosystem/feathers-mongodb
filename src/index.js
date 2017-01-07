@@ -72,6 +72,10 @@ class Service {
       q.sort(filters.$sort);
     }
 
+    if (params.collation) {
+      q.collation(params.collation);
+    }
+
     if (filters.$limit) {
       q.limit(filters.$limit);
     }
@@ -183,7 +187,7 @@ class Service {
   }
 
   patch (id, data, params) {
-    const { query, options } = this._multiOptions(id, params);
+    let { query, options } = this._multiOptions(id, params);
     const mapIds = page => page.data.map(current => current[this.id]);
 
     // By default we will just query for the one id. For multi patch
@@ -191,6 +195,10 @@ class Service {
     // to re-query them after the update
     const ids = id === null ? this._find(params)
         .then(mapIds) : Promise.resolve([ id ]);
+
+    if (params.collation) {
+      query = Object.assign(query, { collation: params.collation });
+    }
 
     // Run the query
     return ids
@@ -227,6 +235,10 @@ class Service {
 
   remove (id, params) {
     let { query, options } = this._multiOptions(id, params);
+
+    if (params.collation) {
+      query = Object.assign(query, { collation: params.collation });
+    }
 
     return this._findOrGet(id, params)
       .then(items => this.Model
