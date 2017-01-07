@@ -1,5 +1,13 @@
 # Change Log
 
+## [v2.7.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.7.0) (2017-01-07)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.6.0...v2.7.0)
+
+**Merged pull requests:**
+
+- mongodb@2.2.19 breaks build 🚨 [\#81](https://github.com/feathersjs/feathers-mongodb/pull/81) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
+- Add support for MongoDB collation. [\#79](https://github.com/feathersjs/feathers-mongodb/pull/79) ([JoshuaToenyes](https://github.com/JoshuaToenyes))
+
 ## [v2.6.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.6.0) (2016-11-12)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.5.1...v2.6.0)
 
