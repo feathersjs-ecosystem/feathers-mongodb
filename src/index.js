@@ -13,10 +13,6 @@ class Service {
       throw new Error('MongoDB options have to be provided');
     }
 
-    if (!options.Model) {
-      throw new Error('MongoDB collection `Model` needs to be provided');
-    }
-
     this.Model = options.Model;
     this.id = options.id || '_id';
     this.events = options.events || [];

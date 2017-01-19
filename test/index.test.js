@@ -47,12 +47,6 @@ describe('Feathers MongoDB Service', () => {
       );
     });
 
-    describe('when missing a Model', () => {
-      it('throws an error', () =>
-        expect(service.bind(null, {})).to.throw('MongoDB collection `Model` needs to be provided')
-      );
-    });
-
     describe('when missing the id option', () => {
       it('sets the default to be _id', () =>
         expect(service({ Model: db }).id).to.equal('_id')
