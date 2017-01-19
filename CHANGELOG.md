@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.8.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.8.0) (2017-01-19)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.7.0...v2.8.0)
+
+**Merged pull requests:**
+
+- Allow setting the model later [\#82](https://github.com/feathersjs/feathers-mongodb/pull/82) ([daffl](https://github.com/daffl))
+
 ## [v2.7.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.7.0) (2017-01-07)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.6.0...v2.7.0)
 
