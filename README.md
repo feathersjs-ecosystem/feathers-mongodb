@@ -1,6 +1,8 @@
 feathers-mongodb
 ================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs/feathers-mongodb.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/feathersjs/feathers-mongodb.png?branch=master)](https://travis-ci.org/feathersjs/feathers-mongodb)
 [![Code Climate](https://codeclimate.com/github/feathersjs/feathers-mongodb/badges/gpa.svg)](https://codeclimate.com/github/feathersjs/feathers-mongodb)
 [![Test Coverage](https://codeclimate.com/github/feathersjs/feathers-mongodb/badges/coverage.svg)](https://codeclimate.com/github/feathersjs/feathers-mongodb/coverage)
