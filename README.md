@@ -60,7 +60,7 @@ const socketio = require('feathers-socketio');
 const handler = require('feathers-errors/handler');
 const bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
-const service = require('feathers-mongodb');
+const service = require('../lib');
 
 // Create a feathers instance.
 const app = feathers()
