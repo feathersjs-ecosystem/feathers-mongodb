@@ -85,6 +85,6 @@
     "mocha": "^3.0.0",
     "mongodb": "^2.2.19",
     "rimraf": "^2.5.4",
-    "semistandard": "^10.0.0"
+    "semistandard": "^11.0.0"
   }
 }
