@@ -160,6 +160,30 @@ describe('Feathers MongoDB Service', () => {
       });
     });
 
+    it('finds by attribute after inserting an element', () => {
+      return peopleService
+        .create({ name: 'eureka' })
+        .then(() => {
+          return peopleService
+            .find({query: {name: 'eureka'}})
+            .then(r => {
+              expect(r[0].name).to.equal('eureka');
+            });
+        });
+    });
+
+    it('finds by _id after inserting an element', () => {
+      return peopleService
+        .create({ name: 'ids are fun' })
+        .then(r => {
+          return peopleService
+            .find({query: {_id: r._id}})
+            .then(r2 => {
+              expect(r2[0].name).to.equal('ids are fun');
+            });
+        });
+    });
+
     it('sorts with default behavior without collation param', () => {
       return peopleService
         .find({ query: { $sort: {name: -1} } })
