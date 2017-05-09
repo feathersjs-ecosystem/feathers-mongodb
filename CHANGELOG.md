@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.9.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.9.0) (2017-05-09)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.8.0...v2.9.0)
+
+**Closed issues:**
+
+- An in-range update of mongodb is breaking the build 🚨 [\#85](https://github.com/feathersjs/feathers-mongodb/issues/85)
+
+**Merged pull requests:**
+
+- Update feathers-service-tests to the latest version 🚀 [\#88](https://github.com/feathersjs/feathers-mongodb/pull/88) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update semistandard to the latest version 🚀 [\#86](https://github.com/feathersjs/feathers-mongodb/pull/86) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update feathers-hooks to the latest version 🚀 [\#84](https://github.com/feathersjs/feathers-mongodb/pull/84) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+
 ## [v2.8.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.8.0) (2017-01-19)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.7.0...v2.8.0)
 
