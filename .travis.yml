@@ -14,7 +14,8 @@ addons:
     - mongodb-org-server
 before_script:
   - 'npm install -g codeclimate-test-reporter'
-  - mkdir db/ && mongod --dbpath db/
+  - mkdir db/
+  - mongod --dbpath db/ &
 after_script:
   - 'codeclimate-test-reporter < coverage/lcov.info'
 notifications:
