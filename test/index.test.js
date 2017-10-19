@@ -160,6 +160,21 @@ describe('Feathers MongoDB Service', () => {
       });
     });
 
+    it('should coerce the id field to an objectId in find', () => {
+      return peopleService
+        .create({ name: 'Coerce' })
+        .then(r => {
+          return peopleService.find({
+            query: {
+              _id: r._id.toString()
+            }
+          });
+        })
+        .then(r => {
+          expect(r).to.have.lengthOf(1);
+        });
+    });
+
     it('sorts with default behavior without collation param', () => {
       return peopleService
         .find({ query: { $sort: {name: -1} } })
