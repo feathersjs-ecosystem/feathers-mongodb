@@ -58,6 +58,12 @@ class Service {
   _find (params, count, getFilter = filter) {
     // Start with finding all, and limit when necessary.
     let { filters, query } = getFilter(params.query || {});
+
+    // Objectify the id field if it's present
+    if (query[this.id]) {
+      query[this.id] = this._objectifyId(query[this.id]);
+    }
+
     let q = this.Model.find(query);
 
     if (filters.$select) {
