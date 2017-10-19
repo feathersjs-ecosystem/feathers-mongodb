@@ -1,5 +1,24 @@
 # Change Log
 
+## [v2.9.1](https://github.com/feathersjs/feathers-mongodb/tree/v2.9.1) (2017-10-19)
+[Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.9.0...v2.9.1)
+
+**Closed issues:**
+
+- An in-range update of feathers-errors is breaking the build 🚨 [\#95](https://github.com/feathersjs/feathers-mongodb/issues/95)
+- An in-range update of feathers is breaking the build 🚨 [\#94](https://github.com/feathersjs/feathers-mongodb/issues/94)
+- Can't set properties on custom adapter extended from feathers-mongodb [\#93](https://github.com/feathersjs/feathers-mongodb/issues/93)
+- \_objectifyId / ObjectID.isValid converts legit string IDs to Mongo ObjectId [\#92](https://github.com/feathersjs/feathers-mongodb/issues/92)
+- the latest npm package is not updated? [\#89](https://github.com/feathersjs/feathers-mongodb/issues/89)
+
+**Merged pull requests:**
+
+- Coerce stringified ObjectIDs in find if present [\#98](https://github.com/feathersjs/feathers-mongodb/pull/98) ([adamvr](https://github.com/adamvr))
+- Update mocha to the latest version 🚀 [\#97](https://github.com/feathersjs/feathers-mongodb/pull/97) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Remove MongoDB service to force apt addon [\#96](https://github.com/feathersjs/feathers-mongodb/pull/96) ([daffl](https://github.com/daffl))
+- Update chai to the latest version 🚀 [\#91](https://github.com/feathersjs/feathers-mongodb/pull/91) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update feathers-socketio to the latest version 🚀 [\#90](https://github.com/feathersjs/feathers-mongodb/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v2.9.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.9.0) (2017-05-09)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.8.0...v2.9.0)
 
@@ -9,10 +28,10 @@
 
 **Merged pull requests:**
 
-- Update feathers-service-tests to the latest version 🚀 [\#88](https://github.com/feathersjs/feathers-mongodb/pull/88) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update semistandard to the latest version 🚀 [\#86](https://github.com/feathersjs/feathers-mongodb/pull/86) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update feathers-hooks to the latest version 🚀 [\#84](https://github.com/feathersjs/feathers-mongodb/pull/84) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
-- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/integration/greenkeeper))
+- Update feathers-service-tests to the latest version 🚀 [\#88](https://github.com/feathersjs/feathers-mongodb/pull/88) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update semistandard to the latest version 🚀 [\#86](https://github.com/feathersjs/feathers-mongodb/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update feathers-hooks to the latest version 🚀 [\#84](https://github.com/feathersjs/feathers-mongodb/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.8.0](https://github.com/feathersjs/feathers-mongodb/tree/v2.8.0) (2017-01-19)
 [Full Changelog](https://github.com/feathersjs/feathers-mongodb/compare/v2.7.0...v2.8.0)
