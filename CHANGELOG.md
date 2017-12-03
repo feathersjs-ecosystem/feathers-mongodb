@@ -1,5 +1,13 @@
 # Change Log
 
+## [v3.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.0) (2017-12-03)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v2.9.1...v3.0.0)
+
+**Merged pull requests:**
+
+- Update to Feathers Buzzard \(v3\) [\#100](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/100) ([daffl](https://github.com/daffl))
+- Update to new plugin infrastructure [\#99](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/99) ([daffl](https://github.com/daffl))
+
 ## [v2.9.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.9.1) (2017-10-19)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v2.9.0...v2.9.1)
 
