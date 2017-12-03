@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/feathersjs-ecosystem/feathers-mongodb.png?branch=master)](https://travis-ci.org/feathersjs-ecosystem/feathers-mongodb)
 [![Dependency Status](https://img.shields.io/david/feathersjs-ecosystem/feathers-mongodb.svg?style=flat-square)](https://david-dm.org/feathersjs-ecosystem/feathers-mongodb)
-[![Download Status](https://img.shields.io/npm/dm/feathers-mongodb.svg?style=flat-square)]
+[![Download Status](https://img.shields.io/npm/dm/feathers-mongodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-mongodb)
 
 A [Feathers](https://feathersjs.com) database adapter for [MongoDB](https://www.mongodb.org/) using [official NodeJS driver for MongoDB](https://www.npmjs.com/package/mongodb).
 
