@@ -3,8 +3,8 @@ const { base } = require('feathers-service-tests');
 
 const { MongoClient, ObjectID } = require('mongodb');
 
-const feathers = require('feathers');
-const errors = require('feathers-errors');
+const feathers = require('@feathersjs/feathers');
+const errors = require('@feathersjs/errors');
 const service = require('../lib');
 
 describe('Feathers MongoDB Service', () => {
