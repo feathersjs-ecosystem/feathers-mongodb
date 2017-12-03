@@ -1,10 +1,11 @@
-import { expect } from 'chai';
-import { base, example } from 'feathers-service-tests';
-import { MongoClient, ObjectID } from 'mongodb';
-import feathers from 'feathers';
-import errors from 'feathers-errors';
-import service from '../src';
-import server from './test-app';
+const { expect } = require('chai');
+const { base } = require('feathers-service-tests');
+
+const { MongoClient, ObjectID } = require('mongodb');
+
+const feathers = require('feathers');
+const errors = require('feathers-errors');
+const service = require('../lib');
 
 describe('Feathers MongoDB Service', () => {
   const app = feathers();
@@ -58,15 +59,6 @@ describe('Feathers MongoDB Service', () => {
         expect(service({ Model: db }).paginate).to.deep.equal({})
       );
     });
-  });
-
-  describe('MongoDB service example test', () => {
-    before(() => server);
-    after(done => {
-      server.then(s => s.close(() => done()));
-    });
-
-    example('_id');
   });
 
   describe('Service utility functions', () => {
