@@ -11,11 +11,13 @@ describe('Feathers MongoDB Service', () => {
   const app = feathers();
 
   let db;
+  let mongoClient;
 
   before(() =>
     MongoClient.connect('mongodb://localhost:27017/feathers-test')
-      .then(function (database) {
-        db = database;
+      .then(function (client) {
+        mongoClient = client;
+        db = client.db('feathers-test');
 
         app.use('/people', service({
           Model: db.collection('people'),
@@ -32,7 +34,7 @@ describe('Feathers MongoDB Service', () => {
       })
   );
 
-  after(() => db.dropDatabase().then(() => db.close()));
+  after(() => db.dropDatabase().then(() => mongoClient.close()));
 
   it('is CommonJS compatible', () =>
     expect(typeof require('../lib')).to.equal('function')
@@ -107,7 +109,8 @@ describe('Feathers MongoDB Service', () => {
     });
 
     describe('getSelect', () => {
-      let mongoFields = { name: 1, age: 1 };
+      let fields = { name: 1, age: 1 };
+      let mongoFields = { projection: fields };
 
       it('returns Mongo fields object when an array is passed', () => {
         let fields = ['name', 'age'];
@@ -117,7 +120,6 @@ describe('Feathers MongoDB Service', () => {
       });
 
       it('returns original object', () => {
-        let fields = mongoFields;
         let result = service({ Model: db })._getSelect(fields);
         expect(result).to.be.an('object');
         expect(result).to.deep.equal(mongoFields);
