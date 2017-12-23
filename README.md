@@ -27,9 +27,9 @@ Returns a new service instance initialized with the given options. `Model` has t
 const MongoClient = require('mongodb').MongoClient;
 const service = require('feathers-mongodb');
 
-MongoClient.connect('mongodb://localhost:27017/feathers').then(db => {
+MongoClient.connect('mongodb://localhost:27017/feathers').then(client => {
   app.use('/messages', service({
-    Model: db.collection('messages')
+    Model: client.db('feathers').collection('messages')
   }));
   app.use('/messages', service({ Model, id, events, paginate }));
 });
@@ -89,9 +89,9 @@ app.use(express.errorHandler());
 
 // Connect to your MongoDB instance(s)
 MongoClient.connect('mongodb://localhost:27017/feathers')
-  .then(function(db){
+  .then(function(client){
     // Set the model now that we are connected
-    app.service('messages').Model = db.collection('messages');
+    app.service('messages').Model = client.db('feathers').collection('messages');
 
     // Now that we are connected, create a dummy Message
     app.service('messages').create({
