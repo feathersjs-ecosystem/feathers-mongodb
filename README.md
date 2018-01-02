@@ -114,7 +114,7 @@ Run the example with `node app` and go to [localhost:3030/messages](http://local
 
 Additionally to the [common querying mechanism](https://docs.feathersjs.com/api/databases/querying.html) this adapter also supports [MongoDB's query syntax](https://docs.mongodb.com/v3.2/tutorial/query-documents/) and the `update` method also supports MongoDB [update operators](https://docs.mongodb.com/v3.2/reference/operator/update/).
 
-**Important:** External query values (especially through URLs) may have to be converted to the same type stored in MongoDB in a before [hook](https://docs.feathersjs.com/api/hooks.html) otherwise no matches will be found.
+> **Important:** External query values through HTTP URLs may have to be converted to the same type stored in MongoDB in a before [hook](https://docs.feathersjs.com/api/hooks.html) otherwise no matches will be found. This includes querying for `_id` which is a MongoID, e.g. with `$in`. See [feathersjs/feathers/issues/757](https://github.com/feathersjs/feathers/issues/757). Websocket requests will maintain the correct format.
 
 For example, a `find` call for `_id` (which is a MongoDB object id) and `age` (which is a number) a hook like this can be used:
 
