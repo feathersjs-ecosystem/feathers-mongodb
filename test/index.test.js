@@ -109,20 +109,19 @@ describe('Feathers MongoDB Service', () => {
     });
 
     describe('getSelect', () => {
-      let fields = { name: 1, age: 1 };
-      let mongoFields = { projection: fields };
+      const projectFields = { name: 1, age: 1 };
+      const selectFields = ['name', 'age'];
 
-      it('returns Mongo fields object when an array is passed', () => {
-        let fields = ['name', 'age'];
-        let result = service({ Model: db })._getSelect(fields);
+      it('returns Mongo project object when an array is passed', () => {
+        const result = service({ Model: db })._getSelect(selectFields);
         expect(result).to.be.an('object');
-        expect(result).to.deep.equal(mongoFields);
+        expect(result).to.deep.equal(projectFields);
       });
 
       it('returns original object', () => {
-        let result = service({ Model: db })._getSelect(fields);
+        const result = service({ Model: db })._getSelect(projectFields);
         expect(result).to.be.an('object');
-        expect(result).to.deep.equal(mongoFields);
+        expect(result).to.deep.equal(projectFields);
       });
     });
   });
@@ -227,5 +226,6 @@ describe('Feathers MongoDB Service', () => {
           expect(r[0].name).to.equal('ccc');
         });
     });
+
   });
 });
