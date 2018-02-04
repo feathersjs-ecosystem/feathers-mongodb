@@ -1,5 +1,23 @@
 # Change Log
 
+## [v3.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.1) (2018-02-04)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.0.0...v3.0.1)
+
+**Closed issues:**
+
+- $select query field doesn't work in find\(\) method [\#110](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/110)
+- How save date type string as  ISODate type field? [\#108](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/108)
+- Query $in doesn't works with \_id [\#106](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/106)
+- Gettting Page not found, Initial connect to db do not work? [\#105](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/105)
+- npm install download incompatible MongoClient version [\#102](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/102)
+
+**Merged pull requests:**
+
+- Update $select query [\#111](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/111) ([jansel369](https://github.com/jansel369))
+- Update mocha to the latest version 🚀 [\#109](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update semistandard to the latest version 🚀 [\#107](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/107) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Upgrade to mongo driver 3.0.0-rc0 [\#103](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/103) ([davidnussio](https://github.com/davidnussio))
+
 ## [v3.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.0) (2017-12-03)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v2.9.1...v3.0.0)
 
