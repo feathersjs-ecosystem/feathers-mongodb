@@ -232,6 +232,11 @@ describe('Feathers MongoDB Service', () => {
         .patch(null, { $push: { friends: 'Adam' } }, { query: { name: { $gt: 'AAA' } } })
         .then(r => {
           expect(r[0].friends).to.have.lengthOf(1);
+          return peopleService
+            .patch(null, { $push: { friends: 'Bell' } }, { query: { name: { $gt: 'AAA' } } })
+            .then(r => {
+              expect(r[0].friends).to.have.lengthOf(2);
+            });
         });
     });
   });
