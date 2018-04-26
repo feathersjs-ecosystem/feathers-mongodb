@@ -226,6 +226,13 @@ describe('Feathers MongoDB Service', () => {
           expect(r[0].name).to.equal('ccc');
         });
     });
-
+    
+    it('pushes to an array using patch', () => {
+      return peopleService
+        .patch(null, { $push: {friends: 'Adam'} }, { query: { name: { $gt: 'AAA' } })
+        .then(r => {
+          expect(r[0].friends).to.have.lengthOf(1);
+        });
+    });
   });
 });
