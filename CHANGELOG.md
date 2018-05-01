@@ -1,5 +1,17 @@
 # Change Log
 
+## [v3.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.1.0) (2018-05-01)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.0.1...v3.1.0)
+
+**Closed issues:**
+
+- Perfom an aggregation pipline [\#114](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/114)
+- field constraint [\#113](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/113)
+
+**Merged pull requests:**
+
+- Allow $modifiers to be used in patch [\#115](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/115) ([VincentExpoTech](https://github.com/VincentExpoTech))
+
 ## [v3.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.1) (2018-02-04)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.0.0...v3.0.1)
 
