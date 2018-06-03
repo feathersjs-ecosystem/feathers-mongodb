@@ -1,5 +1,17 @@
 # Change Log
 
+## [v3.2.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.2.0) (2018-06-03)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.1.0...v3.2.0)
+
+**Closed issues:**
+
+- export data to csv file [\#117](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/117)
+- $addToSet not working [\#116](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/116)
+
+**Merged pull requests:**
+
+- Update uberproto to the latest version 🚀 [\#118](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/118) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v3.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.1.0) (2018-05-01)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.0.1...v3.1.0)
 
