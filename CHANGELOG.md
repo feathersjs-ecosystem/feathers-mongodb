@@ -1,5 +1,13 @@
 # Change Log
 
+## [v3.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.3.0) (2018-08-05)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.2.0...v3.3.0)
+
+**Merged pull requests:**
+
+- Update all dependencies [\#121](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/121) ([daffl](https://github.com/daffl))
+- using countDocuments\(\) instead of count\(\) [\#119](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/119) ([v1p](https://github.com/v1p))
+
 ## [v3.2.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.2.0) (2018-06-03)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.1.0...v3.2.0)
 
