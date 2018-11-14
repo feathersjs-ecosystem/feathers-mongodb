@@ -21,11 +21,11 @@ describe('Feathers MongoDB Service', () => {
 
         app.use('/people', service({
           Model: db.collection('people'),
-          events: [ 'testing' ]
+          events: ['testing']
         })).use('/people-customid', service({
           Model: db.collection('people-customid'),
           id: 'customid',
-          events: [ 'testing' ]
+          events: ['testing']
         }));
 
         db.collection('people-customid').removeMany();
@@ -129,7 +129,7 @@ describe('Feathers MongoDB Service', () => {
   describe('Special collation param', () => {
     let peopleService;
 
-    function indexOfName (results, name) {
+    function indexOfName(results, name) {
       let index;
       results.every(function (person, i) {
         if (person.name === name) {
@@ -237,6 +237,47 @@ describe('Feathers MongoDB Service', () => {
             .then(r => {
               expect(r[0].friends).to.have.lengthOf(2);
             });
+        });
+    });
+  });
+
+  describe('after fixing deprecation warning tests', () => {
+    let peopleService;
+
+    beforeEach(() => {
+      peopleService = app.service('/people');
+
+      return peopleService.remove(null, {}).then(() => {
+        return peopleService.create([
+          { name: 'AAA', team: 'blue' },
+          { name: 'aaa', team: 'blue' },
+          { name: 'ccc', team: 'blue' }
+        ]);
+      });
+    });
+
+    it('try patch on multiple resources', () => {
+      return peopleService
+        .patch(null, 
+          { team: 'red' }, { query: { team: 'blue' } })
+        .then(r => {
+          console.log(r)
+          expect(r).to.have.lengthOf(3);
+          expect(r[0].name).to.equal("AAA");
+          expect(r[1].name).to.equal("aaa");
+          expect(r[2].name).to.equal("ccc");
+        });
+    });
+
+    it('try patch multiple resources using $ne', () => {
+      return peopleService
+        .patch(null, 
+          { team: 'red' }, { query: { name: { $ne: 'aaa' }}})
+        .then(r => {
+          console.log(r)
+          expect(r).to.have.lengthOf(2);
+          expect(r[0].name).to.equal("AAA");
+          expect(r[1].name).to.equal("ccc");
         });
     });
   });
