@@ -129,7 +129,7 @@ describe('Feathers MongoDB Service', () => {
   describe('Special collation param', () => {
     let peopleService;
 
-    function indexOfName(results, name) {
+    function indexOfName (results, name) {
       let index;
       results.every(function (person, i) {
         if (person.name === name) {
@@ -258,26 +258,26 @@ describe('Feathers MongoDB Service', () => {
 
     it('try patch on multiple resources', () => {
       return peopleService
-        .patch(null, 
+        .patch(null,
           { team: 'red' }, { query: { team: 'blue' } })
         .then(r => {
-          console.log(r)
+          console.log(r);
           expect(r).to.have.lengthOf(3);
-          expect(r[0].name).to.equal("AAA");
-          expect(r[1].name).to.equal("aaa");
-          expect(r[2].name).to.equal("ccc");
+          expect(r[0].name).to.equal('AAA');
+          expect(r[1].name).to.equal('aaa');
+          expect(r[2].name).to.equal('ccc');
         });
     });
 
     it('try patch multiple resources using $ne', () => {
       return peopleService
-        .patch(null, 
-          { team: 'red' }, { query: { name: { $ne: 'aaa' }}})
+        .patch(null,
+          { team: 'red' }, { query: { name: { $ne: 'aaa' } } })
         .then(r => {
-          console.log(r)
+          console.log(r);
           expect(r).to.have.lengthOf(2);
-          expect(r[0].name).to.equal("AAA");
-          expect(r[1].name).to.equal("ccc");
+          expect(r[0].name).to.equal('AAA');
+          expect(r[1].name).to.equal('ccc');
         });
     });
   });
