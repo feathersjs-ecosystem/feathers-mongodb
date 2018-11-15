@@ -1,5 +1,17 @@
 # Change Log
 
+## [v3.4.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.4.0) (2018-11-15)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.3.0...v3.4.0)
+
+**Implemented enhancements:**
+
+- \[enhancement\] use `findOneAndUpdate`, `findOneAndDelete` to speed up `patch`, `update` and `remove` [\#104](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/104)
+
+**Merged pull requests:**
+
+- Fix Deprecation warning issue \#122 with create, update, patch [\#126](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/126) ([Gerigot](https://github.com/Gerigot))
+- Update semistandard to the latest version 🚀 [\#125](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v3.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.3.0) (2018-08-05)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.2.0...v3.3.0)
 
