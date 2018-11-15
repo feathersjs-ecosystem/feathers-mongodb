@@ -21,11 +21,11 @@ describe('Feathers MongoDB Service', () => {
 
         app.use('/people', service({
           Model: db.collection('people'),
-          events: [ 'testing' ]
+          events: ['testing']
         })).use('/people-customid', service({
           Model: db.collection('people-customid'),
           id: 'customid',
-          events: [ 'testing' ]
+          events: ['testing']
         }));
 
         db.collection('people-customid').removeMany();
@@ -146,9 +146,9 @@ describe('Feathers MongoDB Service', () => {
 
       return peopleService.remove(null, {}).then(() => {
         return peopleService.create([
-          {name: 'AAA'},
-          {name: 'aaa'},
-          {name: 'ccc'}
+          { name: 'AAA' },
+          { name: 'aaa' },
+          { name: 'ccc' }
         ]);
       });
     });
@@ -170,7 +170,7 @@ describe('Feathers MongoDB Service', () => {
 
     it('sorts with default behavior without collation param', () => {
       return peopleService
-        .find({ query: { $sort: {name: -1} } })
+        .find({ query: { $sort: { name: -1 } } })
         .then(r => {
           expect(indexOfName(r, 'aaa')).to.be.below(indexOfName(r, 'AAA'));
         });
@@ -178,7 +178,7 @@ describe('Feathers MongoDB Service', () => {
 
     it('sorts using collation param if present', () => {
       return peopleService
-        .find({ query: { $sort: {name: -1} }, collation: {locale: 'en', strength: 1} })
+        .find({ query: { $sort: { name: -1 } }, collation: { locale: 'en', strength: 1 } })
         .then(r => {
           expect(indexOfName(r, 'AAA')).to.be.below(indexOfName(r, 'aaa'));
         });
@@ -197,7 +197,7 @@ describe('Feathers MongoDB Service', () => {
 
     it('removes using collation param if present', () => {
       return peopleService
-        .remove(null, { query: { name: { $gt: 'AAA' } }, collation: {locale: 'en', strength: 1} })
+        .remove(null, { query: { name: { $gt: 'AAA' } }, collation: { locale: 'en', strength: 1 } })
         .then(() => {
           return peopleService.find().then((r) => {
             expect(r).to.have.lengthOf(3);
@@ -209,7 +209,7 @@ describe('Feathers MongoDB Service', () => {
       const query = { name: { $gt: 'AAA' } };
 
       return peopleService
-        .patch(null, {age: 99}, { query })
+        .patch(null, { age: 99 }, { query })
         .then(r => {
           expect(r).to.have.lengthOf(2);
           r.forEach(person => {
@@ -220,7 +220,7 @@ describe('Feathers MongoDB Service', () => {
 
     it('updates using collation param if present', () => {
       return peopleService
-        .patch(null, {age: 110}, { query: { name: { $gt: 'AAA' } }, collation: {locale: 'en', strength: 1} })
+        .patch(null, { age: 110 }, { query: { name: { $gt: 'AAA' } }, collation: { locale: 'en', strength: 1 } })
         .then(r => {
           expect(r).to.have.lengthOf(1);
           expect(r[0].name).to.equal('ccc');
@@ -237,6 +237,47 @@ describe('Feathers MongoDB Service', () => {
             .then(r => {
               expect(r[0].friends).to.have.lengthOf(2);
             });
+        });
+    });
+  });
+
+  describe('after fixing deprecation warning tests', () => {
+    let peopleService;
+
+    beforeEach(() => {
+      peopleService = app.service('/people');
+
+      return peopleService.remove(null, {}).then(() => {
+        return peopleService.create([
+          { name: 'AAA', team: 'blue' },
+          { name: 'aaa', team: 'blue' },
+          { name: 'ccc', team: 'blue' }
+        ]);
+      });
+    });
+
+    it('try patch on multiple resources', () => {
+      return peopleService
+        .patch(null,
+          { team: 'red' }, { query: { team: 'blue' } })
+        .then(r => {
+          console.log(r);
+          expect(r).to.have.lengthOf(3);
+          expect(r[0].name).to.equal('AAA');
+          expect(r[1].name).to.equal('aaa');
+          expect(r[2].name).to.equal('ccc');
+        });
+    });
+
+    it('try patch multiple resources using $ne', () => {
+      return peopleService
+        .patch(null,
+          { team: 'red' }, { query: { name: { $ne: 'aaa' } } })
+        .then(r => {
+          console.log(r);
+          expect(r).to.have.lengthOf(2);
+          expect(r[0].name).to.equal('AAA');
+          expect(r[1].name).to.equal('ccc');
         });
     });
   });
