@@ -1,11 +1,71 @@
 const { expect } = require('chai');
-const { base } = require('feathers-service-tests');
-
 const { MongoClient, ObjectID } = require('mongodb');
+const adapterTests = require('@feathersjs/adapter-commons/tests');
 
 const feathers = require('@feathersjs/feathers');
 const errors = require('@feathersjs/errors');
+
 const service = require('../lib');
+const testSuite = adapterTests([
+  '.options',
+  '.events',
+  '._get',
+  '._find',
+  '._create',
+  '._update',
+  '._patch',
+  '._remove',
+  '.get',
+  '.get + $select',
+  '.get + id + query',
+  '.get + NotFound',
+  '.find',
+  '.remove',
+  '.remove + $select',
+  '.remove + id + query',
+  '.remove + multi',
+  '.update',
+  '.update + $select',
+  '.update + id + query',
+  '.update + NotFound',
+  '.patch',
+  '.patch + $select',
+  '.patch + id + query',
+  '.patch multiple',
+  '.patch multi query',
+  '.patch + NotFound',
+  '.create',
+  '.create + $select',
+  '.create multi',
+  'internal .find',
+  'internal .get',
+  'internal .create',
+  'internal .update',
+  'internal .patch',
+  'internal .remove',
+  '.find + equal',
+  '.find + equal multiple',
+  '.find + $sort',
+  '.find + $sort + string',
+  '.find + $limit',
+  '.find + $limit 0',
+  '.find + $skip',
+  '.find + $select',
+  '.find + $or',
+  '.find + $in',
+  '.find + $nin',
+  '.find + $lt',
+  '.find + $lte',
+  '.find + $gt',
+  '.find + $gte',
+  '.find + $ne',
+  '.find + $gt + $lt + $sort',
+  '.find + $or nested + $sort',
+  '.find + paginate',
+  '.find + paginate + $limit + $skip',
+  '.find + paginate + $limit 0',
+  '.find + paginate + params'
+]);
 
 describe('Feathers MongoDB Service', () => {
   const app = feathers();
@@ -14,29 +74,30 @@ describe('Feathers MongoDB Service', () => {
   let mongoClient;
 
   before(() =>
-    MongoClient.connect('mongodb://localhost:27017/feathers-test')
-      .then(function (client) {
-        mongoClient = client;
-        db = client.db('feathers-test');
+    MongoClient.connect('mongodb://localhost:27017/feathers-test', {
+      useNewUrlParser: true
+    }).then(function (client) {
+      mongoClient = client;
+      db = client.db('feathers-test');
 
-        app.use('/people', service({
-          Model: db.collection('people'),
-          events: ['testing']
-        })).use('/people-customid', service({
-          Model: db.collection('people-customid'),
-          id: 'customid',
-          events: ['testing']
-        }));
+      app.use('/people', service({
+        Model: db.collection('people'),
+        events: ['testing']
+      })).use('/people-customid', service({
+        Model: db.collection('people-customid'),
+        id: 'customid',
+        events: ['testing']
+      }));
 
-        db.collection('people-customid').removeMany();
-        db.collection('people').removeMany();
-        db.collection('todos').removeMany();
+      db.collection('people-customid').removeMany();
+      db.collection('people').removeMany();
+      db.collection('todos').removeMany();
 
-        db.collection('people').createIndex(
-          { name: 1 },
-          { partialFilterExpression: { team: 'blue' } }
-        );
-      })
+      db.collection('people').createIndex(
+        { name: 1 },
+        { partialFilterExpression: { team: 'blue' } }
+      );
+    })
   );
 
   after(() => db.dropDatabase().then(() => mongoClient.close()));
@@ -44,9 +105,6 @@ describe('Feathers MongoDB Service', () => {
   it('is CommonJS compatible', () =>
     expect(typeof require('../lib')).to.equal('function')
   );
-
-  base(app, errors, 'people', '_id');
-  base(app, errors, 'people-customid', 'customid');
 
   describe('Initialization', () => {
     describe('when missing options', () => {
@@ -58,12 +116,6 @@ describe('Feathers MongoDB Service', () => {
     describe('when missing the id option', () => {
       it('sets the default to be _id', () =>
         expect(service({ Model: db }).id).to.equal('_id')
-      );
-    });
-
-    describe('when missing the paginate option', () => {
-      it('sets the default to be {}', () =>
-        expect(service({ Model: db }).paginate).to.deep.equal({})
       );
     });
   });
@@ -132,7 +184,7 @@ describe('Feathers MongoDB Service', () => {
   });
 
   describe('Special collation param', () => {
-    let peopleService;
+    let peopleService, people;
 
     function indexOfName (results, name) {
       let index;
@@ -146,154 +198,119 @@ describe('Feathers MongoDB Service', () => {
       return index;
     }
 
-    beforeEach(() => {
+    beforeEach(async () => {
       peopleService = app.service('/people');
+      peopleService.options.multi = true;
+      people = await Promise.all([
+        peopleService.create({ name: 'AAA' }),
+        peopleService.create({ name: 'aaa' }),
+        peopleService.create({ name: 'ccc' })
+      ]);
+    });
 
-      return peopleService.remove(null, {}).then(() => {
-        return peopleService.create([
-          { name: 'AAA' },
-          { name: 'aaa' },
-          { name: 'ccc' }
-        ]);
+    afterEach(async () => {
+      peopleService.options.multi = false;
+      await Promise.all([
+        peopleService.remove(people[0]._id),
+        peopleService.remove(people[1]._id),
+        peopleService.remove(people[2]._id)
+      ]).catch(() => {});
+    });
+
+    it('should coerce the id field to an objectId in find', async () => {
+      const person = await peopleService.create({ name: 'Coerce' });
+      const results = await peopleService.find({
+        query: {
+          _id: person._id.toString()
+        }
       });
+
+      expect(results).to.have.lengthOf(1);
+
+      await peopleService.remove(person._id);
     });
 
-    it('should coerce the id field to an objectId in find', () => {
-      return peopleService
-        .create({ name: 'Coerce' })
-        .then(r => {
-          return peopleService.find({
-            query: {
-              _id: r._id.toString()
-            }
-          });
-        })
-        .then(r => {
-          expect(r).to.have.lengthOf(1);
-        });
+    it('sorts with default behavior without collation param', async () => {
+      const results = await peopleService.find({ query: { $sort: { name: -1 } } });
+
+      expect(indexOfName(results, 'aaa')).to.be.below(indexOfName(results, 'AAA'));
     });
 
-    it('sorts with default behavior without collation param', () => {
-      return peopleService
-        .find({ query: { $sort: { name: -1 } } })
-        .then(r => {
-          expect(indexOfName(r, 'aaa')).to.be.below(indexOfName(r, 'AAA'));
-        });
+    it('sorts using collation param if present', async () => {
+      const results = await peopleService.find({
+        query: { $sort: { name: -1 } },
+        collation: { locale: 'en', strength: 1 }
+      });
+
+      expect(indexOfName(results, 'AAA')).to.be.below(indexOfName(results, 'aaa'));
     });
 
-    it('sorts using collation param if present', () => {
-      return peopleService
-        .find({ query: { $sort: { name: -1 } }, collation: { locale: 'en', strength: 1 } })
-        .then(r => {
-          expect(indexOfName(r, 'AAA')).to.be.below(indexOfName(r, 'aaa'));
-        });
+    it('removes with default behavior without collation param', async () => {
+      await peopleService.remove(null, { query: { name: { $gt: 'AAA' } } });
+
+      const results = await peopleService.find();
+
+      expect(results).to.have.lengthOf(1);
+      expect(results[0].name).to.equal('AAA');
     });
 
-    it('removes with default behavior without collation param', () => {
-      return peopleService
-        .remove(null, { query: { name: { $gt: 'AAA' } } })
-        .then(() => {
-          return peopleService.find().then((r) => {
-            expect(r).to.have.lengthOf(1);
-            expect(r[0].name).to.equal('AAA');
-          });
-        });
+    it('removes using collation param if present', async () => {
+      await peopleService.remove(null, {
+        query: { name: { $gt: 'AAA' } },
+        collation: { locale: 'en', strength: 1 }
+      });
+
+      const results = await peopleService.find();
+
+      expect(results).to.have.lengthOf(3);
     });
 
-    it('removes using collation param if present', () => {
-      return peopleService
-        .remove(null, { query: { name: { $gt: 'AAA' } }, collation: { locale: 'en', strength: 1 } })
-        .then(() => {
-          return peopleService.find().then((r) => {
-            expect(r).to.have.lengthOf(3);
-          });
-        });
-    });
-
-    it('updates with default behavior without collation param', () => {
+    it('updates with default behavior without collation param', async () => {
       const query = { name: { $gt: 'AAA' } };
 
-      return peopleService
-        .patch(null, { age: 99 }, { query })
-        .then(r => {
-          expect(r).to.have.lengthOf(2);
-          r.forEach(person => {
-            expect(person.age).to.equal(99);
-          });
-        });
-    });
+      const result = await peopleService.patch(null, { age: 99 }, { query });
 
-    it('updates using collation param if present', () => {
-      return peopleService
-        .patch(null, { age: 110 }, { query: { name: { $gt: 'AAA' } }, collation: { locale: 'en', strength: 1 } })
-        .then(r => {
-          expect(r).to.have.lengthOf(1);
-          expect(r[0].name).to.equal('ccc');
-        });
-    });
-
-    it('pushes to an array using patch', () => {
-      return peopleService
-        .patch(null, { $push: { friends: 'Adam' } }, { query: { name: { $gt: 'AAA' } } })
-        .then(r => {
-          expect(r[0].friends).to.have.lengthOf(1);
-          return peopleService
-            .patch(null, { $push: { friends: 'Bell' } }, { query: { name: { $gt: 'AAA' } } })
-            .then(r => {
-              expect(r[0].friends).to.have.lengthOf(2);
-            });
-        });
-    });
-
-    it('overrides default index selection using hint param if present', () => {
-      return peopleService
-        .create({ name: 'Indexed', team: 'blue' })
-        .then(r => {
-          return peopleService
-            .find({ query: { }, hint: { name: 1 } })
-            .then(r => {
-              expect(r).to.have.lengthOf(1);
-            });
-        });
-    });
-  });
-
-  describe('after fixing deprecation warning tests', () => {
-    let peopleService;
-
-    beforeEach(() => {
-      peopleService = app.service('/people');
-
-      return peopleService.remove(null, {}).then(() => {
-        return peopleService.create([
-          { name: 'AAA', team: 'blue' },
-          { name: 'aaa', team: 'blue' },
-          { name: 'ccc', team: 'blue' }
-        ]);
+      expect(result).to.have.lengthOf(2);
+      result.forEach(person => {
+        expect(person.age).to.equal(99);
       });
     });
 
-    it('try patch on multiple resources', () => {
-      return peopleService
-        .patch(null,
-          { team: 'red' }, { query: { team: 'blue' } })
-        .then(r => {
-          expect(r).to.have.lengthOf(3);
-          expect(r[0].name).to.equal('AAA');
-          expect(r[1].name).to.equal('aaa');
-          expect(r[2].name).to.equal('ccc');
-        });
+    it('updates using collation param if present', async () => {
+      const result = await peopleService.patch(null, { age: 110 }, {
+        query: { name: { $gt: 'AAA' } },
+        collation: { locale: 'en', strength: 1 }
+      });
+
+      expect(result).to.have.lengthOf(1);
+      expect(result[0].name).to.equal('ccc');
     });
 
-    it('try patch multiple resources using $ne', () => {
-      return peopleService
-        .patch(null,
-          { team: 'red' }, { query: { name: { $ne: 'aaa' } } })
-        .then(r => {
-          expect(r).to.have.lengthOf(2);
-          expect(r[0].name).to.equal('AAA');
-          expect(r[1].name).to.equal('ccc');
-        });
+    it('pushes to an array using patch', async () => {
+      const result = await peopleService.patch(null, { $push: { friends: 'Adam' } }, {
+        query: { name: { $gt: 'AAA' } }
+      });
+
+      expect(result[0].friends).to.have.lengthOf(1);
+
+      const patched = await peopleService.patch(null, {
+        $push: { friends: 'Bell' }
+      }, { query: { name: { $gt: 'AAA' } } });
+
+      expect(patched[0].friends).to.have.lengthOf(2);
+    });
+
+    it('overrides default index selection using hint param if present', async () => {
+      const indexed = await peopleService.create({ name: 'Indexed', team: 'blue' });
+
+      const result = await peopleService.find({ query: { }, hint: { name: 1 } });
+
+      expect(result).to.have.lengthOf(1);
+
+      await peopleService.remove(indexed._id);
     });
   });
+
+  testSuite(app, errors, 'people', '_id');
+  testSuite(app, errors, 'people-customid', 'customid');
 });
