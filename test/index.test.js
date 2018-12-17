@@ -261,7 +261,6 @@ describe('Feathers MongoDB Service', () => {
         .patch(null,
           { team: 'red' }, { query: { team: 'blue' } })
         .then(r => {
-          console.log(r);
           expect(r).to.have.lengthOf(3);
           expect(r[0].name).to.equal('AAA');
           expect(r[1].name).to.equal('aaa');
@@ -274,7 +273,6 @@ describe('Feathers MongoDB Service', () => {
         .patch(null,
           { team: 'red' }, { query: { name: { $ne: 'aaa' } } })
         .then(r => {
-          console.log(r);
           expect(r).to.have.lengthOf(2);
           expect(r[0].name).to.equal('AAA');
           expect(r[1].name).to.equal('ccc');
