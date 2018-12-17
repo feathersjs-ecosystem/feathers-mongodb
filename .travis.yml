@@ -4,12 +4,6 @@ install: npm install
 node_js:
   - node
   - '6'
-addons:
-  apt:
-    sources:
-    - sourceline: 'deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.4 multiverse'
-    packages:
-    - mongodb-org-server
 before_script:
-  - mkdir db/
-  - mongod --dbpath db/ &
+  - npm run mongodb &
+  - sleep 30
