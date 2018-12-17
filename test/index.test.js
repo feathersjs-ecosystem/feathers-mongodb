@@ -31,6 +31,11 @@ describe('Feathers MongoDB Service', () => {
         db.collection('people-customid').removeMany();
         db.collection('people').removeMany();
         db.collection('todos').removeMany();
+
+        db.collection('people').createIndex(
+          { name: 1 },
+          { partialFilterExpression: { team: 'blue' } }
+        );
       })
   );
 
@@ -236,6 +241,18 @@ describe('Feathers MongoDB Service', () => {
             .patch(null, { $push: { friends: 'Bell' } }, { query: { name: { $gt: 'AAA' } } })
             .then(r => {
               expect(r[0].friends).to.have.lengthOf(2);
+            });
+        });
+    });
+
+    it('overrides default index selection using hint param if present', () => {
+      return peopleService
+        .create({ name: 'Indexed', team: 'blue' })
+        .then(r => {
+          return peopleService
+            .find({ query: { }, hint: { name: 1 } })
+            .then(r => {
+              expect(r).to.have.lengthOf(1);
             });
         });
     });
