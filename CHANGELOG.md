@@ -1,5 +1,26 @@
 # Change Log
 
+## [v4.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.0) (2018-12-17)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.4.0...v4.0.0)
+
+**Implemented enhancements:**
+
+- \[Feature request\] increase performances using bulk write [\#123](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/123)
+
+**Fixed bugs:**
+
+- Update method shows deprecation warning [\#122](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/122)
+
+**Closed issues:**
+
+- Still seeing the deprecation messages even after updating to 3.4.0 [\#128](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/128)
+
+**Merged pull requests:**
+
+- Upgrade to @feathersjs/adapter-commons and latest common service features [\#131](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/131) ([daffl](https://github.com/daffl))
+- Use run-rs to install local MongoDB [\#130](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/130) ([daffl](https://github.com/daffl))
+- Add hint support [\#129](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/129) ([EliSadaka](https://github.com/EliSadaka))
+
 ## [v3.4.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.4.0) (2018-11-15)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.3.0...v3.4.0)
 
