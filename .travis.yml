@@ -7,6 +7,3 @@ node_js:
 before_script:
   - npm run mongodb &
   - sleep 30
-before_script:
-  - mkdir db/
-  - mongod --dbpath db/ &
