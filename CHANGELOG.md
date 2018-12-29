@@ -1,5 +1,16 @@
 # Change Log
 
+## [v4.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.1) (2018-12-29)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.0...v4.0.1)
+
+**Closed issues:**
+
+- An in-range update of @feathersjs/adapter-commons is breaking the build 🚨 [\#132](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/132)
+
+**Merged pull requests:**
+
+- Add default params to hook-less service methods [\#133](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/133) ([daffl](https://github.com/daffl))
+
 ## [v4.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.0) (2018-12-17)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v3.4.0...v4.0.0)
 
