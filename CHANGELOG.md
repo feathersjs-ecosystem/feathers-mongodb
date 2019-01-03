@@ -1,5 +1,17 @@
 # Change Log
 
+## [v4.0.2](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.2) (2019-01-03)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.1...v4.0.2)
+
+**Closed issues:**
+
+- An in-range update of @feathersjs/adapter-commons is breaking the build 🚨 [\#135](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/135)
+- An in-range update of @feathersjs/errors is breaking the build 🚨 [\#134](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/134)
+
+**Merged pull requests:**
+
+- Add a Model setter [\#136](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/136) ([daffl](https://github.com/daffl))
+
 ## [v4.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.1) (2018-12-29)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.0...v4.0.1)
 
