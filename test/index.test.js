@@ -236,7 +236,7 @@ describe('Feathers MongoDB Service', () => {
       expect(indexOfName(results, 'aaa')).to.be.below(indexOfName(results, 'AAA'));
     });
 
-    it('sorts using collation param if present', async () => {
+    it.skip('sorts using collation param if present', async () => {
       const results = await peopleService.find({
         query: { $sort: { name: -1 } },
         collation: { locale: 'en', strength: 1 }
