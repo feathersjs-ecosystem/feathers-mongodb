@@ -81,13 +81,14 @@ describe('Feathers MongoDB Service', () => {
       db = client.db('feathers-test');
 
       app.use('/people', service({
-        Model: db.collection('people'),
         events: ['testing']
       })).use('/people-customid', service({
         Model: db.collection('people-customid'),
         id: 'customid',
         events: ['testing']
       }));
+
+      app.service('people').Model = db.collection('people');
 
       db.collection('people-customid').removeMany();
       db.collection('people').removeMany();
