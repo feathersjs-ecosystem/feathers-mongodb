@@ -1,5 +1,8 @@
 # Change Log
 
+## [v4.0.4](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.4) (2019-01-12)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.3...v4.0.4)
+
 ## [v4.0.3](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.3) (2019-01-12)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.2...v4.0.3)
 
