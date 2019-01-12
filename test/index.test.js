@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { MongoClient, ObjectID } = require('mongodb');
-const adapterTests = require('@feathersjs/adapter-commons/tests');
+const adapterTests = require('@feathersjs/adapter-tests');
 
 const feathers = require('@feathersjs/feathers');
 const errors = require('@feathersjs/errors');
@@ -64,7 +64,11 @@ const testSuite = adapterTests([
   '.find + paginate',
   '.find + paginate + $limit + $skip',
   '.find + paginate + $limit 0',
-  '.find + paginate + params'
+  '.find + paginate + params',
+  '.get + id + query id',
+  '.remove + id + query id',
+  '.update + id + query id',
+  '.patch + id + query id'
 ]);
 
 describe('Feathers MongoDB Service', () => {
@@ -153,7 +157,7 @@ describe('Feathers MongoDB Service', () => {
         let result = service({ Model: db })._multiOptions(id, params);
         expect(result).to.be.an('object');
         expect(result).to.include.all.keys(['query', 'options']);
-        expect(result.query).to.deep.equal(Object.assign({}, params.query, { _id: id }));
+        expect(result.query).to.deep.equal(Object.assign({}, params.query, { $and: [{ _id: id }] }));
         expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: false }));
       });
 
