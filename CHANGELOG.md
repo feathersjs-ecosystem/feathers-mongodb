@@ -1,5 +1,12 @@
 # Change Log
 
+## [v4.0.3](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.3) (2019-01-12)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.2...v4.0.3)
+
+**Merged pull requests:**
+
+- Make sure ids in queries are respected [\#137](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/137) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v4.0.2](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.2) (2019-01-03)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.1...v4.0.2)
 
