@@ -65,7 +65,7 @@
     "@feathersjs/socketio": "^3.2.8",
     "chai": "^4.2.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "mongodb": "^3.1.10",
     "run-rs": "^0.4.0",
     "semistandard": "^13.0.1"
