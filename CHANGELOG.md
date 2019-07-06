@@ -1,5 +1,21 @@
 # Change Log
 
+## [v5.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v5.0.0) (2019-07-06)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.4...v5.0.0)
+
+**Closed issues:**
+
+- An in-range update of mongodb is breaking the build 🚨 [\#142](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/142)
+- BadRequest: Invalid query parameter $geoWithin [\#141](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/141)
+- An in-range update of mocha is breaking the build 🚨 [\#139](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/139)
+
+**Merged pull requests:**
+
+- Add TypeScript definitions and upgrade tests to Feathers 4 [\#144](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/144) ([daffl](https://github.com/daffl))
+- Update all dependencies and compatible Node version [\#143](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/143) ([daffl](https://github.com/daffl))
+- Update run-rs to the latest version 🚀 [\#140](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/140) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update mocha to the latest version 🚀 [\#138](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/138) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v4.0.4](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v4.0.4) (2019-01-12)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.3...v4.0.4)
 
