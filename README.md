@@ -175,6 +175,6 @@ For more information on MongoDB's collation feature, visit the [collation refere
 
 ## License
 
-Copyright (c) 2016
+Copyright (c) 2019
 
 Licensed under the [MIT license](LICENSE).
