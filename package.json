@@ -72,6 +72,6 @@
     "mocha": "^6.1.4",
     "mongodb": "^3.3.0",
     "run-rs": "^0.5.2",
-    "semistandard": "^13.0.1"
+    "semistandard": "^14.0.1"
   }
 }
