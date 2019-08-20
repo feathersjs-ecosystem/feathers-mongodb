@@ -234,6 +234,15 @@ describe('Feathers MongoDB Service', () => {
 
       await peopleService.remove(person._id);
     });
+    
+    it('should return a record with string id', async () => {
+      const person = await peopleService.create({ _id: 'StringID1234', name: 'StringID' });
+      const result = await peopleService.get(person._id.toString());
+
+      expect(result.name).to.equal('StringID');
+
+      await peopleService.remove(person._id);
+    });
 
     it('sorts with default behavior without collation param', async () => {
       const results = await peopleService.find({ query: { $sort: { name: -1 } } });
