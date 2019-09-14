@@ -71,7 +71,7 @@
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^6.1.4",
     "mongodb": "^3.3.1",
-    "run-rs": "^0.5.2",
+    "run-rs": "^0.5.5",
     "semistandard": "^14.0.1"
   }
 }
