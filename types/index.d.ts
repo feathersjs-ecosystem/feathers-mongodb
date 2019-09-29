@@ -7,7 +7,7 @@ export interface MongoDBServiceOptions extends ServiceOptions {
   Model: Collection;
 }
 
-export class Service<T = any> extends AdapterService implements InternalServiceMethods<T> {
+export class Service<T = any> extends AdapterService<T> implements InternalServiceMethods<T> {
   Model: Collection;
   options: MongoDBServiceOptions;
 
