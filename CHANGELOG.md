@@ -1,5 +1,25 @@
 # Change Log
 
+## [v5.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v5.0.1) (2019-09-29)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v5.0.0...v5.0.1)
+
+**Closed issues:**
+
+- how to wait for all models to be ready? [\#158](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/158)
+- An in-range update of run-rs is breaking the build 🚨 [\#155](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/155)
+- An in-range update of @types/mongodb is breaking the build 🚨 [\#147](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/147)
+- Update data using custom identifier [\#146](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/146)
+
+**Merged pull requests:**
+
+- Pass entity type to AdapterService\<T\> and update dependencies [\#160](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/160) ([daffl](https://github.com/daffl))
+- Update run-rs to the latest version 🚀 [\#159](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/159) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Greenkeeper/run rs 0.5.5 [\#157](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/157) ([daffl](https://github.com/daffl))
+- Greenkeeper/mongodb 3.3.1 [\#153](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/153) ([daffl](https://github.com/daffl))
+- Update semistandard to the latest version 🚀 [\#149](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/149) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Greenkeeper/mongodb 3.3.0 [\#148](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/148) ([daffl](https://github.com/daffl))
+- Update dtslint to the latest version 🚀 [\#145](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/145) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v5.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v5.0.0) (2019-07-06)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v4.0.4...v5.0.0)
 
