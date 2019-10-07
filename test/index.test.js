@@ -126,24 +126,8 @@ describe('Feathers MongoDB Service', () => {
   });
 
   describe('Service utility functions', () => {
-    describe('objectifyId', () => {
-      it('returns an ObjectID instance for a valid ID', () => {
-        let id = new ObjectID();
-        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
-        expect(result).to.be.instanceof(ObjectID);
-        expect(result).to.deep.equal(id);
-      });
-
-      it('does not return an ObjectID instance for an invalid ID', () => {
-        let id = 'non-valid object id';
-        let result = service({ Model: db })._objectifyId(id.toString(), '_id');
-        expect(result).to.not.be.instanceof(ObjectID);
-        expect(result).to.deep.equal(id);
-      });
-    });
-
     describe('multiOptions', () => {
-      let params = {
+      const params = {
         query: {
           age: 21
         },
@@ -153,8 +137,8 @@ describe('Feathers MongoDB Service', () => {
       };
 
       it('returns valid result when passed an ID', () => {
-        let id = new ObjectID();
-        let result = service({ Model: db })._multiOptions(id, params);
+        const id = new ObjectID();
+        const result = service({ Model: db })._multiOptions(id, params);
         expect(result).to.be.an('object');
         expect(result).to.include.all.keys(['query', 'options']);
         expect(result.query).to.deep.equal(Object.assign({}, params.query, { $and: [{ _id: id }] }));
@@ -162,7 +146,7 @@ describe('Feathers MongoDB Service', () => {
       });
 
       it('returns original object', () => {
-        let result = service({ Model: db })._multiOptions(null, params);
+        const result = service({ Model: db })._multiOptions(null, params);
         expect(result).to.be.an('object');
         expect(result).to.include.all.keys(['query', 'options']);
         expect(result.query).to.deep.equal(params.query);
@@ -222,15 +206,27 @@ describe('Feathers MongoDB Service', () => {
       ]).catch(() => {});
     });
 
-    it('should coerce the id field to an objectId in find', async () => {
+    it('queries for ObjectId in find', async () => {
       const person = await peopleService.create({ name: 'Coerce' });
       const results = await peopleService.find({
         query: {
-          _id: person._id.toString()
+          _id: new ObjectID(person._id)
         }
       });
 
       expect(results).to.have.lengthOf(1);
+
+      await peopleService.remove(person._id);
+    });
+
+    it('works with normal string _id', async () => {
+      const person = await peopleService.create({
+        _id: 'lessonKTDA08',
+        name: 'Coerce'
+      });
+      const result = await peopleService.get(person._id);
+
+      expect(result.name).to.equal('Coerce');
 
       await peopleService.remove(person._id);
     });
