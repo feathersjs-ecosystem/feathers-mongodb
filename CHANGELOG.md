@@ -1,5 +1,17 @@
 # Change Log
 
+## [v6.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.0.0) (2019-10-07)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v5.0.1...v6.0.0)
+
+**Fixed bugs:**
+
+- find with string \_id randomly stops working [\#151](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/151)
+
+**Merged pull requests:**
+
+- Update all dependencies [\#162](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/162) ([daffl](https://github.com/daffl))
+- Remove automated ObjectID conversion [\#161](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/161) ([daffl](https://github.com/daffl))
+
 ## [v5.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v5.0.1) (2019-09-29)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v5.0.0...v5.0.1)
 
