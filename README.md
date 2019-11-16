@@ -39,6 +39,7 @@ __Options:__
 
 - `Model` (**required**) - The MongoDB collection instance
 - `id` (*optional*, default: `'_id'`) - The name of the id field property. By design, MongoDB will always add an `_id` property.
+- `disableObjectify` (*optional*, default `false`) - This will disable the objectify of the id field if you want to use normal strings
 - `events` (*optional*) - A list of [custom service events](https://docs.feathersjs.com/api/events.html#custom-events) sent by this service
 - `paginate` (*optional*) - A [pagination object](https://docs.feathersjs.com/api/databases/common.html#pagination) containing a `default` and `max` page size
 - `whitelist` (*optional*) - A list of additional query parameters to allow (e..g `[ '$regex', '$geoNear' ]`)
@@ -116,9 +117,9 @@ Run the example with `node app` and go to [localhost:3030/messages](http://local
 
 Additionally to the [common querying mechanism](https://docs.feathersjs.com/api/databases/querying.html) this adapter also supports [MongoDB's query syntax](https://docs.mongodb.com/v3.2/tutorial/query-documents/) and the `update` method also supports MongoDB [update operators](https://docs.mongodb.com/v3.2/reference/operator/update/).
 
-> **Important:** External query values through HTTP URLs may have to be converted to the same type stored in MongoDB in a before [hook](https://docs.feathersjs.com/api/hooks.html) otherwise no matches will be found. This includes querying for `_id` which is a MongoID, e.g. with `$in`. See [feathersjs/feathers/issues/757](https://github.com/feathersjs/feathers/issues/757). Websocket requests will maintain the correct format if it is supported by JSON (ObjectIDs and dates still have to be converted).
+> **Important:** External query values through HTTP URLs may have to be converted to the same type stored in MongoDB in a before [hook](https://docs.feathersjs.com/api/hooks.html) otherwise no matches will be found. Websocket requests will maintain the correct format if it is supported by JSON (ObjectIDs and dates still have to be converted).
 
-For example, a `find` call for `_id` (which is a MongoDB object id) and `age` (which is a number) a hook like this can be used:
+For example, an `age` (which is a number) a hook like this can be used:
 
 ```js
 const ObjectID = require('mongodb').ObjectID;
@@ -127,10 +128,6 @@ app.service('users').hooks({
   before: {
     find(context) {
       const { query = {} } = context.params;
-
-      if(query._id) {
-        query._id  = new ObjectID(query._id);
-      }
 
       if(query.age !== undefined) {
         query.age = parseInt(query.age, 10);

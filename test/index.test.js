@@ -126,6 +126,22 @@ describe('Feathers MongoDB Service', () => {
   });
 
   describe('Service utility functions', () => {
+    describe('objectifyId', () => {
+      it('returns an ObjectID instance for a valid ID', () => {
+        const id = new ObjectID();
+        const result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+
+      it('does not return an ObjectID instance for an invalid ID', () => {
+        const id = 'non-valid object id';
+        const result = service({ Model: db })._objectifyId(id.toString(), '_id');
+        expect(result).to.not.be.instanceof(ObjectID);
+        expect(result).to.deep.equal(id);
+      });
+    });
+
     describe('multiOptions', () => {
       const params = {
         query: {
@@ -190,6 +206,7 @@ describe('Feathers MongoDB Service', () => {
     beforeEach(async () => {
       peopleService = app.service('/people');
       peopleService.options.multi = true;
+      peopleService.options.disableObjectify = true;
       people = await Promise.all([
         peopleService.create({ name: 'AAA' }),
         peopleService.create({ name: 'aaa' }),
