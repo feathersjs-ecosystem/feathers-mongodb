@@ -1,5 +1,20 @@
 # Change Log
 
+## [v6.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.1.0) (2019-11-21)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.0.0...v6.1.0)
+
+**Closed issues:**
+
+- RegExp in $in inside query does not get passed to server properly. [\#170](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/170)
+- An in-range update of @feathersjs/adapter-commons is breaking the build 🚨 [\#163](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/163)
+
+**Merged pull requests:**
+
+- Add disableObjectify option to use normal strings as id [\#171](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/171) ([ydeshayes](https://github.com/ydeshayes))
+- Update dtslint to the latest version 🚀 [\#168](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/168) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update dtslint to version 1.0.2 [\#166](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/166) ([daffl](https://github.com/daffl))
+- Greenkeeper/@feathersjs/adapter commons 4.3.8 [\#164](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/164) ([daffl](https://github.com/daffl))
+
 ## [v6.0.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.0.0) (2019-10-07)
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v5.0.1...v6.0.0)
 
