@@ -65,7 +65,7 @@
     "@feathersjs/express": "^4.4.3",
     "@feathersjs/feathers": "^4.4.3",
     "@feathersjs/socketio": "^4.4.3",
-    "@types/mongodb": "^3.3.14",
+    "@types/mongodb": "^3.5.3",
     "chai": "^4.2.0",
     "dtslint": "^3.0.0",
     "istanbul": "^1.1.0-alpha.1",
