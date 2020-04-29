@@ -56,21 +56,21 @@
     "node": ">= 8"
   },
   "dependencies": {
-    "@feathersjs/adapter-commons": "^4.4.3",
-    "@feathersjs/commons": "^4.4.3",
-    "@feathersjs/errors": "^4.4.3"
+    "@feathersjs/adapter-commons": "^4.5.2",
+    "@feathersjs/commons": "^4.5.3",
+    "@feathersjs/errors": "^4.5.3"
   },
   "devDependencies": {
-    "@feathersjs/adapter-tests": "^4.4.3",
-    "@feathersjs/express": "^4.4.3",
-    "@feathersjs/feathers": "^4.4.3",
-    "@feathersjs/socketio": "^4.4.3",
-    "@types/mongodb": "^3.5.3",
+    "@feathersjs/adapter-tests": "^4.5.2",
+    "@feathersjs/express": "^4.5.4",
+    "@feathersjs/feathers": "^4.5.3",
+    "@feathersjs/socketio": "^4.5.4",
+    "@types/mongodb": "^3.5.14",
     "chai": "^4.2.0",
-    "dtslint": "^3.0.0",
+    "dtslint": "^3.4.2",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^7.0.0",
-    "mongodb": "^3.5.3",
+    "mocha": "^7.1.2",
+    "mongodb": "^3.5.7",
     "run-rs": "^0.6.2",
     "semistandard": "^14.2.0"
   }
