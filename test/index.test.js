@@ -1,4 +1,5 @@
 const { expect } = require('chai');
+require('chai-as-promised');
 const { MongoClient, ObjectID } = require('mongodb');
 const adapterTests = require('@feathersjs/adapter-tests');
 
@@ -79,7 +80,8 @@ describe('Feathers MongoDB Service', () => {
 
   before(() =>
     MongoClient.connect('mongodb://localhost:27017/feathers-test', {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     }).then(function (client) {
       mongoClient = client;
       db = client.db('feathers-test');
@@ -186,6 +188,44 @@ describe('Feathers MongoDB Service', () => {
         expect(result).to.deep.equal(projectFields);
       });
     });
+  });
+
+  describe('Special methodQuery param', () => {
+
+    it('should not update when non matching query is present in methodQuery', async () => {
+      const peopleService = app.service('/people');
+      const peop = await peopleService.create({ name: 'AAA' })
+      const updated = await peopleService.update(peop._id, { ...peop, name: 'BBB' }, { methodQuery: { name: 'CCC' } });
+      expect(updated).to.deep.equal(peop);
+      await peopleService.remove(peop._id);
+    });
+
+    it('should successfully update when matching query is present in methodQuery', async () => {
+      const peopleService = app.service('/people');
+      const peop = await peopleService.create({ name: 'AAA' })
+      const patched = await peopleService.update(peop._id, { ...peop, name: 'BBB' }, { methodQuery: { name: 'AAA' } });
+      const patchedExpected = { ...peop, name: 'BBB' };
+      expect(patched).to.deep.equal(patchedExpected);
+      await peopleService.remove(peop._id);
+    });
+
+    it('should not patch when non matching query is present in methodQuery', async () => {
+      const peopleService = app.service('/people');
+      const peop = await peopleService.create({ name: 'AAA' })
+      const patched = await peopleService.patch(peop._id, { name: 'BBB' }, { methodQuery: { name: 'CCC' } });
+      expect(patched).to.deep.equal(peop);
+      await peopleService.remove(peop._id);
+    });
+
+    it('should successfully patch when matching query is present in methodQuery', async () => {
+      const peopleService = app.service('/people');
+      const peop = await peopleService.create({ name: 'AAA' })
+      const patched = await peopleService.patch(peop._id, { name: 'BBB' }, { methodQuery: { name: 'AAA' } });
+      const patchedExpected = { ...peop, name: 'BBB' };
+      expect(patched).to.deep.equal(patchedExpected);
+      await peopleService.remove(peop._id);
+    });
+
   });
 
   describe('Special collation param', () => {
