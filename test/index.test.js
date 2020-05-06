@@ -201,9 +201,9 @@ describe('Feathers MongoDB Service', () => {
     it('should successfully update when matching query is present in methodQuery', async () => {
       const peopleService = app.service('/people');
       const peop = await peopleService.create({ name: 'AAA' });
-      const patched = await peopleService.update(peop._id, { ...peop, name: 'BBB' }, { methodQuery: { name: 'AAA' } });
-      const patchedExpected = { ...peop, name: 'BBB' };
-      expect(patched).to.deep.equal(patchedExpected);
+      const updated = await peopleService.update(peop._id, { ...peop, name: 'BBB' }, { methodQuery: { name: 'AAA' } });
+      const updatedExpected = { ...peop, name: 'BBB' };
+      expect(updated).to.deep.equal(updatedExpected);
       await peopleService.remove(peop._id);
     });
 
