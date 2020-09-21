@@ -44,6 +44,7 @@ __Options:__
 - `paginate` (*optional*) - A [pagination object](https://docs.feathersjs.com/api/databases/common.html#pagination) containing a `default` and `max` page size
 - `whitelist` (*optional*) - A list of additional query parameters to allow (e..g `[ '$regex', '$geoNear' ]`)
 - `multi` (*optional*) - Allow `create` with arrays and `update` and `remove` with `id` `null` to change multiple items. Can be `true` for all methods or an array of allowed methods (e.g. `[ 'remove', 'create' ]`)
+- `useEstimatedDocumentCount` (*optional*, default `false`) - If `true` document counting will rely on `estimatedDocumentCount` instead of `countDocuments`
 
 ### params.mongodb
 
