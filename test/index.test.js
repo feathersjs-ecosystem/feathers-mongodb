@@ -33,6 +33,7 @@ const testSuite = adapterTests([
   '.patch + id + query',
   '.patch multiple',
   '.patch multi query',
+  '.patch multi query changed',
   '.patch + NotFound',
   '.create',
   '.create + $select',
