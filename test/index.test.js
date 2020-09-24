@@ -33,7 +33,6 @@ const testSuite = adapterTests([
   '.patch + id + query',
   '.patch multiple',
   '.patch multi query',
-  '.patch multi query changed',
   '.patch + NotFound',
   '.create',
   '.create + $select',
@@ -189,40 +188,40 @@ describe('Feathers MongoDB Service', () => {
     });
   });
 
-  // describe('.patch multi query changed', () => {
-  //   let peopleService, people;
+  describe('.patch multi query changed', () => {
+    let peopleService, people;
 
-  //   beforeEach(async () => {
-  //     peopleService = app.service('/people');
-  //     peopleService.options.multi = true;
-  //     people = await Promise.all([
-  //       peopleService.create({ name: 'AAA' }),
-  //       peopleService.create({ name: 'aaa' }),
-  //       peopleService.create({ name: 'ccc' })
-  //     ]);
-  //   });
+    beforeEach(async () => {
+      peopleService = app.service('/people');
+      peopleService.options.multi = true;
+      people = await Promise.all([
+        peopleService.create({ name: 'AAA' }),
+        peopleService.create({ name: 'aaa' }),
+        peopleService.create({ name: 'ccc' })
+      ]);
+    });
 
-  //   afterEach(async () => {
-  //     peopleService.options.multi = false;
-  //     await Promise.all([
-  //       peopleService.remove(people[0]._id),
-  //       peopleService.remove(people[1]._id),
-  //       peopleService.remove(people[2]._id)
-  //     ]).catch(() => {});
-  //   });
+    afterEach(async () => {
+      peopleService.options.multi = false;
+      await Promise.all([
+        peopleService.remove(people[0]._id),
+        peopleService.remove(people[1]._id),
+        peopleService.remove(people[2]._id)
+      ]).catch(() => {});
+    });
 
-  //   it('Returns correct result when queried props are patched',async () => {
-  //     const result = await peopleService.patch(null, { name: 'patched' }, {
-  //       query: { name: { $gt: 'AAA' } }
-  //     });
+    it('Returns correct result when queried props are patched',async () => {
+      const result = await peopleService.patch(null, { name: 'patched' }, {
+        query: { name: { $gt: 'AAA' } }
+      });
 
-  //     expect(result).to.be.an('array');
-  //     expect(result).to.have.lengthOf(2);
-  //     result.forEach(person => {
-  //       expect(person.name).to.equal('patched');
-  //     });
-  //   });
-  // });
+      expect(result).to.be.an('array');
+      expect(result).to.have.lengthOf(2);
+      result.forEach(person => {
+        expect(person.name).to.equal('patched');
+      });
+    });
+  });
 
   describe('Special collation param', () => {
     let peopleService, people;
