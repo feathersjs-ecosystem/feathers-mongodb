@@ -91,6 +91,10 @@ describe('Feathers MongoDB Service', () => {
         Model: db.collection('people-customid'),
         id: 'customid',
         events: ['testing']
+      })).use('/people-estimated-count', service({
+        Model: db.collection('people-estimated-count'),
+        events: ['testing'],
+        useEstimatedDocumentCount: true
       }));
 
       app.service('people').Model = db.collection('people');
@@ -332,4 +336,5 @@ describe('Feathers MongoDB Service', () => {
 
   testSuite(app, errors, 'people', '_id');
   testSuite(app, errors, 'people-customid', 'customid');
+  testSuite(app, errors, 'people-estimated-count', '_id');
 });
