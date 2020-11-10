@@ -147,7 +147,7 @@ describe('Feathers MongoDB Service', () => {
       });
     });
 
-    describe('multiOptions', () => {
+    describe('_multiOptions', () => {
       const params = {
         query: {
           age: 21
@@ -172,6 +172,25 @@ describe('Feathers MongoDB Service', () => {
         expect(result).to.include.all.keys(['query', 'options']);
         expect(result.query).to.deep.equal(params.query);
         expect(result.options).to.deep.equal(Object.assign({}, params.options, { multi: true }));
+      });
+    });
+
+    describe('_options', () => {
+      const params = {
+        query: {
+          age: 21
+        },
+        options: {
+          limit: 5
+        }
+      };
+
+      it('returns original object', () => {
+        const result = service({ Model: db })._options(params);
+        expect(result).to.be.an('object');
+        expect(result).to.include.all.keys(['options', 'filters', 'query', 'paginate']);
+        expect(result.query).to.deep.equal(params.query);
+        expect(result.options).to.deep.equal(Object.assign({}, params.options));
       });
     });
 
