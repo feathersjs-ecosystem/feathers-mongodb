@@ -1,5 +1,17 @@
 # Changelog
 
+## [v6.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.3.0) (2020-11-24)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.2.0...v6.3.0)
+
+**Closed issues:**
+
+- Regex not working [\#190](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/190)
+
+**Merged pull requests:**
+
+- Add support for passing `options` \(or `mongodb`\) to all methods. [\#189](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/189) ([rudolph9](https://github.com/rudolph9))
+
 ## [v6.2.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.2.0) (2020-09-27)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.1.0...v6.2.0)
@@ -84,6 +96,7 @@
 
 **Merged pull requests:**
 
+- Add TypeScript definitions and upgrade tests to Feathers 4 [\#144](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/144) ([daffl](https://github.com/daffl))
 - Update all dependencies and compatible Node version [\#143](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/143) ([daffl](https://github.com/daffl))
 - Update run-rs to the latest version 🚀 [\#140](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/140) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update mocha to the latest version 🚀 [\#138](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/138) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
@@ -143,7 +156,6 @@
 
 **Merged pull requests:**
 
-- Add TypeScript definitions and upgrade tests to Feathers 4 [\#144](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/144) ([daffl](https://github.com/daffl))
 - Upgrade to @feathersjs/adapter-commons and latest common service features [\#131](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/131) ([daffl](https://github.com/daffl))
 - Use run-rs to install local MongoDB [\#130](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/130) ([daffl](https://github.com/daffl))
 - Add hint support [\#129](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/129) ([EliSadaka](https://github.com/EliSadaka))
@@ -159,7 +171,6 @@
 **Merged pull requests:**
 
 - Fix Deprecation warning issue \#122 with create, update, patch [\#126](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/126) ([Gerigot](https://github.com/Gerigot))
-- Update semistandard to the latest version 🚀 [\#125](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v3.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.3.0) (2018-08-05)
 
@@ -169,7 +180,6 @@
 
 - Update all dependencies [\#121](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/121) ([daffl](https://github.com/daffl))
 - using countDocuments\(\) instead of count\(\) [\#119](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/119) ([v1p](https://github.com/v1p))
-- Update mocha to the latest version 🚀 [\#109](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v3.2.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.2.0) (2018-06-03)
 
@@ -195,6 +205,7 @@
 
 **Merged pull requests:**
 
+- Update semistandard to the latest version 🚀 [\#125](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Allow $modifiers to be used in patch [\#115](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/115) ([VincentExpoTech](https://github.com/VincentExpoTech))
 
 ## [v3.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.1) (2018-02-04)
@@ -212,6 +223,7 @@
 **Merged pull requests:**
 
 - Update $select query [\#111](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/111) ([jansel369](https://github.com/jansel369))
+- Update mocha to the latest version 🚀 [\#109](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update semistandard to the latest version 🚀 [\#107](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/107) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Upgrade to mongo driver 3.0.0-rc0 [\#103](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/103) ([davidnussio](https://github.com/davidnussio))
 
@@ -223,6 +235,7 @@
 
 - Update to Feathers Buzzard \(v3\) [\#100](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/100) ([daffl](https://github.com/daffl))
 - Update to new plugin infrastructure [\#99](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/99) ([daffl](https://github.com/daffl))
+- Update chai to the latest version 🚀 [\#91](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/91) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.9.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.9.1) (2017-10-19)
 
@@ -241,7 +254,6 @@
 - Coerce stringified ObjectIDs in find if present [\#98](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/98) ([adamvr](https://github.com/adamvr))
 - Update mocha to the latest version 🚀 [\#97](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/97) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Remove MongoDB service to force apt addon [\#96](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/96) ([daffl](https://github.com/daffl))
-- Update chai to the latest version 🚀 [\#91](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/91) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-socketio to the latest version 🚀 [\#90](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.9.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.9.0) (2017-05-09)
@@ -257,7 +269,6 @@
 - Update feathers-service-tests to the latest version 🚀 [\#88](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/88) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update semistandard to the latest version 🚀 [\#86](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-hooks to the latest version 🚀 [\#84](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.8.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.8.0) (2017-01-19)
 
@@ -273,6 +284,7 @@
 
 **Merged pull requests:**
 
+- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - mongodb@2.2.19 breaks build 🚨 [\#81](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/81) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Add support for MongoDB collation. [\#79](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/79) ([JoshuaToenyes](https://github.com/JoshuaToenyes))
 
@@ -409,7 +421,6 @@
 **Merged pull requests:**
 
 - building on @joshuajabbour's pr. Adding support for patch. Closes \#25 [\#27](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/27) ([ekryski](https://github.com/ekryski))
-- Always set "id" field during PUT updates [\#26](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/26) ([joshuajabbour](https://github.com/joshuajabbour))
 
 ## [v2.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.1.0) (2016-02-22)
 
@@ -424,6 +435,7 @@
 
 - ES6 [\#24](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/24) ([ekryski](https://github.com/ekryski))
 - Adding nsp check [\#19](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/19) ([marshallswain](https://github.com/marshallswain))
+- Migrating to shared service tests [\#15](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/15) ([daffl](https://github.com/daffl))
 
 ## [v1.1.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v1.1.1) (2016-01-21)
 
@@ -444,10 +456,6 @@
 **Closed issues:**
 
 - need help extending mongodb [\#14](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/14)
-
-**Merged pull requests:**
-
-- Migrating to shared service tests [\#15](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/15) ([daffl](https://github.com/daffl))
 
 ## [v1.0.2](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v1.0.2) (2015-10-25)
 
@@ -475,6 +483,7 @@
 
 **Merged pull requests:**
 
+- Always set "id" field during PUT updates [\#26](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/26) ([joshuajabbour](https://github.com/joshuajabbour))
 - Plugin consistency [\#11](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/11) ([ekryski](https://github.com/ekryski))
 
 ## [v0.3.3](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v0.3.3) (2015-05-12)
@@ -505,7 +514,6 @@
 
 - Add better documentation [\#6](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/6)
 - Should support `patch` service method [\#5](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/5)
-- Need to return proper errors [\#3](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/3)
 - MongoDB query needs to be flattened [\#2](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/2)
 -  MongoDB .update should merge data [\#1](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/1)
 
@@ -520,6 +528,7 @@
 **Closed issues:**
 
 - Use Yeoman generator to initialize this repository [\#4](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/4)
+- Need to return proper errors [\#3](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/3)
 
 ## [0.2.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/0.2.0) (2014-06-05)
 
