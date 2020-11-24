@@ -50,6 +50,46 @@ __Options:__
 
 When making a [service method](https://docs.feathersjs.com/api/services.html) call, `params` can contain an `mongodb` property (for exmaple, `{upsert: true}`) which allows to modify the options used to run the MongoDB query.
 
+#### Transactions
+
+You can utilized a [MongoDB Transactions](https://docs.mongodb.com/manual/core/transactions/) by passing a `session` with the `params.mongodb`:
+
+```js
+import { ObjectID } from 'mongodb'
+
+export default async app => {
+  app.use('/fooBarService', {
+    async create(data) {
+      // assumes you have access to the mongoClient via your app state
+      let session = app.mongoClient.startSession()
+      try {
+        await session.withTransaction(async () => {
+            let fooID = new ObjectID()
+            let barID = new ObjectID()
+            app.service('fooService').create(
+              {
+                ...data,
+                _id: fooID,
+                bar: barID,
+              },
+              { mongodb: { session } },
+            )
+            app.service('barService').create(
+              {
+                ...data,
+                _id: barID
+                foo: fooID
+              },
+              { mongodb: { session } },
+            )
+        })
+      } finally {
+        await session.endSession()
+      }
+    }
+  })
+}
+```
 
 ## Example
 
