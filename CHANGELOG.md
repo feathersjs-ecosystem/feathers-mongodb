@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/HEAD)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.3.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[Feature request\] Support transactions [\#127](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/127)
+
 ## [v6.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.3.0) (2020-11-24)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.2.0...v6.3.0)
@@ -171,6 +179,7 @@
 **Merged pull requests:**
 
 - Fix Deprecation warning issue \#122 with create, update, patch [\#126](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/126) ([Gerigot](https://github.com/Gerigot))
+- Update semistandard to the latest version 🚀 [\#125](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v3.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.3.0) (2018-08-05)
 
@@ -205,7 +214,6 @@
 
 **Merged pull requests:**
 
-- Update semistandard to the latest version 🚀 [\#125](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/125) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Allow $modifiers to be used in patch [\#115](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/115) ([VincentExpoTech](https://github.com/VincentExpoTech))
 
 ## [v3.0.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v3.0.1) (2018-02-04)
@@ -235,7 +243,6 @@
 
 - Update to Feathers Buzzard \(v3\) [\#100](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/100) ([daffl](https://github.com/daffl))
 - Update to new plugin infrastructure [\#99](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/99) ([daffl](https://github.com/daffl))
-- Update chai to the latest version 🚀 [\#91](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/91) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.9.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.9.1) (2017-10-19)
 
@@ -254,6 +261,7 @@
 - Coerce stringified ObjectIDs in find if present [\#98](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/98) ([adamvr](https://github.com/adamvr))
 - Update mocha to the latest version 🚀 [\#97](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/97) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Remove MongoDB service to force apt addon [\#96](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/96) ([daffl](https://github.com/daffl))
+- Update chai to the latest version 🚀 [\#91](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/91) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-socketio to the latest version 🚀 [\#90](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.9.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.9.0) (2017-05-09)
@@ -269,6 +277,7 @@
 - Update feathers-service-tests to the latest version 🚀 [\#88](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/88) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update semistandard to the latest version 🚀 [\#86](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update feathers-hooks to the latest version 🚀 [\#84](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.8.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.8.0) (2017-01-19)
 
@@ -284,7 +293,6 @@
 
 **Merged pull requests:**
 
-- Update dependencies to enable Greenkeeper 🌴 [\#83](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/83) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - mongodb@2.2.19 breaks build 🚨 [\#81](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/81) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Add support for MongoDB collation. [\#79](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/79) ([JoshuaToenyes](https://github.com/JoshuaToenyes))
 
@@ -303,6 +311,7 @@
 - babel-preset-es2015@6.18.0 breaks build 🚨 [\#75](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/75) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - jshint —\> semistandard [\#71](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/71) ([marshallswain](https://github.com/marshallswain))
 - adding code coverage reporting [\#69](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/69) ([ekryski](https://github.com/ekryski))
+- Properly assign generated id when creating multiple [\#64](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/64) ([daffl](https://github.com/daffl))
 
 ## [v2.5.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.5.1) (2016-09-21)
 
@@ -314,7 +323,6 @@
 
 **Merged pull requests:**
 
-- Properly assign generated id when creating multiple [\#64](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/64) ([daffl](https://github.com/daffl))
 - Properly patch multiple [\#63](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/63) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 
 ## [v2.5.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.5.0) (2016-09-08)
@@ -386,7 +394,6 @@
 **Merged pull requests:**
 
 - Move utility functions to service instance [\#42](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/42) ([joshuajabbour](https://github.com/joshuajabbour))
-- Update babel-plugin-add-module-exports to version 0.2.0 🚀 [\#41](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/41) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - babel-polyfill@6.7.4 breaks build 🚨 [\#39](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/39) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - Move ID handling logic into separate method. [\#36](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/36) ([joshuajabbour](https://github.com/joshuajabbour))
 - nsp@2.3.2 breaks build 🚨 [\#35](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/35) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
@@ -397,6 +404,7 @@
 
 **Merged pull requests:**
 
+- Update babel-plugin-add-module-exports to version 0.2.0 🚀 [\#41](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/41) ([greenkeeperio-bot](https://github.com/greenkeeperio-bot))
 - bumping feathers-errors version [\#29](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/29) ([ekryski](https://github.com/ekryski))
 
 ## [v2.1.2](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.1.2) (2016-02-23)
@@ -421,6 +429,8 @@
 **Merged pull requests:**
 
 - building on @joshuajabbour's pr. Adding support for patch. Closes \#25 [\#27](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/27) ([ekryski](https://github.com/ekryski))
+- Always set "id" field during PUT updates [\#26](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/26) ([joshuajabbour](https://github.com/joshuajabbour))
+- Plugin consistency [\#11](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/11) ([ekryski](https://github.com/ekryski))
 
 ## [v2.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v2.1.0) (2016-02-22)
 
@@ -435,7 +445,7 @@
 
 - ES6 [\#24](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/24) ([ekryski](https://github.com/ekryski))
 - Adding nsp check [\#19](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/19) ([marshallswain](https://github.com/marshallswain))
-- Migrating to shared service tests [\#15](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/15) ([daffl](https://github.com/daffl))
+- Migrate to latest feathers-errors [\#18](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/18) ([daffl](https://github.com/daffl))
 
 ## [v1.1.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v1.1.1) (2016-01-21)
 
@@ -445,10 +455,6 @@
 
 - Migrate to feathers-errors \>= 1.1.x [\#17](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/17)
 
-**Merged pull requests:**
-
-- Migrate to latest feathers-errors [\#18](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/18) ([daffl](https://github.com/daffl))
-
 ## [v1.1.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v1.1.0) (2015-11-08)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v1.0.2...v1.1.0)
@@ -456,6 +462,10 @@
 **Closed issues:**
 
 - need help extending mongodb [\#14](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/14)
+
+**Merged pull requests:**
+
+- Migrating to shared service tests [\#15](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/15) ([daffl](https://github.com/daffl))
 
 ## [v1.0.2](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v1.0.2) (2015-10-25)
 
@@ -480,11 +490,6 @@
 **Closed issues:**
 
 - No Open Connections [\#8](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/8)
-
-**Merged pull requests:**
-
-- Always set "id" field during PUT updates [\#26](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/26) ([joshuajabbour](https://github.com/joshuajabbour))
-- Plugin consistency [\#11](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/11) ([ekryski](https://github.com/ekryski))
 
 ## [v0.3.3](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v0.3.3) (2015-05-12)
 
