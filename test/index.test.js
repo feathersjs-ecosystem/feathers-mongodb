@@ -214,7 +214,7 @@ describe('Feathers MongoDB Service', () => {
     });
   });
 
-  describe.skip('Special collation param', () => {
+  describe('Special collation param', () => {
     let peopleService, people;
 
     function indexOfName (results, name) {
