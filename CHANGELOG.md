@@ -2,12 +2,20 @@
 
 ## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/HEAD)
 
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.3.1...HEAD)
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.4.0...HEAD)
 
 **Merged pull requests:**
 
-- Mongodb 4 compatibility [\#196](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/196) ([Noobulater](https://github.com/Noobulater))
-- Fix typo in README [\#192](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/192) ([ericirish](https://github.com/ericirish))
+- Add MongoDB 4 driver compatibility and upgrade dependencies and project infrastructure [\#198](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/198) ([daffl](https://github.com/daffl))
+
+## [v6.4.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.4.0) (2021-09-29)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.3.1...v6.4.0)
+
+**Closed issues:**
+
+- Compatibility with mongo driver V4 [\#197](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/197)
+- Error when upgrade package mongodb to 4.0.1 [\#194](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/194)
 
 ## [v6.3.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.3.1) (2021-08-30)
 
@@ -20,6 +28,11 @@
 **Closed issues:**
 
 - Why this query is not using the index? \(  keysExamined: 0 docsExamined: 27417057 \) [\#195](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/195)
+
+**Merged pull requests:**
+
+- Mongodb 4 compatibility [\#196](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/196) ([Noobulater](https://github.com/Noobulater))
+- Fix typo in README [\#192](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/192) ([ericirish](https://github.com/ericirish))
 
 ## [v6.3.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.3.0) (2020-11-24)
 
