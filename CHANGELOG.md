@@ -1,13 +1,5 @@
 # Changelog
 
-## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/HEAD)
-
-[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.4.0...HEAD)
-
-**Merged pull requests:**
-
-- Add MongoDB 4 driver compatibility and upgrade dependencies and project infrastructure [\#198](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/198) ([daffl](https://github.com/daffl))
-
 ## [v6.4.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.4.0) (2021-09-29)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.3.1...v6.4.0)
@@ -16,6 +8,10 @@
 
 - Compatibility with mongo driver V4 [\#197](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/197)
 - Error when upgrade package mongodb to 4.0.1 [\#194](https://github.com/feathersjs-ecosystem/feathers-mongodb/issues/194)
+
+**Merged pull requests:**
+
+- Add MongoDB 4 driver compatibility and upgrade dependencies and project infrastructure [\#198](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/198) ([daffl](https://github.com/daffl))
 
 ## [v6.3.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.3.1) (2021-08-30)
 
