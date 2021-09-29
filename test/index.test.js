@@ -28,13 +28,15 @@ const testSuite = adapterTests([
   '.update + $select',
   '.update + id + query',
   '.update + NotFound',
+  '.update + query + NotFound',
   '.patch',
   '.patch + $select',
   '.patch + id + query',
   '.patch multiple',
-  '.patch multi query',
   '.patch multi query changed',
   '.patch + NotFound',
+  '.patch multi query same',
+  '.patch + query + NotFound',
   '.create',
   '.create + $select',
   '.create multi',
@@ -78,37 +80,37 @@ describe('Feathers MongoDB Service', () => {
   let db;
   let mongoClient;
 
-  before(() =>
-    MongoClient.connect('mongodb://localhost:27017/feathers-test', {
+  before(async () => {
+    const client = await MongoClient.connect('mongodb://localhost:27017/feathers-test', {
       useNewUrlParser: true
-    }).then(function (client) {
-      mongoClient = client;
-      db = client.db('feathers-test');
+    });
 
-      app.use('/people', service({
-        events: ['testing']
-      })).use('/people-customid', service({
-        Model: db.collection('people-customid'),
-        id: 'customid',
-        events: ['testing']
-      })).use('/people-estimated-count', service({
-        Model: db.collection('people-estimated-count'),
-        events: ['testing'],
-        useEstimatedDocumentCount: true
-      }));
+    mongoClient = client;
+    db = client.db('feathers-test');
 
-      app.service('people').Model = db.collection('people');
+    app.use('/people', service({
+      events: ['testing']
+    })).use('/people-customid', service({
+      Model: db.collection('people-customid'),
+      id: 'customid',
+      events: ['testing']
+    })).use('/people-estimated-count', service({
+      Model: db.collection('people-estimated-count'),
+      events: ['testing'],
+      useEstimatedDocumentCount: true
+    }));
 
-      db.collection('people-customid').removeMany();
-      db.collection('people').removeMany();
-      db.collection('todos').removeMany();
+    app.service('people').Model = db.collection('people');
 
-      db.collection('people').createIndex(
-        { name: 1 },
-        { partialFilterExpression: { team: 'blue' } }
-      );
-    })
-  );
+    db.collection('people-customid').deleteMany();
+    db.collection('people').deleteMany();
+    db.collection('todos').deleteMany();
+
+    db.collection('people').createIndex(
+      { name: 1 },
+      { partialFilterExpression: { team: 'blue' } }
+    );
+  });
 
   after(() => db.dropDatabase().then(() => mongoClient.close()));
 
@@ -231,10 +233,8 @@ describe('Feathers MongoDB Service', () => {
       peopleService = app.service('/people');
       peopleService.options.multi = true;
       peopleService.options.disableObjectify = true;
-      people = await Promise.all([
-        peopleService.create({ name: 'AAA' }),
-        peopleService.create({ name: 'aaa' }),
-        peopleService.create({ name: 'ccc' })
+      people = await peopleService.create([
+        { name: 'AAA' }, { name: 'aaa' }, { name: 'ccc' }
       ]);
     });
 
