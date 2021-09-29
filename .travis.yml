@@ -1,9 +1,0 @@
-sudo: false
-language: node_js
-install: npm install
-node_js:
-  - 11
-  - 8
-before_script:
-  - npm run mongodb >/dev/null 2>&1 &
-  - sleep 30
