@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/HEAD)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.4.1...HEAD)
+
+**Merged pull requests:**
+
+- fix: add missing options on findOne in \_create [\#199](https://github.com/feathersjs-ecosystem/feathers-mongodb/pull/199) ([arlukin](https://github.com/arlukin))
+
+## [v6.4.1](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.4.1) (2021-10-06)
+
+[Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.4.0...v6.4.1)
+
 ## [v6.4.0](https://github.com/feathersjs-ecosystem/feathers-mongodb/tree/v6.4.0) (2021-09-29)
 
 [Full Changelog](https://github.com/feathersjs-ecosystem/feathers-mongodb/compare/v6.3.1...v6.4.0)
