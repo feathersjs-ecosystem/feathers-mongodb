@@ -1,7 +1,7 @@
 {
   "name": "feathers-mongodb",
   "description": "Feathers MongoDB service",
-  "version": "6.4.1",
+  "version": "7.0.0-pre.2",
   "homepage": "https://github.com/feathersjs-ecosystem/feathers-mongodb",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "LICENSE",
     "README.md",
     "lib/**",
-    "types/**",
+    "src/**",
     "*.d.ts",
     "*.js"
   ],
