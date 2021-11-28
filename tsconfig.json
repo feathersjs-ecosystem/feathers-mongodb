@@ -1,0 +1,15 @@
+{
+  "include": [ "src/**/*.ts" ],
+  "exclude": ["node_modules/*", "**/*.test.ts"],
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "esnext",
+    "outDir": "lib",
+    "strict": true,
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "useDefineForClassFields": false,
+    "moduleResolution": "node"
+  }
+}
