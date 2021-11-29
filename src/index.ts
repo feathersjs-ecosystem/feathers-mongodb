@@ -18,7 +18,7 @@ interface AnyData {
   [key: string]: any;
 }
 
-export interface MongoServiceOptions<T = any> extends ServiceOptions {
+export interface MongoServiceOptions extends ServiceOptions {
   Model?: Collection;
 }
 

@@ -33,7 +33,6 @@
     "Marshall Thompson <marshall@creativeideal.net>"
   ],
   "main": "lib/",
-  "types": "src/",
   "files": [
     "CHANGELOG.md",
     "LICENSE",
