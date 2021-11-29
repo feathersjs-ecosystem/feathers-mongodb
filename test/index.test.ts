@@ -1,11 +1,25 @@
 import { expect } from "chai";
 import { MongoClient, ObjectId } from "mongodb";
 import adapterTests from "@feathersjs/adapter-tests";
+import {
+  feathers,
+  Application as FeathersApplication,
+} from "@feathersjs/feathers";
+import { errors } from "@feathersjs/errors";
+import { Service, mongodb } from "../src";
 
-const feathers = require("@feathersjs/feathers");
-const errors = require("@feathersjs/errors");
-
-const service = require("../src");
+export type ServiceTypes = {
+  people: Service;
+  "people-customid": Service;
+  "people-estimated-count": Service;
+};
+export type Configuration = {
+  paginate: {
+    default: number;
+    max: number;
+  };
+};
+type Application = FeathersApplication<ServiceTypes, Configuration>;
 
 const tests = [
   ".options",
@@ -85,7 +99,7 @@ const limitedTestSuite = adapterTests(
 );
 
 describe("Feathers MongoDB Service", () => {
-  const app = feathers();
+  const app: Application = feathers();
 
   let db: any;
   let mongoClient: MongoClient;
@@ -100,25 +114,43 @@ describe("Feathers MongoDB Service", () => {
 
     app
       .use(
-        "/people",
-        service({
+        "people",
+        mongodb({
+          id: "_id",
           events: ["testing"],
+          multi: false,
+          Model: db.collection("people"),
+          paginate: app.get("paginate"),
+          whitelist: ["$regex", "$options", "$and", "$or", "$elemMatch"],
+          allow: [],
+          filters: [],
         })
       )
       .use(
-        "/people-customid",
-        service({
+        "people-customid",
+        mongodb({
           Model: db.collection("people-customid"),
           id: "customid",
           events: ["testing"],
+          multi: false,
+          paginate: app.get("paginate"),
+          whitelist: ["$regex", "$options", "$and", "$or", "$elemMatch"],
+          allow: [],
+          filters: [],
         })
       )
       .use(
-        "/people-estimated-count",
-        service({
+        "people-estimated-count",
+        mongodb({
+          id: "_id",
           Model: db.collection("people-estimated-count"),
           events: ["testing"],
           useEstimatedDocumentCount: true,
+          multi: false,
+          paginate: app.get("paginate"),
+          whitelist: ["$regex", "$options", "$and", "$or", "$elemMatch"],
+          allow: [],
+          filters: [],
         })
       );
 
@@ -141,7 +173,7 @@ describe("Feathers MongoDB Service", () => {
   describe("Initialization", () => {
     describe("when missing the id option", () => {
       it("sets the default to be _id", () =>
-        expect(service({ Model: db }).id).to.equal("_id"));
+        expect(mongodb({ Model: db }).id).to.equal("_id"));
     });
   });
 
@@ -149,7 +181,7 @@ describe("Feathers MongoDB Service", () => {
     describe("objectifyId", () => {
       it("returns an ObjectID instance for a valid ID", () => {
         const id = new ObjectId();
-        const result = service({ Model: db })._objectifyId(
+        const result = mongodb({ Model: db })._objectifyId(
           id.toString(),
           "_id"
         );
@@ -159,7 +191,7 @@ describe("Feathers MongoDB Service", () => {
 
       it("does not return an ObjectID instance for an invalid ID", () => {
         const id = "non-valid object id";
-        const result = service({ Model: db })._objectifyId(
+        const result = mongodb({ Model: db })._objectifyId(
           id.toString(),
           "_id"
         );
@@ -180,7 +212,7 @@ describe("Feathers MongoDB Service", () => {
 
       it("returns valid result when passed an ID", () => {
         const id = new ObjectId();
-        const result = service({ Model: db })._multiOptions(id, params);
+        const result = mongodb({ Model: db })._multiOptions(id, params);
         expect(result).to.be.an("object");
         expect(result).to.include.all.keys(["query", "options"]);
         expect(result.query).to.deep.equal(
@@ -192,7 +224,7 @@ describe("Feathers MongoDB Service", () => {
       });
 
       it("returns original object", () => {
-        const result = service({ Model: db })._multiOptions(null, params);
+        const result = mongodb({ Model: db })._multiOptions(null, params);
         expect(result).to.be.an("object");
         expect(result).to.include.all.keys(["query", "options"]);
         expect(result.query).to.deep.equal(params.query);
@@ -213,7 +245,7 @@ describe("Feathers MongoDB Service", () => {
       };
 
       it("returns original object", () => {
-        const result = service({ Model: db })._options(params);
+        const result = mongodb({ Model: db })._options(params);
         expect(result).to.be.an("object");
         expect(result).to.include.all.keys([
           "options",
@@ -231,13 +263,13 @@ describe("Feathers MongoDB Service", () => {
       const selectFields = ["name", "age"];
 
       it("returns Mongo project object when an array is passed", () => {
-        const result = service({ Model: db })._getSelect(selectFields);
+        const result = mongodb({ Model: db })._getSelect(selectFields);
         expect(result).to.be.an("object");
         expect(result).to.deep.equal(projectFields);
       });
 
       it("returns original object", () => {
-        const result = service({ Model: db })._getSelect(projectFields);
+        const result = mongodb({ Model: db })._getSelect(projectFields);
         expect(result).to.be.an("object");
         expect(result).to.deep.equal(projectFields);
       });
@@ -261,7 +293,7 @@ describe("Feathers MongoDB Service", () => {
     }
 
     beforeEach(async () => {
-      peopleService = app.service("/people");
+      peopleService = app.service("people");
       peopleService.options.multi = true;
       peopleService.options.disableObjectify = true;
       people = await peopleService.create([

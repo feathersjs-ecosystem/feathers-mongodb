@@ -20,6 +20,7 @@ interface AnyData {
 
 export interface MongoServiceOptions extends ServiceOptions {
   Model?: Collection;
+  useEstimatedDocumentCount?: Boolean;
 }
 
 // Create the service.
@@ -333,8 +334,6 @@ export class Service<T = any, D = Partial<T>>
   }
 }
 
-module.exports = function init(options: MongoServiceOptions) {
+export function mongodb(options: MongoServiceOptions) {
   return new Service(options);
-};
-
-module.exports.Service = Service;
+}
