@@ -32,7 +32,11 @@ interface AnyData {
 }
 
 export interface MongoServiceOptions extends ServiceOptions {
-  Model?: Collection;
+  /**
+   * Provide MongoClient collection as the default collection.
+   * If set to `null`, params.adapter.Model must be provided in every request.
+   */
+  Model?: Collection | null;
   useEstimatedDocumentCount?: Boolean;
 }
 
