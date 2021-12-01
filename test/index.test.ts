@@ -167,8 +167,11 @@ describe("Feathers MongoDB Service", () => {
 
   after(() => db.dropDatabase().then(() => mongoClient.close()));
 
-  it("is CommonJS compatible", () =>
-    expect(typeof require("../lib")).to.equal("function"));
+  it("is CommonJS compatible", () => {
+    const mod = require("../lib");
+    expect(typeof mod.mongodb).to.equal("function");
+    expect(typeof mod.Service).to.equal("function");
+  });
 
   describe("Initialization", () => {
     describe("when missing the id option", () => {
@@ -181,20 +184,14 @@ describe("Feathers MongoDB Service", () => {
     describe("objectifyId", () => {
       it("returns an ObjectID instance for a valid ID", () => {
         const id = new ObjectId();
-        const result = mongodb({ Model: db })._objectifyId(
-          id.toString(),
-          "_id"
-        );
+        const result = mongodb({ Model: db })._objectifyId(id.toString());
         expect(result).to.be.instanceof(ObjectId);
         expect(result).to.deep.equal(id);
       });
 
       it("does not return an ObjectID instance for an invalid ID", () => {
         const id = "non-valid object id";
-        const result = mongodb({ Model: db })._objectifyId(
-          id.toString(),
-          "_id"
-        );
+        const result = mongodb({ Model: db })._objectifyId(id.toString());
         expect(result).to.not.be.instanceof(ObjectId);
         expect(result).to.deep.equal(id);
       });
