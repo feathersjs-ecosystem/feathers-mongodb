@@ -3,13 +3,26 @@ import { errors } from "@feathersjs/errors";
 import { _ } from "@feathersjs/commons";
 import {
   AdapterService,
-  ServiceOptions,
+  // ServiceOptions,
   InternalServiceMethods,
   AdapterParams,
   select,
 } from "@feathersjs/adapter-commons";
 import { errorHandler } from "./error-handler";
 import { NullableId, Id, Paginated } from "@feathersjs/feathers";
+
+export interface ServiceOptions {
+  events?: string[];
+  multi?: boolean | string[];
+  id?: string;
+  paginate?: {
+    default?: number;
+    max?: number;
+  };
+  whitelist?: string[];
+  allow?: string[];
+  filters?: string[];
+}
 
 type Nullable_Id = ObjectId | NullableId;
 type _Id = ObjectId | Id;
