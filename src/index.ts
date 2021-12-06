@@ -3,7 +3,7 @@ import { errors } from "@feathersjs/errors";
 import { _ } from "@feathersjs/commons";
 import {
   AdapterService,
-  // ServiceOptions,
+  ServiceOptions,
   InternalServiceMethods,
   AdapterParams,
   select,
@@ -11,22 +11,8 @@ import {
 import { errorHandler } from "./error-handler";
 import { NullableId, Id, Paginated } from "@feathersjs/feathers";
 
-export interface ServiceOptions {
-  events?: string[];
-  multi?: boolean | string[];
-  id?: string;
-  paginate?: {
-    default?: number;
-    max?: number;
-  };
-  whitelist?: string[];
-  allow?: string[];
-  filters?: string[];
-}
-
 type Nullable_Id = ObjectId | NullableId;
 type _Id = ObjectId | Id;
-
 interface AnyData {
   [key: string]: any;
 }
@@ -42,13 +28,13 @@ export interface MongoServiceOptions extends ServiceOptions {
 
 // Create the service.
 export class Service<T = any, D = Partial<T>>
-  extends AdapterService<T, D>
+  extends AdapterService<T, D, Partial<MongoServiceOptions>>
   implements InternalServiceMethods<T>
 {
   options: any;
   Model: any;
 
-  constructor(options: MongoServiceOptions) {
+  constructor(options: Partial<MongoServiceOptions>) {
     super(Object.assign({ id: "_id" }, options));
     this.Model = options.Model;
   }
@@ -75,6 +61,10 @@ export class Service<T = any, D = Partial<T>>
       { multi: true },
       params.mongodb || params.options
     );
+
+    if (params.adapter?.multi != null) {
+      options.multi = params.adapter.multi;
+    }
 
     if (id !== null) {
       options.multi = false;
@@ -351,6 +341,6 @@ export class Service<T = any, D = Partial<T>>
   }
 }
 
-export function mongodb(options: MongoServiceOptions) {
+export function mongodb(options: Partial<MongoServiceOptions>) {
   return new Service(options);
 }
