@@ -1,7 +1,6 @@
 # feathers-mongodb
 
 [![CI](https://github.com/feathersjs-ecosystem/feathers-mongodb/workflows/CI/badge.svg)](https://github.com/feathersjs-ecosystem/feathers-mongodb/actions?query=workflow%3ACI)
-[![Dependency Status](https://img.shields.io/david/feathersjs-ecosystem/feathers-mongodb.svg?style=flat-square)](https://david-dm.org/feathersjs-ecosystem/feathers-mongodb)
 [![Download Status](https://img.shields.io/npm/dm/feathers-mongodb.svg?style=flat-square)](https://www.npmjs.com/package/feathers-mongodb)
 
 A [Feathers](https://feathersjs.com) database adapter for [MongoDB](https://www.mongodb.org/) using [official NodeJS driver for MongoDB](https://www.npmjs.com/package/mongodb).
