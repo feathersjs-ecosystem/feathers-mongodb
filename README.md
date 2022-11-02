@@ -1,3 +1,5 @@
+> __Important:__ This module has been moved to `@feathersjs/mongodb` and is developed in [feathersjs/feathers](https://github.com/feathersjs/feathers)
+
 # feathers-mongodb
 
 [![CI](https://github.com/feathersjs-ecosystem/feathers-mongodb/workflows/CI/badge.svg)](https://github.com/feathersjs-ecosystem/feathers-mongodb/actions?query=workflow%3ACI)
